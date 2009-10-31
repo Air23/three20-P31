@@ -43,6 +43,9 @@
 		BEF199220F818E720010D36E /* StyledTextTableTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF1991F0F818E720010D36E /* StyledTextTableTestController.m */; };
 		BEF199230F818E720010D36E /* StyledTextTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF199210F818E720010D36E /* StyledTextTestController.m */; };
 		BEF6EC370F280CB300CF4096 /* ScrollViewTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF6EC360F280CB300CF4096 /* ScrollViewTestController.m */; };
+		C6620F33109CFA5300EC35C6 /* PopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6620F32109CFA5300EC35C6 /* PopUpViewController.m */; };
+		C6620F42109CFB1800EC35C6 /* Popup.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6620F41109CFB1800EC35C6 /* Popup.xib */; };
+		C6620F48109CFB7900EC35C6 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = C6620F47109CFB7900EC35C6 /* check.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +127,10 @@
 		BEF199210F818E720010D36E /* StyledTextTestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StyledTextTestController.m; sourceTree = "<group>"; };
 		BEF6EC350F280CB300CF4096 /* ScrollViewTestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewTestController.h; sourceTree = "<group>"; };
 		BEF6EC360F280CB300CF4096 /* ScrollViewTestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewTestController.m; sourceTree = "<group>"; };
+		C6620F31109CFA5300EC35C6 /* PopUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopUpViewController.h; sourceTree = "<group>"; };
+		C6620F32109CFA5300EC35C6 /* PopUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopUpViewController.m; sourceTree = "<group>"; };
+		C6620F41109CFB1800EC35C6 /* Popup.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Popup.xib; sourceTree = "<group>"; };
+		C6620F47109CFB7900EC35C6 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = "../../src/P31-Additions/Asset Bundle/check.png"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +163,7 @@
 				EA108135101B39140098AAC2 /* Models */,
 				EA108141101B39510098AAC2 /* General */,
 				BEC7875C1040A405005C00CF /* Launcher */,
+				C6620F30109CFA2F00EC35C6 /* Popup */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -192,6 +200,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C6620F47109CFB7900EC35C6 /* check.png */,
+				C6620F41109CFB1800EC35C6 /* Popup.xib */,
 				BEDCFBB30F4FFF820060B7D1 /* Three20.bundle */,
 				BE80E3B50EAF116700743358 /* Icon.png */,
 				BEA6BAAC101436AC00B83B3A /* defaultMusic.png */,
@@ -232,6 +242,15 @@
 				BEE7FD130F358198002788A5 /* libThree20.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C6620F30109CFA2F00EC35C6 /* Popup */ = {
+			isa = PBXGroup;
+			children = (
+				C6620F31109CFA5300EC35C6 /* PopUpViewController.h */,
+				C6620F32109CFA5300EC35C6 /* PopUpViewController.m */,
+			);
+			name = Popup;
 			sourceTree = "<group>";
 		};
 		EA1080F1101B37E90098AAC2 /* Photos */ = {
@@ -524,6 +543,8 @@
 				BE1289C20F91811E00F65EA2 /* mask.png in Resources */,
 				BEA6BA7F101431DA00B83B3A /* defaultPerson.png in Resources */,
 				BEA6BAAD101436AC00B83B3A /* defaultMusic.png in Resources */,
+				C6620F42109CFB1800EC35C6 /* Popup.xib in Resources */,
+				C6620F48109CFB7900EC35C6 /* check.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,6 +578,7 @@
 				BEC5EC680F8C307E007622CD /* ButtonTestController.m in Sources */,
 				BE20A49C0FF418B2008791F4 /* TableControlsTestController.m in Sources */,
 				BEC787631040A430005C00CF /* LauncherViewTestController.m in Sources */,
+				C6620F33109CFA5300EC35C6 /* PopUpViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,7 +638,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = ../../src;
+				HEADER_SEARCH_PATHS = "../../src/**";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
@@ -632,7 +654,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = ../../src;
+				HEADER_SEARCH_PATHS = "../../src/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = DefaultProfileUuid;

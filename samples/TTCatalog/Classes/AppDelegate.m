@@ -18,6 +18,7 @@
 #import "StyleTestController.h"
 #import "ButtonTestController.h"
 #import "TabBarTestController.h"
+#import "PopUpViewController.h"
 
 @implementation AppDelegate
 
@@ -50,6 +51,10 @@
   [map from:@"tt://imageTest2" toViewController:[TableImageTestController class]];
   [map from:@"tt://scrollViewTest" toViewController:[ScrollViewTestController class]];
   [map from:@"tt://launcherTest" toViewController:[LauncherViewTestController class]];
+	
+	// P31 Additions
+	[map from:@"p31://popupTest" toViewController:[PopUpViewController class]];
+
 
   if (![navigator restoreViewControllers]) {
     [navigator openURL:@"tt://catalog" animated:NO];
