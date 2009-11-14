@@ -4,6 +4,7 @@
 
 
 #import "P31LoadingView.h"
+#import "TTURLCache.h"
 #import <QuartzCore/QuartzCore.h>
 
 
@@ -23,7 +24,7 @@ static UIImage *doneImage;
 
 + (void)initialize
 {
-	doneImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"check.png" ofType:nil]];
+	doneImage = [TTIMAGE( @"bundle://Prime31.bundle/images/check.png" ) retain];
 }
 
 

@@ -14,11 +14,23 @@
 
 }
 
+// P31 Popup Button
+
 - (TTStyle*)popupButtonBackground;
+
+
+// Launcher View Controller
+@property (nonatomic, readonly) UIColor *launcherBackgroundColor;
+
+
+// Refresh Table Header View
+@property (nonatomic, readonly) UIColor *refreshTableHeaderTextColor;
+
 
 // Fonts
 @property (nonatomic, readonly) UIFont *alertTitleFont;
 @property (nonatomic, readonly) UIFont *alertBodyFont;
+
 
 // Colors
 @property (nonatomic, readonly) UIColor *alertTextColor;

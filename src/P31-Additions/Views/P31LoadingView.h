@@ -2,7 +2,8 @@
 //  LoadingView.h
 //  LoadingView
 
-#import <UIKit/UIKit.h>
+#import "TTGlobal.h"
+
 
 @interface P31LoadingView : UIView
 {

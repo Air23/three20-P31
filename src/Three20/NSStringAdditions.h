@@ -39,4 +39,10 @@
 - (void)openURL;
 - (void)openURLFromButton:(UIView*)button;
 
+
+/**
+ * URL encodes a string
+ */
+- (NSString*)stringByURLEncodingStringParameter;
+
 @end
