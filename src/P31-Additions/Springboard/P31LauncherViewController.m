@@ -59,7 +59,7 @@
 
 - (void)loadView {
 	[super loadView];
-	_launcherView = [[P31LauncherView alloc] initWithFrame:self.view.bounds];
+	_launcherView = [[TTLauncherView alloc] initWithFrame:self.view.bounds];
 	_launcherView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_launcherView.autoresizesSubviews = YES;
 	_launcherView.backgroundColor = TTSTYLEVAR(launcherBackgroundColor);

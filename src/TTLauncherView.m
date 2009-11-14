@@ -376,35 +376,49 @@ static const NSInteger kDefaultColumnCount = 3;
 }
 
 - (void)wobble {
-  static BOOL wobblesLeft = NO;
-  
-  if (_editing) {
-    CGFloat rotation = (kWobbleRadians * M_PI) / 180.0;
-    CGAffineTransform wobbleLeft = CGAffineTransformMakeRotation(rotation);
-    CGAffineTransform wobbleRight = CGAffineTransformMakeRotation(-rotation);
-    
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.07];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDidStopSelector:@selector(wobble)];
-    
-    NSInteger i = 0;
-    for (NSArray* buttonPage in _buttons) {
-      for (TTLauncherButton* button in buttonPage) {
-        if (button != _dragButton) {
-          if (i % 2) {
-            button.transform = wobblesLeft ? wobbleRight : wobbleLeft;
-          } else {
-            button.transform = wobblesLeft ? wobbleLeft : wobbleRight;
-          }
-        }
-        ++i;
-      }
-    }
-    
-    [UIView commitAnimations];
-    wobblesLeft = !wobblesLeft;
-  }
+	static BOOL wobblesLeft = NO;
+	
+	if( _editing )
+	{
+		CGFloat rotation = (1.5 * M_PI) / 180.0;
+		CGAffineTransform wobbleLeft = CGAffineTransformMakeRotation(rotation);
+		CGAffineTransform wobbleRight = CGAffineTransformMakeRotation(-rotation);
+		
+		[UIView beginAnimations:nil context:nil];
+		[UIView setAnimationDuration:0.07];
+		[UIView setAnimationDelegate:self];
+		[UIView setAnimationDidStopSelector:@selector(wobble)];
+		
+		NSInteger i = 0;
+		NSInteger wobblingButtons = 0;
+		for( NSArray* buttonPage in _buttons )
+		{
+			for( TTLauncherButton* button in buttonPage )
+			{
+				if( button != _dragButton )
+				{
+					++wobblingButtons;
+					if( i % 2 )
+						button.transform = wobblesLeft ? wobbleRight : wobbleLeft;
+					else
+						button.transform = wobblesLeft ? wobbleLeft : wobbleRight;
+				}
+				++i;
+			}
+		}
+		
+		// Only commit the animation if we have more than 1 item to animate!!!
+		if( wobblingButtons >= 1 )
+		{
+			[UIView commitAnimations];
+			wobblesLeft = !wobblesLeft;	
+		}
+		else
+		{
+			[NSObject cancelPreviousPerformRequestsWithTarget:self];
+			[self performSelector:@selector(wobble) withObject:nil afterDelay:0.1];
+		}
+	}
 }
 
 - (void)editHoldTimer:(NSTimer*)timer {

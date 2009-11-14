@@ -192,8 +192,6 @@
 		C6620F22109CF94E00EC35C6 /* P31PopupButtonCalloutShape.m in Sources */ = {isa = PBXBuildFile; fileRef = C6620F1E109CF94E00EC35C6 /* P31PopupButtonCalloutShape.m */; };
 		C6620F23109CF94E00EC35C6 /* P31RadialShine.h in Headers */ = {isa = PBXBuildFile; fileRef = C6620F1F109CF94E00EC35C6 /* P31RadialShine.h */; };
 		C6620F24109CF94E00EC35C6 /* P31RadialShine.m in Sources */ = {isa = PBXBuildFile; fileRef = C6620F20109CF94E00EC35C6 /* P31RadialShine.m */; };
-		C6A010E810AE6A1E00B9EE3D /* P31LauncherView.h in Headers */ = {isa = PBXBuildFile; fileRef = C6A010E610AE6A1E00B9EE3D /* P31LauncherView.h */; };
-		C6A010E910AE6A1E00B9EE3D /* P31LauncherView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A010E710AE6A1E00B9EE3D /* P31LauncherView.m */; };
 		C6F8A31710A753C00091E086 /* P31DragRefreshTableViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6F8A31510A753C00091E086 /* P31DragRefreshTableViewDelegate.h */; };
 		C6F8A31810A753C00091E086 /* P31DragRefreshTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F8A31610A753C00091E086 /* P31DragRefreshTableViewDelegate.m */; };
 /* End PBXBuildFile section */
@@ -385,8 +383,6 @@
 		C6620F1E109CF94E00EC35C6 /* P31PopupButtonCalloutShape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = P31PopupButtonCalloutShape.m; path = "P31-Additions/Style/P31PopupButtonCalloutShape.m"; sourceTree = "<group>"; };
 		C6620F1F109CF94E00EC35C6 /* P31RadialShine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = P31RadialShine.h; path = "P31-Additions/Style/P31RadialShine.h"; sourceTree = "<group>"; };
 		C6620F20109CF94E00EC35C6 /* P31RadialShine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = P31RadialShine.m; path = "P31-Additions/Style/P31RadialShine.m"; sourceTree = "<group>"; };
-		C6A010E610AE6A1E00B9EE3D /* P31LauncherView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = P31LauncherView.h; path = "P31-Additions/Views/P31LauncherView.h"; sourceTree = "<group>"; };
-		C6A010E710AE6A1E00B9EE3D /* P31LauncherView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = P31LauncherView.m; path = "P31-Additions/Views/P31LauncherView.m"; sourceTree = "<group>"; };
 		C6F8A31510A753C00091E086 /* P31DragRefreshTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = P31DragRefreshTableViewDelegate.h; path = "P31-Additions/Tables/P31DragRefreshTableViewDelegate.h"; sourceTree = "<group>"; };
 		C6F8A31610A753C00091E086 /* P31DragRefreshTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = P31DragRefreshTableViewDelegate.m; path = "P31-Additions/Tables/P31DragRefreshTableViewDelegate.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -781,8 +777,6 @@
 		C6620F06109CF91F00EC35C6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C6A010E610AE6A1E00B9EE3D /* P31LauncherView.h */,
-				C6A010E710AE6A1E00B9EE3D /* P31LauncherView.m */,
 				C6620F0D109CF94200EC35C6 /* P31AlertView.h */,
 				C6620F0E109CF94200EC35C6 /* P31AlertView.m */,
 				C6620F0F109CF94200EC35C6 /* P31LoadingView.h */,
@@ -896,7 +890,6 @@
 				C653453D10A3F23B00940A73 /* P31LauncherViewController.h in Headers */,
 				C618DB9310A53F6F00C78A93 /* P31RefreshTableHeaderView.h in Headers */,
 				C6F8A31710A753C00091E086 /* P31DragRefreshTableViewDelegate.h in Headers */,
-				C6A010E810AE6A1E00B9EE3D /* P31LauncherView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1032,7 +1025,6 @@
 				C653453E10A3F23B00940A73 /* P31LauncherViewController.m in Sources */,
 				C618DB9410A53F6F00C78A93 /* P31RefreshTableHeaderView.m in Sources */,
 				C6F8A31810A753C00091E086 /* P31DragRefreshTableViewDelegate.m in Sources */,
-				C6A010E910AE6A1E00B9EE3D /* P31LauncherView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
