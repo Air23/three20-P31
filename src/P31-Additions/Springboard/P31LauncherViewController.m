@@ -204,7 +204,7 @@
 		_launcherNavigationController.delegate = self;
 
 		// Add default left-side button in navigation bar
-		UIBarButtonItem *launcherBarButtonItem = [[UIBarButtonItem alloc] initWithImage:TTIMAGE(@"bundle://launcher.png") style:UIBarButtonItemStyleBordered target:self action:@selector(dismissChild)];
+		UIBarButtonItem *launcherBarButtonItem = [[UIBarButtonItem alloc] initWithImage:TTIMAGE( @"bundle://Prime31.bundle/images/launcher.png" ) style:UIBarButtonItemStyleBordered target:self action:@selector(dismissChild)];
 		[controller.navigationItem setLeftBarButtonItem:launcherBarButtonItem];
 		[launcherBarButtonItem release];
 

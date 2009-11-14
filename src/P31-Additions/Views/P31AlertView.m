@@ -468,8 +468,6 @@ const static CGFloat kButtonHeight = 40.0;
 	UIView *bgImage = [[[UIView alloc] initWithFrame:TTScreenBounds()] autorelease];
 	bgImage.backgroundColor = RGBACOLOR( 0, 0, 0, 0.5 );
 	
-	//UIImageView *bgImage = [[[UIImageView alloc] initWithFrame:TTScreenBounds()] autorelease];
-	//bgImage.image = TTIMAGE( @"bundle://alertBG.png" );
 	bgImage.alpha = 0.0;
 	bgImage.tag = kAlertBackgroundImageTag;
 	[_dimWindow addSubview:bgImage];

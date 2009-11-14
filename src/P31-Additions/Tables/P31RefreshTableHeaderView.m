@@ -54,7 +54,7 @@
 
 		_arrowImage = [[UIImageView alloc] initWithFrame:CGRectMake( 25.0f, frame.size.height - 65.0f, 30.0f, 55.0f )];
 		_arrowImage.contentMode = UIViewContentModeScaleAspectFit;
-		_arrowImage.image = [UIImage imageNamed:@"blueArrow.png"];
+		_arrowImage.image = TTIMAGE( @"bundle://Prime31.bundle/images/blueArrow.png" );
 		[_arrowImage layer].transform = CATransform3DMakeRotation( M_PI, 0.0f, 0.0f, 1.0f );
 		[self addSubview:_arrowImage];
 		[_arrowImage release];

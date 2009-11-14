@@ -45,7 +45,7 @@
 		BEF6EC370F280CB300CF4096 /* ScrollViewTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF6EC360F280CB300CF4096 /* ScrollViewTestController.m */; };
 		C6620F33109CFA5300EC35C6 /* PopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6620F32109CFA5300EC35C6 /* PopUpViewController.m */; };
 		C6620F42109CFB1800EC35C6 /* Popup.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6620F41109CFB1800EC35C6 /* Popup.xib */; };
-		C6620F48109CFB7900EC35C6 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = C6620F47109CFB7900EC35C6 /* check.png */; };
+		C6A0111C10AE6C8000B9EE3D /* Prime31.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C6A0111B10AE6C8000B9EE3D /* Prime31.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,7 +130,7 @@
 		C6620F31109CFA5300EC35C6 /* PopUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopUpViewController.h; sourceTree = "<group>"; };
 		C6620F32109CFA5300EC35C6 /* PopUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopUpViewController.m; sourceTree = "<group>"; };
 		C6620F41109CFB1800EC35C6 /* Popup.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Popup.xib; sourceTree = "<group>"; };
-		C6620F47109CFB7900EC35C6 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = "../../src/P31-Additions/Asset Bundle/check.png"; sourceTree = SOURCE_ROOT; };
+		C6A0111B10AE6C8000B9EE3D /* Prime31.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Prime31.bundle; path = "../../src/P31-Additions/Prime31.bundle"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,9 +200,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C6620F47109CFB7900EC35C6 /* check.png */,
-				C6620F41109CFB1800EC35C6 /* Popup.xib */,
+				C6A0111B10AE6C8000B9EE3D /* Prime31.bundle */,
 				BEDCFBB30F4FFF820060B7D1 /* Three20.bundle */,
+				C6620F41109CFB1800EC35C6 /* Popup.xib */,
 				BE80E3B50EAF116700743358 /* Icon.png */,
 				BEA6BAAC101436AC00B83B3A /* defaultMusic.png */,
 				BEA6BA7E101431DA00B83B3A /* defaultPerson.png */,
@@ -544,7 +544,7 @@
 				BEA6BA7F101431DA00B83B3A /* defaultPerson.png in Resources */,
 				BEA6BAAD101436AC00B83B3A /* defaultMusic.png in Resources */,
 				C6620F42109CFB1800EC35C6 /* Popup.xib in Resources */,
-				C6620F48109CFB7900EC35C6 /* check.png in Resources */,
+				C6A0111C10AE6C8000B9EE3D /* Prime31.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
