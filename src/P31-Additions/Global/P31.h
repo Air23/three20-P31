@@ -25,6 +25,7 @@
 #import "P31AlertView.h"
 #import "P31PopupButtonView.h"
 #import "P31LoadingView.h"
+#import "P31GradientView.h"
 
 // Styles
 #import "P31PopupButtonCalloutShape.h"
