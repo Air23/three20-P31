@@ -12,7 +12,7 @@ static const CGFloat kCancelHighlightThreshold = 4;
 
 @implementation TTTableView
 
-@synthesize highlightedLabel = _highlightedLabel, contentOrigin = _contentOrigin;
+@synthesize highlightedLabel = _highlightedLabel, contentOrigin = _contentOrigin, styledLabelLinkSelectionOnly = _styledLabelLinkSelectionOnly;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // NSObject
@@ -134,12 +134,18 @@ static const CGFloat kCancelHighlightThreshold = 4;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // public
 
-- (void)setHighlightedLabel:(TTStyledTextLabel*)label {
-  if (label != _highlightedLabel) {
-    _highlightedLabel.highlightedNode = nil;
-    [_highlightedLabel release];
-    _highlightedLabel = [label retain];
-  }
+- (void)setHighlightedLabel:(TTStyledTextLabel*)label
+{
+	if( label != _highlightedLabel )
+	{
+		_highlightedLabel.highlightedNode = nil;
+		[_highlightedLabel release];
+		_highlightedLabel = [label retain];
+	}
+
+	// If we are set to only allow selection of styled label links then we turn off table row selection if a label was touched
+	if( _styledLabelLinkSelectionOnly )
+		self.allowsSelection = ( label == nil );
 }
 
 @end
