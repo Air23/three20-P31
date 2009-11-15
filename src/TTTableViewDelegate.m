@@ -144,10 +144,18 @@ static const CGFloat kSectionHeaderHeight = 35;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // TTTableViewDelegate
 
-- (void)tableView:(UITableView*)tableView touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
-  if (_controller.menuView) {
-    [_controller hideMenu:YES];
-  }
+- (void)tableView:(UITableView*)tableView touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event
+{
+	// If we have a menuView up we dismiss it ONLY if the touch was not on the menuView
+	if( _controller.menuView )
+	{
+		UITouch *touch = [touches anyObject];
+		CGPoint point = [touch locationInView:_controller.menuView];
+		if( point.y < 0 || point.y > _controller.menuView.height )
+		{
+		      [_controller hideMenu:YES];
+		}
+	}
 }
 
 @end
