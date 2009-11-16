@@ -117,6 +117,34 @@
   }
 }
 
+- (NSString*)formatShortRelativeTime
+{
+	NSTimeInterval elapsed = abs([self timeIntervalSinceNow]);
+	if( elapsed <= TT_MINUTE )
+	{
+		return @"<1m";
+	}
+	else if( elapsed < TT_HOUR )
+	{
+		int mins = (int)( elapsed / TT_MINUTE );
+		return [NSString stringWithFormat:@"%dm", mins];
+	}
+	else if( elapsed < TT_DAY )
+	{
+		int hours = (int)( ( elapsed + TT_HOUR / 2 ) / TT_HOUR );
+		return [NSString stringWithFormat:@"%dh", hours];
+	}
+	else if( elapsed < TT_WEEK )
+	{
+		int day = (int)( ( elapsed + TT_DAY / 2 ) / TT_DAY );
+		return [NSString stringWithFormat:@"%dd", day];
+	}
+	else
+	{
+		return [self formatShortTime];
+	}
+}
+
 - (NSString*)formatDay:(NSDateComponents*)today yesterday:(NSDateComponents*)yesterday {
   static NSDateFormatter* formatter = nil;
   if (!formatter) {
