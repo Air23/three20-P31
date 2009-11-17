@@ -19,7 +19,10 @@
 {
 	if( self = [super initWithFrame:frame] )
 	{
+		self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+		
 		_lastUpdatedLabel = [[UILabel alloc] initWithFrame:CGRectMake( 0.0f, frame.size.height - 30.0f, 320.0f, 20.0f )];
+		_lastUpdatedLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
 		_lastUpdatedLabel.font = [UIFont systemFontOfSize:12.0f];
 		_lastUpdatedLabel.textColor = TTSTYLEVAR( refreshTableHeaderTextColor );
 		_lastUpdatedLabel.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
@@ -42,6 +45,7 @@
 		[_lastUpdatedLabel release];
 
 		_statusLabel = [[UILabel alloc] initWithFrame:CGRectMake( 0.0f, frame.size.height - 48.0f, 320.0f, 20.0f )];
+		_statusLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
 		_statusLabel.font = [UIFont boldSystemFontOfSize:13.0f];
 		_statusLabel.textColor = TTSTYLEVAR( refreshTableHeaderTextColor );
 		_statusLabel.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
