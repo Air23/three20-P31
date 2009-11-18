@@ -99,8 +99,8 @@
 {
 	[super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
 	
-	// If dragging ends and we are far enough to be fully showing the header view trigger a load
-	if( scrollView.contentOffset.y <= -65.0f )
+	// If dragging ends and we are far enough to be fully showing the header view trigger a load as long as we arent loading already
+	if( scrollView.contentOffset.y <= -65.0f && !_controller.model.isLoading )
 	{
 		[_controller.model load:TTURLRequestCachePolicyNetwork more:NO];
 	}
