@@ -227,3 +227,10 @@ typedef enum {
  * Shortcut for calling [[TTNavigator navigator] openURL:]
  */
 UIViewController* TTOpenURL(NSString* URL);
+
+
+/**
+ * Shortcut for calling [[TTNavigator navigator] openURL:query:animated:]
+ */
+UIViewController *TTOpenURLWithQuery( NSString *URL, NSDictionary *query, BOOL animated );
+

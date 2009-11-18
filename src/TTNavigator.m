@@ -656,3 +656,9 @@
 UIViewController* TTOpenURL(NSString* URL) {
   return [[TTNavigator navigator] openURL:URL animated:YES];
 }
+
+
+UIViewController *TTOpenURLWithQuery( NSString *URL, NSDictionary *query, BOOL animated )
+{
+	return [[TTNavigator navigator] openURL:URL query:query animated:animated];
+}
