@@ -4,6 +4,8 @@
 #import "Three20/NSStringAdditions.h"
 #import "Three20/NSDateAdditions.h"
 #import "Three20/NSArrayAdditions.h"
+#import "Three20/NSMutableArrayAdditions.h"
+#import "Three20/NSMutableDictionaryAdditions.h"
 #import "Three20/UIColorAdditions.h"
 #import "Three20/UIFontAdditions.h"
 #import "Three20/UIImageAdditions.h"
@@ -15,34 +17,40 @@
 #import "Three20/UITableViewAdditions.h"
 #import "Three20/UIWebViewAdditions.h"
 #import "Three20/UIToolbarAdditions.h"
+#import "Three20/TTDebug.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Logging Helpers
 
+// Deprecated, please see Three20/TTDebug for more details.
 #ifdef DEBUG
 #define TTLOG NSLog
 #else
 #define TTLOG    
 #endif
 
+// Deprecated, please see Three20/TTDebug for more details.
 #define TTWARN TTLOG
 
+
+// Helper
+
 #define TTLOGRECT(rect) \
-  TTLOG(@"%s x=%f, y=%f, w=%f, h=%f", #rect, rect.origin.x, rect.origin.y, \
+  TTDINFO(@"%s x=%f, y=%f, w=%f, h=%f", #rect, rect.origin.x, rect.origin.y, \
     rect.size.width, rect.size.height)
 
 #define TTLOGPOINT(pt) \
-  TTLOG(@"%s x=%f, y=%f", #pt, pt.x, pt.y)
+  TTDINFO(@"%s x=%f, y=%f", #pt, pt.x, pt.y)
 
 #define TTLOGSIZE(size) \
-  TTLOG(@"%s w=%f, h=%f", #size, size.width, size.height)
+  TTDINFO(@"%s w=%f, h=%f", #size, size.width, size.height)
 
 #define TTLOGEDGES(edges) \
-  TTLOG(@"%s left=%f, right=%f, top=%f, bottom=%f", #edges, edges.left, edges.right, \
+  TTDINFO(@"%s left=%f, right=%f, top=%f, bottom=%f", #edges, edges.left, edges.right, \
     edges.top, edges.bottom)
 
 #define TTLOGHSV(_COLOR) \
-  TTLOG(@"%s h=%f, s=%f, v=%f", #_COLOR, _COLOR.hue, _COLOR.saturation, _COLOR.value)
+  TTDINFO(@"%s h=%f, s=%f, v=%f", #_COLOR, _COLOR.hue, _COLOR.saturation, _COLOR.value)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Errors
@@ -85,7 +93,7 @@
 #define TTSTYLEVAR(_VARNAME) [TTSTYLESHEET _VARNAME]
 
 #define TTLOGVIEWS(_VIEW) \
-  { for (UIView* view = _VIEW; view; view = view.superview) { TTLOG(@"%@", view); } }
+  { for (UIView* view = _VIEW; view; view = view.superview) { TTDINFO(@"%@", view); } }
 
 #define TTIMAGE(_URL) [[TTURLCache sharedCache] imageForURL:_URL]
 
@@ -141,6 +149,7 @@ typedef enum {
 #define TT_RELEASE_SAFELY(__POINTER) { [__POINTER release]; __POINTER = nil; }
 #define TT_AUTORELEASE_SAFELY(__POINTER) { [__POINTER autorelease]; __POINTER = nil; }
 #define TT_INVALIDATE_TIMER(__TIMER) { [__TIMER invalidate]; __TIMER = nil; }
+#define TT_RELEASE_CF_SAFELY(__REF) { if (nil != (__REF)) { CFRelease(__REF); __REF = nil; } }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 

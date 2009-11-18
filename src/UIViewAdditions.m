@@ -1,7 +1,5 @@
 #import "Three20/TTGlobal.h"
 
-
-// Remove GSEvent and UITouchAddtions from Release builds
 #ifdef DEBUG
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +68,6 @@
 
 @end
 
-
 @implementation UIEvent (TTCategory)
 
 - (id)initWithTouch:(UITouch *)touch {
@@ -97,7 +94,6 @@
 @end
 
 #endif
-
 
 @implementation UIView (TTCategory)
 

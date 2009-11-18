@@ -268,7 +268,7 @@ NSString* TTFormatInteger(NSInteger num) {
 }
 
 NSString* TTDescriptionForError(NSError* error) {
-  TTLOG(@"ERROR %@", error);
+  TTDINFO(@"ERROR %@", error);
   if ([error.domain isEqualToString:NSURLErrorDomain]) {
     if (error.code == NSURLErrorTimedOut) {
       return TTLocalizedString(@"Connection Timed Out", @"");
