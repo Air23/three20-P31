@@ -44,9 +44,9 @@ BOOL TTIsKeyboardVisible() {
     {
         for( UIView *view in [window subviews] )
         {
-            if( !strcmp(object_getClassName(view), "UIKeyboard") )
+            if( !strcmp( object_getClassName( view ), "UIKeyboard" ) )
             {
-                return YES;
+                return view.top != window.bottom;
             }
         }
     }
