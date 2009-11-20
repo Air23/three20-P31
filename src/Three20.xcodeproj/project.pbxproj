@@ -201,6 +201,8 @@
 		C6F8A31710A753C00091E086 /* P31DragRefreshTableViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6F8A31510A753C00091E086 /* P31DragRefreshTableViewDelegate.h */; };
 		C6F8A31810A753C00091E086 /* P31DragRefreshTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F8A31610A753C00091E086 /* P31DragRefreshTableViewDelegate.m */; };
 		EB1F6C5F10B36C32003DAA1F /* TTDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = EB1F6C5D10B36C32003DAA1F /* TTDebug.m */; };
+		EBA17A2010B4DDD500835016 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBA17A1E10B4DDD500835016 /* NSDataAdditions.m */; };
+		EBA17A3810B4DF5E00835016 /* NSDataAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EBA17A3710B4DF5E00835016 /* NSDataAdditions.h */; };
 		EBBB349710B36CCE00AD5BCF /* TTDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = EBBB349610B36CCE00AD5BCF /* TTDebug.h */; };
 /* End PBXBuildFile section */
 
@@ -374,8 +376,6 @@
 		BEF341960F8042520027E93C /* TTStyledTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTStyledTextLabel.h; path = Three20/TTStyledTextLabel.h; sourceTree = "<group>"; };
 		BEF45BC41019CA4400E9EC07 /* TTPostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPostController.m; sourceTree = "<group>"; };
 		BEF45BC71019CA8500E9EC07 /* TTPostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTPostController.h; path = Three20/TTPostController.h; sourceTree = "<group>"; };
-		EB1F6C5D10B36C32003DAA1F /* TTDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTDebug.m; sourceTree = "<group>"; };
-		EBBB349610B36CCE00AD5BCF /* TTDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTDebug.h; path = Three20/TTDebug.h; sourceTree = "<group>"; };
 		C618DB8F10A53F6F00C78A93 /* P31RefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = P31RefreshTableHeaderView.h; path = "P31-Additions/Tables/P31RefreshTableHeaderView.h"; sourceTree = "<group>"; };
 		C618DB9010A53F6F00C78A93 /* P31RefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = P31RefreshTableHeaderView.m; path = "P31-Additions/Tables/P31RefreshTableHeaderView.m"; sourceTree = "<group>"; };
 		C653453B10A3F23B00940A73 /* P31LauncherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = P31LauncherViewController.h; path = "P31-Additions/Springboard/P31LauncherViewController.h"; sourceTree = "<group>"; };
@@ -401,6 +401,10 @@
 		C68E55B610AF5C2500621E32 /* P31GradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = P31GradientView.m; path = "P31-Additions/Views/P31GradientView.m"; sourceTree = "<group>"; };
 		C6F8A31510A753C00091E086 /* P31DragRefreshTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = P31DragRefreshTableViewDelegate.h; path = "P31-Additions/Tables/P31DragRefreshTableViewDelegate.h"; sourceTree = "<group>"; };
 		C6F8A31610A753C00091E086 /* P31DragRefreshTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = P31DragRefreshTableViewDelegate.m; path = "P31-Additions/Tables/P31DragRefreshTableViewDelegate.m"; sourceTree = "<group>"; };
+		EB1F6C5D10B36C32003DAA1F /* TTDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTDebug.m; sourceTree = "<group>"; };
+		EBA17A1E10B4DDD500835016 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
+		EBA17A3710B4DF5E00835016 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDataAdditions.h; path = Three20/NSDataAdditions.h; sourceTree = "<group>"; };
+		EBBB349610B36CCE00AD5BCF /* TTDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTDebug.h; path = Three20/TTDebug.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -539,6 +543,8 @@
 				6E35CCB410912B210066B478 /* NSMutableArrayAdditions.m */,
 				6E35CCFB10912C870066B478 /* NSMutableDictionaryAdditions.h */,
 				6E35CCC010912BE10066B478 /* NSMutableDictionaryAdditions.m */,
+				EBA17A3710B4DF5E00835016 /* NSDataAdditions.h */,
+				EBA17A1E10B4DDD500835016 /* NSDataAdditions.m */,
 				C6620EAB109CEDA400EC35C6 /* UIWindowAdditions.h */,
 				C6620EAC109CEDA400EC35C6 /* UIWindowAdditions.m */,
 			);
@@ -905,6 +911,7 @@
 				6E35CCFD10912C870066B478 /* NSMutableDictionaryAdditions.h in Headers */,
 				6E35CCFE10912C870066B478 /* NSMutableArrayAdditions.h in Headers */,
 				EBBB349710B36CCE00AD5BCF /* TTDebug.h in Headers */,
+				EBA17A3810B4DF5E00835016 /* NSDataAdditions.h in Headers */,
 				C6620EAD109CEDA400EC35C6 /* UIWindowAdditions.h in Headers */,
 				C6620F0A109CF93400EC35C6 /* P31.h in Headers */,
 				C6620F0B109CF93400EC35C6 /* P31StyleSheet.h in Headers */,
@@ -1045,6 +1052,7 @@
 				6E35CCB610912B210066B478 /* NSMutableArrayAdditions.m in Sources */,
 				6E35CCC210912BE10066B478 /* NSMutableDictionaryAdditions.m in Sources */,
 				EB1F6C5F10B36C32003DAA1F /* TTDebug.m in Sources */,
+				EBA17A2010B4DDD500835016 /* NSDataAdditions.m in Sources */,
 				C6620EAE109CEDA400EC35C6 /* UIWindowAdditions.m in Sources */,
 				C6620F0C109CF93400EC35C6 /* P31StyleSheet.m in Sources */,
 				C6620F16109CF94200EC35C6 /* P31AlertView.m in Sources */,
