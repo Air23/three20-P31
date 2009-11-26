@@ -39,19 +39,16 @@ BOOL TTIsEmptyString(id object) {
 }
 
 BOOL TTIsKeyboardVisible() {
-    NSArray *windows = [[UIApplication sharedApplication] windows];
-    for( UIWindow *window in [windows reverseObjectEnumerator] )
-    {
-        for( UIView *view in [window subviews] )
-        {
-            if( !strcmp( object_getClassName( view ), "UIKeyboard" ) )
-            {
-                return view.top != window.bottom;
-            }
-        }
+  NSArray *windows = [[UIApplication sharedApplication] windows];
+  for (UIWindow *window in [windows reverseObjectEnumerator]) {
+    for (UIView *view in [window subviews]) {
+      if (!strcmp(object_getClassName(view), "UIKeyboard")) {
+        return view.top != window.bottom;
+      }
     }
-    
-    return NO;
+  }
+
+  return NO;
 }
 
 BOOL TTIsPhoneSupported() {

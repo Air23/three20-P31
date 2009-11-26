@@ -402,8 +402,11 @@
 		C6F8A31510A753C00091E086 /* P31DragRefreshTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = P31DragRefreshTableViewDelegate.h; path = "P31-Additions/Tables/P31DragRefreshTableViewDelegate.h"; sourceTree = "<group>"; };
 		C6F8A31610A753C00091E086 /* P31DragRefreshTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = P31DragRefreshTableViewDelegate.m; path = "P31-Additions/Tables/P31DragRefreshTableViewDelegate.m"; sourceTree = "<group>"; };
 		EB1F6C5D10B36C32003DAA1F /* TTDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTDebug.m; sourceTree = "<group>"; };
+<<<<<<< HEAD
+=======
 		EBA17A1E10B4DDD500835016 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
 		EBA17A3710B4DF5E00835016 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDataAdditions.h; path = Three20/NSDataAdditions.h; sourceTree = "<group>"; };
+>>>>>>> d4d67cc9ca77cbce89e247185ae84f4e33441ae4
 		EBBB349610B36CCE00AD5BCF /* TTDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTDebug.h; path = Three20/TTDebug.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
