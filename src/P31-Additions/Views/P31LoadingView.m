@@ -58,6 +58,12 @@ static UIImage *doneImage;
 }
 
 
+- (id)init
+{
+	return [self initWithFrame:CGRectMake( 160 - 75, 240 - 75, 150, 115 ) message:@""];
+}
+
+
 - (id)initWithFrame:(CGRect)frame message:(NSString*)message
 {
 	if( self = [super initWithFrame:frame] )

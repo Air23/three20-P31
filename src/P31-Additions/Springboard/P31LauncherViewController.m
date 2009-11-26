@@ -172,33 +172,46 @@
 }
 
 
-- (void)launchChild {
+- (void)launchChild:(BOOL)animated
+{
 	UIView *viewToLaunch = [[_launcherNavigationController topViewController] view];
 	viewToLaunch.transform = [self transformForOrientation];
 	
 	[self.superController.view addSubview:[_launcherNavigationController view]];
 	_launcherNavigationController.superController = self;
-	
 	viewToLaunch.frame = self.view.bounds;
-	viewToLaunch.alpha = 0;		
-	viewToLaunch.transform = CGAffineTransformMakeScale(0.00001, 0.00001);
 		
 	// Add overlay view
 	[self addOverlayView];
 	
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:TT_LAUNCHER_SHOW_TRANSITION_DURATION];
-	[UIView setAnimationCurve:UIViewAnimationCurveLinear];
-	[UIView setAnimationDelegate:self];
-	[UIView setAnimationDidStopSelector:@selector(showAnimationDidStop)];
-	viewToLaunch.alpha = 1.0f;		
-	viewToLaunch.transform = CGAffineTransformIdentity;
-	_overlayView.alpha = 0.85f;
-	[UIView commitAnimations];
+	if( animated )
+	{
+		viewToLaunch.alpha = 0;		
+		viewToLaunch.transform = CGAffineTransformMakeScale( 0.00001, 0.00001 );
+		
+		[UIView beginAnimations:nil context:nil];
+		[UIView setAnimationDuration:TT_LAUNCHER_SHOW_TRANSITION_DURATION];
+		[UIView setAnimationCurve:UIViewAnimationCurveLinear];
+		[UIView setAnimationDelegate:self];
+		[UIView setAnimationDidStopSelector:@selector(showAnimationDidStop)];
+		viewToLaunch.alpha = 1.0f;		
+		viewToLaunch.transform = CGAffineTransformIdentity;
+		_overlayView.alpha = 0.85f;
+		[UIView commitAnimations];
+	}
 }
 
-- (void)addSubcontroller:(UIViewController*)controller animated:(BOOL)animated transition:(UIViewAnimationTransition)transition {
-	if (!_launcherNavigationController) {
+- (void)addSubcontroller:(UIViewController*)controller animated:(BOOL)animated transition:(UIViewAnimationTransition)transition
+{
+	// If we have a transition type and a navigation controller forego the animation and launch the controller normally
+	if( transition != UIViewAnimationTransitionNone && self.navigationController )
+	{
+		[self.navigationController addSubcontroller:controller animated:animated transition:transition];
+		return;
+	}
+	
+	if( !_launcherNavigationController )
+	{
 		_launcherNavigationController = [[UINavigationController alloc] initWithRootViewController:controller];
 		_launcherNavigationController.superController = self;
 		_launcherNavigationController.delegate = self;
@@ -210,9 +223,10 @@
 
 		// Launch child
 		[[_launcherNavigationController topViewController] viewWillAppear:animated];
-		[self launchChild];
-		
-	} else {
+		[self launchChild:animated];
+	}
+	else
+	{
 		[_launcherNavigationController addSubcontroller:controller animated:animated transition:transition];
 	}
 }
