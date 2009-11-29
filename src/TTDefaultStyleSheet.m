@@ -376,23 +376,18 @@
   }
 }
 
-- (TTStyle*)tabOverflowLeft
-{
-	UIImage* image = TTIMAGE(@"bundle://Three20.bundle/images/overflowLeft.png");
-	TTImageStyle *style = [TTImageStyle styleWithImage:image next:nil];
-	style.contentMode = UIViewContentModeCenter;
-	
-	return style;
+- (TTStyle*)tabOverflowLeft {
+  UIImage* image = TTIMAGE(@"bundle://Three20.bundle/images/overflowLeft.png");
+  TTImageStyle *style = [TTImageStyle styleWithImage:image next:nil];
+  style.contentMode = UIViewContentModeCenter;
+  return style;
 }
 
-- (TTStyle*)tabOverflowRight
-{
-	UIImage* image = TTIMAGE(@"bundle://Three20.bundle/images/overflowRight.png");
-	
-	TTImageStyle *style = [TTImageStyle styleWithImage:image next:nil];
-	style.contentMode = UIViewContentModeCenter;
-	
-	return style;
+- (TTStyle*)tabOverflowRight {
+  UIImage* image = TTIMAGE(@"bundle://Three20.bundle/images/overflowRight.png");
+  TTImageStyle *style = [TTImageStyle styleWithImage:image next:nil];
+  style.contentMode = UIViewContentModeCenter;
+  return style;
 }
 
 - (TTStyle*)rounded {

@@ -54,7 +54,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark TTTableViewDelegate
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// If we will be displaying the last row we are going to load:more: when appropriate
 	if( _controller.model.isLoaded && !_controller.model.isLoadingMore && !_controller.model.isLoading && indexPath.row == [tableView numberOfRowsInSection:indexPath.section] - 1 )
