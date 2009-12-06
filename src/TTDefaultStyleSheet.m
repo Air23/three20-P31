@@ -1,3 +1,19 @@
+/**
+ * Copyright 2009 Facebook
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #import "Three20/TTDefaultStyleSheet.h"
 #import "Three20/TTStyle.h"
 #import "Three20/TTShape.h"
@@ -126,6 +142,15 @@
   return
     [TTLinearGradientFillStyle styleWithColor1:highlight color2:color next:
     [TTFourBorderStyle styleWithTop:nil right:nil bottom:shadow left:nil width:1 next:nil]];
+}
+
+- (TTStyle*)searchBarBottom {
+  UIColor* color = TTSTYLEVAR(searchBarTintColor);
+  UIColor* highlight = [color multiplyHue:0 saturation:0 value:1.2];
+  UIColor* shadow = [color multiplyHue:0 saturation:0 value:0.82];
+  return
+    [TTLinearGradientFillStyle styleWithColor1:highlight color2:color next:
+    [TTFourBorderStyle styleWithTop:shadow right:nil bottom:nil left:nil width:1 next:nil]];
 }
 
 - (TTStyle*)blackSearchBar {

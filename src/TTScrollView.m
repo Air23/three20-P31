@@ -1,3 +1,19 @@
+/**
+ * Copyright 2009 Facebook
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #import "Three20/TTScrollView.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -166,8 +182,8 @@ static const NSTimeInterval kOvershoot = 2;
   CGFloat width, height;
   if (UIInterfaceOrientationIsLandscape(_orientation)) {
     if (size.width > size.height) {
-      height = size.width/size.height * self.width;
-      width = self.width;
+      height = self.height;
+      width = size.height/size.width * self.height;
     } else {
       height = size.width/size.height * self.width;
       width = self.width;

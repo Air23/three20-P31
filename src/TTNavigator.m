@@ -1,3 +1,19 @@
+/**
+ * Copyright 2009 Facebook
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #import "Three20/TTNavigator.h"
 #import "Three20/TTURLMap.h"
 #import "Three20/TTURLPattern.h"
@@ -222,7 +238,7 @@
     [self beginDelay];
   }
 
-  TTDINFO(@"OPENING URL %@", URL);
+  TTDCONDITIONLOG(TTDFLAG_NAVIGATOR, @"OPENING URL %@", URL);
   
   TTURLNavigatorPattern* pattern = nil;
   UIViewController* controller = [self viewControllerForURL:URL query:query pattern:&pattern];
@@ -511,7 +527,7 @@
 - (void)persistViewControllers {
   NSMutableArray* path = [NSMutableArray array];
   [self persistController:_rootViewController path:path];
-  TTDINFO(@"DEBUG PERSIST %@", path);
+  TTDCONDITIONLOG(TTDFLAG_NAVIGATOR, @"DEBUG PERSIST %@", path);
   
   // Check if any of the paths were "important", and therefore unable to expire
   BOOL important = NO;
@@ -540,7 +556,7 @@
   NSDate* timestamp = [defaults objectForKey:@"TTNavigatorHistoryTime"];
   NSArray* path = [defaults objectForKey:@"TTNavigatorHistory"];
   BOOL important = [[defaults objectForKey:@"TTNavigatorHistoryImportant"] boolValue];
-  TTDINFO(@"DEBUG RESTORE %@ FROM %@", path, [timestamp formatRelativeTime]);
+  TTDCONDITIONLOG(TTDFLAG_NAVIGATOR, @"DEBUG RESTORE %@ FROM %@", path, [timestamp formatRelativeTime]);
   
   BOOL expired = _persistenceExpirationAge
                  && -timestamp.timeIntervalSinceNow > _persistenceExpirationAge;

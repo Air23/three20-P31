@@ -1,3 +1,19 @@
+/**
+ * Copyright 2009 Facebook
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #import "Three20/TTURLCache.h"
 #import <CommonCrypto/CommonDigest.h>
 #import <QuartzCore/QuartzCore.h>
@@ -69,7 +85,7 @@ static NSMutableDictionary* gNamedCaches = nil;
   while (_imageSortedList.count) {
     NSString* key = [_imageSortedList objectAtIndex:0];
     UIImage* image = [_imageCache objectForKey:key];
-    // TTDINFO(@"EXPIRING %@", key);
+    TTDCONDITIONLOG(TTDFLAG_URLCACHE, @"EXPIRING %@", key);
 
     _totalPixelCount -= image.size.width * image.size.height;
     [_imageCache removeObjectForKey:key];
@@ -413,11 +429,11 @@ static NSMutableDictionary* gNamedCaches = nil;
 
 - (void)logMemoryUsage {
 #if TTLOGLEVEL_INFO <= TTMAXLOGLEVEL
-  TTDINFO(@"======= IMAGE CACHE: %d images, %d pixels ========", _imageCache.count, _totalPixelCount);
+  TTDCONDITIONLOG(TTDFLAG_URLCACHE, @"======= IMAGE CACHE: %d images, %d pixels ========", _imageCache.count, _totalPixelCount);
   NSEnumerator* e = [_imageCache keyEnumerator];
   for (NSString* key ; key = [e nextObject]; ) {
     UIImage* image = [_imageCache objectForKey:key];
-    TTDINFO(@"  %f x %f %@", image.size.width, image.size.height, key);
+    TTDCONDITIONLOG(TTDFLAG_URLCACHE, @"  %f x %f %@", image.size.width, image.size.height, key);
   }
 #endif
 }

@@ -1,3 +1,19 @@
+/**
+ * Copyright 2009 Facebook
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #import "Three20/TTLauncherView.h"
 #import "Three20/TTLauncherItem.h"
 #import "Three20/TTLauncherButton.h"
@@ -120,11 +136,11 @@ static const NSInteger kDefaultColumnCount = 3;
   UILabel* label = [[[UILabel alloc] initWithFrame:labelFrame] autorelease];
   label.tag = kPromptTag;
   label.text = _prompt;    
-  label.font = [UIFont systemFontOfSize:18];
+  label.font = [UIFont boldSystemFontOfSize:17];
   label.backgroundColor = [UIColor clearColor];
-  label.textColor = RGBCOLOR(50,50,50);
-  label.shadowColor = [UIColor whiteColor];
-  label.shadowOffset = CGSizeMake(1,1);
+  label.textColor = RGBCOLOR(81,95,122);
+  label.shadowColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+  label.shadowOffset = CGSizeMake(0,1);
   label.textAlignment = UITextAlignmentCenter;
   label.numberOfLines = 0;
   [_scrollView addSubview:label];
@@ -493,7 +509,7 @@ static const NSInteger kDefaultColumnCount = 3;
   }
   
   CGFloat springLoadDistance = _dragButton.width*kSpringLoadFraction;
-  TTDINFO(@"%f < %f", springLoadDistance, _dragButton.center.x);
+  TTDCONDITIONLOG(TTDFLAG_LAUNCHERVIEW, @"%f < %f", springLoadDistance, _dragButton.center.x);
   BOOL goToPreviousPage = _dragButton.center.x - springLoadDistance < 0;
   BOOL goToNextPage = ((_scrollView.width - _dragButton.center.x) - springLoadDistance) < 0;
   if (goToPreviousPage || goToNextPage) {

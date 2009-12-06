@@ -1,3 +1,19 @@
+/**
+ * Copyright 2009 Facebook
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #import "Three20/TTURLMap.h"
 #import "Three20/TTNavigator.h"
 
@@ -34,11 +50,11 @@ static NSMutableDictionary* gPopupViewControllers = nil;
 }
 
 - (void)didAddSubview:(UIView*)subview {
-  TTDINFO(@"ADD %@", subview);
+  TTDCONDITIONLOG(TTDFLAG_VIEWCONTROLLERS, @"ADD %@", subview);
 }
 
 - (void)willRemoveSubview:(UIView*)subview {
-  TTDINFO(@"REMOVE %@", subview);
+  TTDCONDITIONLOG(TTDFLAG_VIEWCONTROLLERS, @"REMOVE %@", subview);
   [self removeFromSuperview];
 }
 
@@ -135,7 +151,7 @@ static NSMutableDictionary* gPopupViewControllers = nil;
   NSArray* viewControllers = self.navigationController.viewControllers;
   if (viewControllers.count > 1) {
     NSUInteger index = [viewControllers indexOfObject:self];
-    if (index != NSNotFound) {
+    if (index != NSNotFound && index > 0) {
       return [viewControllers objectAtIndex:index-1];
     }
   }
