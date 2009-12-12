@@ -1,22 +1,25 @@
-/**
- * Copyright 2009 Facebook
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//
+// Copyright 2009 Facebook
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 
 #import "Three20/TTSearchBar.h"
+
+#import "Three20/TTGlobalCoreLocale.h"
+#import "Three20/TTGlobalUI.h"
+
 #import "Three20/TTSearchTextField.h"
-#import "Three20/TTView.h"
 #import "Three20/TTDefaultStyleSheet.h"
 #import "Three20/TTButton.h"
 
@@ -164,7 +167,7 @@ static const CGFloat kIndexViewMargin = 4;
     buttonWidth = _cancelButton.width + kButtonSpacing;
   }
 
-  CGFloat boxHeight = self.font.lineHeight + 8;
+  CGFloat boxHeight = self.font.ttLineHeight + 8;
   _boxView.frame = CGRectMake(kMarginX, floor(self.height/2 - boxHeight/2),
                               self.width - (kMarginX*2 + indexViewWidth + buttonWidth), boxHeight);
     
@@ -179,7 +182,7 @@ static const CGFloat kIndexViewMargin = 4;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
-  CGFloat height = self.font.lineHeight+kPaddingY*2;
+  CGFloat height = self.font.ttLineHeight+kPaddingY*2;
   if (height < TT_ROW_HEIGHT) {
     height = TT_ROW_HEIGHT;
   }

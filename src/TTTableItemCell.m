@@ -1,25 +1,26 @@
-/**
- * Copyright 2009 Facebook
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//
+// Copyright 2009 Facebook
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 
 #import "Three20/TTTableItemCell.h"
+
+#import "Three20/TTGlobalCore.h"
+#import "Three20/TTGlobalUI.h"
+
 #import "Three20/TTTableItem.h"
 #import "Three20/TTImageView.h"
-#import "Three20/TTErrorView.h"
-#import "Three20/TTStyledNode.h"
-#import "Three20/TTStyledText.h"
 #import "Three20/TTStyledTextLabel.h"
 #import "Three20/TTActivityLabel.h"
 #import "Three20/TTTextEditor.h"
@@ -260,7 +261,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   [super layoutSubviews];
     
   self.textLabel.frame = CGRectMake(kHPadding, kVPadding,
-                                    kKeyWidth, self.textLabel.font.lineHeight);
+                                    kKeyWidth, self.textLabel.font.ttLineHeight);
 
   CGFloat valueWidth = self.contentView.width - (kHPadding*2 + kKeyWidth + kKeySpacing);
   CGFloat innerHeight = self.contentView.height - kVPadding*2;
@@ -461,9 +462,9 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
   TTTableSubtitleItem* item = object;
   
-  CGFloat height = TTSTYLEVAR(tableFont).lineHeight + kVPadding*2;
+  CGFloat height = TTSTYLEVAR(tableFont).ttLineHeight + kVPadding*2;
   if (item.subtitle) {
-    height += TTSTYLEVAR(font).lineHeight;
+    height += TTSTYLEVAR(font).ttLineHeight;
   }
   
   return height;
@@ -517,8 +518,8 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   }
 
   if (self.detailTextLabel.text.length) {
-    CGFloat textHeight = self.textLabel.font.lineHeight;
-    CGFloat subtitleHeight = self.detailTextLabel.font.lineHeight;
+    CGFloat textHeight = self.textLabel.font.ttLineHeight;
+    CGFloat subtitleHeight = self.detailTextLabel.font.ttLineHeight;
     CGFloat paddingY = floor((height - (textHeight + subtitleHeight))/2);
     
     self.textLabel.frame = CGRectMake(left, paddingY, width, textHeight);
@@ -645,21 +646,21 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   CGFloat top = kSmallMargin;
   
   if (_titleLabel.text.length) {
-    _titleLabel.frame = CGRectMake(left, top, width, _titleLabel.font.lineHeight);
+    _titleLabel.frame = CGRectMake(left, top, width, _titleLabel.font.ttLineHeight);
     top += _titleLabel.height;
   } else {
     _titleLabel.frame = CGRectZero;
   }
   
   if (self.captionLabel.text.length) {
-    self.captionLabel.frame = CGRectMake(left, top, width, self.captionLabel.font.lineHeight);
+    self.captionLabel.frame = CGRectMake(left, top, width, self.captionLabel.font.ttLineHeight);
     top += self.captionLabel.height;
   } else {
     self.captionLabel.frame = CGRectZero;
   }
   
   if (self.detailTextLabel.text.length) {
-    CGFloat textHeight = self.detailTextLabel.font.lineHeight * kMessageTextLineCount;
+    CGFloat textHeight = self.detailTextLabel.font.ttLineHeight * kMessageTextLineCount;
     self.detailTextLabel.frame = CGRectMake(left, top, width, textHeight);
   } else {
     self.detailTextLabel.frame = CGRectZero;
@@ -1242,16 +1243,16 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   if (!height) {
     if ([view isKindOfClass:[UITextView class]]) {
       UITextView* textView = (UITextView*)view;
-      CGFloat lineHeight = textView.font.lineHeight;
-      height = lineHeight * kDefaultTextViewLines;
+      CGFloat ttLineHeight = textView.font.ttLineHeight;
+      height = ttLineHeight * kDefaultTextViewLines;
     } else if ([view isKindOfClass:[TTTextEditor class]]) {
       TTTextEditor* textEditor = (TTTextEditor*)view;
-      CGFloat lineHeight = textEditor.font.lineHeight;
-      height = lineHeight * kDefaultTextViewLines;
+      CGFloat ttLineHeight = textEditor.font.ttLineHeight;
+      height = ttLineHeight * kDefaultTextViewLines;
     } else if ([view isKindOfClass:[UITextField class]]) {
       UITextField* textField = (UITextField*)view;
-      CGFloat lineHeight = textField.font.lineHeight;
-      height = lineHeight + kSmallMargin*2;
+      CGFloat ttLineHeight = textField.font.ttLineHeight;
+      height = ttLineHeight + kSmallMargin*2;
     } else {
       [view sizeToFit];
       height = view.height;

@@ -1,21 +1,27 @@
-/**
- * Copyright 2009 Facebook
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//
+// Copyright 2009 Facebook
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 
 #import "Three20/TTPickerTextField.h"
-#import "TTPickerViewCell.h"
+
+#import "Three20/TTGlobalCore.h"
+#import "Three20/TTGlobalUI.h"
+#import "Three20/TTGlobalUINavigator.h"
+
+#import "Three20/TTTableViewDataSource.h"
+#import "Three20/TTPickerViewCell.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -62,7 +68,7 @@ static CGFloat kMinCursorWidth = 50;
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 - (CGFloat)layoutCells {
-  CGFloat fontHeight = self.font.lineHeight;
+  CGFloat fontHeight = self.font.ttLineHeight;
   CGFloat lineIncrement = fontHeight + kCellPaddingY*2 + kSpacingY;
   CGFloat marginY = floor(fontHeight/kPaddingRatio);
   CGFloat marginLeft = self.leftView
@@ -118,32 +124,32 @@ static CGFloat kMinCursorWidth = 50;
 }
 
 - (CGFloat)marginY {
-  return floor(self.font.lineHeight/kPaddingRatio);
+  return floor(self.font.ttLineHeight/kPaddingRatio);
 }
 
 - (CGFloat)topOfLine:(int)lineNumber {
   if (lineNumber == 0) {
     return 0;
   } else {
-    CGFloat lineHeight = self.font.lineHeight;
+    CGFloat ttLineHeight = self.font.ttLineHeight;
     CGFloat lineSpacing = kCellPaddingY*2 + kSpacingY;
-    CGFloat marginY = floor(lineHeight/kPaddingRatio);
-    CGFloat lineTop = marginY + lineHeight*lineNumber + lineSpacing*lineNumber;
+    CGFloat marginY = floor(ttLineHeight/kPaddingRatio);
+    CGFloat lineTop = marginY + ttLineHeight*lineNumber + lineSpacing*lineNumber;
     return lineTop - lineSpacing;
   }
 }
 
 - (CGFloat)centerOfLine:(int)lineNumber {
   CGFloat lineTop = [self topOfLine:lineNumber];
-  CGFloat lineHeight = self.font.lineHeight + kCellPaddingY*2 + kSpacingY;
-  return lineTop + floor(lineHeight/2);
+  CGFloat ttLineHeight = self.font.ttLineHeight + kCellPaddingY*2 + kSpacingY;
+  return lineTop + floor(ttLineHeight/2);
 }
 
 - (CGFloat)heightWithLines:(int)lines {
-  CGFloat lineHeight = self.font.lineHeight;
+  CGFloat ttLineHeight = self.font.ttLineHeight;
   CGFloat lineSpacing = kCellPaddingY*2 + kSpacingY;
-  CGFloat marginY = floor(lineHeight/kPaddingRatio);
-  return marginY + lineHeight*lines + lineSpacing*(lines ? lines-1 : 0) + marginY;
+  CGFloat marginY = floor(ttLineHeight/kPaddingRatio);
+  return marginY + ttLineHeight*lines + lineSpacing*(lines ? lines-1 : 0) + marginY;
 }
 
 - (void)selectLastCell {
@@ -264,7 +270,7 @@ static CGFloat kMinCursorWidth = 50;
 
 - (CGRect)rectForSearchResults:(BOOL)withKeyboard {
   UIView* superview = self.superviewForSearchResults;
-  CGFloat y = superview.screenY;
+  CGFloat y = superview.ttScreenY;
   CGFloat visibleHeight = [self heightWithLines:1];
   CGFloat keyboardHeight = withKeyboard ? TTKeyboardHeight() : 0;
   CGFloat tableHeight = TTScreenBounds().size.height - (y + visibleHeight + keyboardHeight);

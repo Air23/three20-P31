@@ -2,7 +2,7 @@
 //  LoadingView.h
 //  LoadingView
 
-#import "TTGlobal.h"
+#import "TTGlobalUI.h"
 
 
 @interface P31LoadingView : UIView

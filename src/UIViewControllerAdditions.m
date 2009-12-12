@@ -1,21 +1,24 @@
-/**
- * Copyright 2009 Facebook
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//
+// Copyright 2009 Facebook
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 
-#import "Three20/TTURLMap.h"
+#import "Three20/UIViewControllerAdditions.h"
+
+#import "Three20/TTGlobalUI.h"
 #import "Three20/TTNavigator.h"
+#import "Three20/TTURLMap.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -147,7 +150,13 @@ static NSMutableDictionary* gPopupViewControllers = nil;
   return nil;
 }
 
-- (UIViewController*)previousViewController {
+
+/**
+ * The view controller that comes before this one in a navigation controller's history.
+ *
+ * This is an App Store-compatible version of previousViewController.
+ */
+- (UIViewController*)ttPreviousViewController {
   NSArray* viewControllers = self.navigationController.viewControllers;
   if (viewControllers.count > 1) {
     NSUInteger index = [viewControllers indexOfObject:self];
@@ -158,6 +167,22 @@ static NSMutableDictionary* gPopupViewControllers = nil;
   
   return nil;
 }
+
+#ifdef DEBUG
+
+/**
+ * The view controller that comes before this one in a navigation controller's history.
+ *
+ * This has been deprecated due to App Store rejections. Please use ttPreviousViewController
+ * from now on.
+ *
+ * @deprecated
+ */
+- (UIViewController*)previousViewController {
+  return [self ttPreviousViewController];
+}
+
+#endif
 
 - (UIViewController*)nextViewController {
   NSArray* viewControllers = self.navigationController.viewControllers;

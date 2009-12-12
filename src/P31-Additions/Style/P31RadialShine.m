@@ -8,6 +8,7 @@
 
 #import "P31RadialShine.h"
 #import <Three20/TTShape.h>
+#import "TTCorePreprocessorMacros.h"
 
 
 @implementation P31RadialShine

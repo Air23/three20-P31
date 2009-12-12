@@ -1,29 +1,35 @@
-/**
- * Copyright 2009 Facebook
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//
+// Copyright 2009 Facebook
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 
-#import "Three20/TTGlobal.h"
+#import "Three20/UIViewAdditions.h"
 
+#import "TTGlobalUI.h"
+#import "TTGlobalUINavigator.h"
 
 // Remove GSEvent and UITouchAdditions from Release builds
 #ifdef DEBUG
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// This code for synthesizing touch events is derived from:
-// http://cocoawithlove.com/2008/10/synthesizing-touch-event-on-iphone.html
-
+/**
+ * A private API class used for synthesizing touch events. This class is compiled out of release
+ * builds.
+ *
+ * This code for synthesizing touch events is derived from:
+ * http://cocoawithlove.com/2008/10/synthesizing-touch-event-on-iphone.html
+ */
 @interface GSEventFake : NSObject {
   @public
   int ignored1[5];
@@ -193,7 +199,10 @@
   self.frame = frame;
 }
 
-- (CGFloat)screenX {
+/**
+ * Return the x coordinate on the screen.
+ */
+- (CGFloat)ttScreenX {
   CGFloat x = 0;
   for (UIView* view = self; view; view = view.superview) {
     x += view.left;
@@ -201,13 +210,42 @@
   return x;
 }
 
-- (CGFloat)screenY {
+/**
+ * Return the y coordinate on the screen.
+ */
+- (CGFloat)ttScreenY {
   CGFloat y = 0;
   for (UIView* view = self; view; view = view.superview) {
     y += view.top;
   }
   return y;
 }
+
+#ifdef DEBUG
+
+/**
+ * Return the x coordinate on the screen.
+ *
+ * This method is being rejected by Apple due to false-positive private api static analysis.
+ *
+ * @deprecated
+ */
+- (CGFloat)screenX {
+  return [self ttScreenX];
+}
+
+/**
+ * Return the y coordinate on the screen.
+ *
+ * This method is being rejected by Apple due to false-positive private api static analysis.
+ *
+ * @deprecated
+ */
+- (CGFloat)screenY {
+  return [self ttScreenY];
+}
+
+#endif
 
 - (CGFloat)screenViewX {
   CGFloat x = 0;
@@ -258,15 +296,6 @@
   CGRect frame = self.frame;
   frame.size = size;
   self.frame = frame;
-}
-
-- (CGPoint)offsetFromView:(UIView*)otherView {
-  CGFloat x = 0, y = 0;
-  for (UIView* view = self; view && view != otherView; view = view.superview) {
-    x += view.left;
-    y += view.top;
-  }
-  return CGPointMake(x, y);
 }
 
 - (CGFloat)orientationWidth {
@@ -323,12 +352,21 @@
 }
 #endif
 
+- (CGPoint)offsetFromView:(UIView*)otherView {
+  CGFloat x = 0, y = 0;
+  for (UIView* view = self; view && view != otherView; view = view.superview) {
+    x += view.left;
+    y += view.top;
+  }
+  return CGPointMake(x, y);
+}
+
 - (CGRect)frameWithKeyboardSubtracted:(CGFloat)plusHeight {
   CGRect frame = self.frame;
   if (TTIsKeyboardVisible()) {
     CGRect screenFrame = TTScreenBounds();
     CGFloat keyboardTop = (screenFrame.size.height - (TTKeyboardHeight() + plusHeight));
-    CGFloat screenBottom = self.screenY + frame.size.height;
+    CGFloat screenBottom = self.ttScreenY + frame.size.height;
     CGFloat diff = screenBottom - keyboardTop;
     if (diff > 0) {
       frame.size.height -= diff;

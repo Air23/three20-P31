@@ -1,20 +1,22 @@
-/**
- * Copyright 2009 Facebook
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//
+// Copyright 2009 Facebook
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 
 #import "Three20/TTTextEditor.h"
+
+#import "Three20/TTGlobalUI.h"
 #import "Three20/TTDefaultStyleSheet.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -286,9 +288,9 @@ static const CGFloat kUITextViewVerticalPadding = 6;
 }
 
 - (CGFloat)heightThatFits:(BOOL*)overflowed numberOfLines:(NSInteger*)numberOfLines {
-  CGFloat lineHeight = self.font.lineHeight;
-  CGFloat minHeight = _minNumberOfLines * lineHeight;
-  CGFloat maxHeight = _maxNumberOfLines * lineHeight;
+  CGFloat ttLineHeight = self.font.ttLineHeight;
+  CGFloat minHeight = _minNumberOfLines * ttLineHeight;
+  CGFloat maxHeight = _maxNumberOfLines * ttLineHeight;
   CGFloat maxWidth = self.width - kTextViewInset;
   
   NSString* text = _textField.hidden ? _textView.text : _textField.text;
@@ -302,10 +304,10 @@ static const CGFloat kUITextViewVerticalPadding = 6;
   
   CGFloat newHeight = textSize.height;
   if ([text characterAtIndex:text.length-1] == 10) {
-    newHeight += lineHeight;
+    newHeight += ttLineHeight;
   }
   if (_showsExtraLine) {
-    newHeight += lineHeight;
+    newHeight += ttLineHeight;
   }
 
   if (overflowed) {
@@ -313,7 +315,7 @@ static const CGFloat kUITextViewVerticalPadding = 6;
   }
 
   if (numberOfLines) {
-    *numberOfLines = floor(newHeight / lineHeight);
+    *numberOfLines = floor(newHeight / ttLineHeight);
   }
   
   if (newHeight < minHeight) {

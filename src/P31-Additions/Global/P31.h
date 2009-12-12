@@ -9,7 +9,7 @@
 
 #define STRING_IS_EMPTY_OR_NIL( _STRING ) ( _STRING == nil || [_STRING isEmptyOrWhitespace] )
 
-#import <Three20/TTGlobal.h>
+#import <Three20/TTGlobalCore.h>
 
 // Global
 #import "P31StyleSheet.h"

@@ -1,20 +1,24 @@
-/**
- * Copyright 2009 Facebook
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//
+// Copyright 2009 Facebook
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 
 #import "Three20/TTStyle.h"
+
+#import "Three20/TTGlobalCore.h"
+#import "Three20/TTGlobalUI.h"
+
 #import "Three20/TTShape.h"
 #import "Three20/TTURLCache.h"
 
@@ -539,7 +543,7 @@ static const NSInteger kDefaultLightSource = 125;
     CGSize textSize = [text sizeWithFont:font constrainedToSize:maxSize
                             lineBreakMode:_lineBreakMode];
     if (_numberOfLines) {
-      CGFloat maxHeight = font.lineHeight * _numberOfLines;
+      CGFloat maxHeight = font.ttLineHeight * _numberOfLines;
       if (textSize.height > maxHeight) {
         textSize.height = maxHeight;
       }
@@ -669,7 +673,7 @@ static const NSInteger kDefaultLightSource = 125;
     if (!maxWidth) {
       maxWidth = CGFLOAT_MAX;
     }
-    CGFloat maxHeight = _numberOfLines ? _numberOfLines * font.lineHeight : CGFLOAT_MAX;
+    CGFloat maxHeight = _numberOfLines ? _numberOfLines * font.ttLineHeight : CGFLOAT_MAX;
     CGSize maxSize = CGSizeMake(maxWidth, maxHeight);
     CGSize textSize = [self sizeOfText:text withFont:font size:maxSize];
     

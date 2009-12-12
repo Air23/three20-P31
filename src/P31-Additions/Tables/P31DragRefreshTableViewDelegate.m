@@ -7,6 +7,7 @@
 //
 
 #import "P31DragRefreshTableViewDelegate.h"
+#import "TTGlobalUI.h"
 #import "TTTableViewController.h"
 #import "P31RefreshTableHeaderView.h"
 
