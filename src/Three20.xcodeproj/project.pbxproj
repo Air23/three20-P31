@@ -227,6 +227,8 @@
 		EBA17A2010B4DDD500835016 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBA17A1E10B4DDD500835016 /* NSDataAdditions.m */; };
 		EBA17A3810B4DF5E00835016 /* NSDataAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EBA17A3710B4DF5E00835016 /* NSDataAdditions.h */; };
 		EBBB349710B36CCE00AD5BCF /* TTDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = EBBB349610B36CCE00AD5BCF /* TTDebug.h */; };
+		EBC6184010D850E000D1997B /* TTRecursiveProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC6183E10D850E000D1997B /* TTRecursiveProgress.m */; };
+		EBC6184210D850FC00D1997B /* TTRecursiveProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = EBC6184110D850FC00D1997B /* TTRecursiveProgress.h */; };
 		EBDC8EB610C5CCB000257247 /* TTDebugFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = EBDC8EB510C5CCB000257247 /* TTDebugFlags.h */; };
 /* End PBXBuildFile section */
 
@@ -455,6 +457,8 @@
 		EBA17A1E10B4DDD500835016 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
 		EBA17A3710B4DF5E00835016 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDataAdditions.h; path = Three20/NSDataAdditions.h; sourceTree = "<group>"; };
 		EBBB349610B36CCE00AD5BCF /* TTDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTDebug.h; path = Three20/TTDebug.h; sourceTree = "<group>"; };
+		EBC6183E10D850E000D1997B /* TTRecursiveProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTRecursiveProgress.m; sourceTree = "<group>"; };
+		EBC6184110D850FC00D1997B /* TTRecursiveProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTRecursiveProgress.h; path = Three20/TTRecursiveProgress.h; sourceTree = "<group>"; };
 		EBDC8EB510C5CCB000257247 /* TTDebugFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTDebugFlags.h; path = Three20/TTDebugFlags.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -988,6 +992,7 @@
 				BE702EEF0F43F46E0028A119 /* Tables */,
 				BEF321B20F353B50000DE5D2 /* Photos */,
 				BEC787A51040A783005C00CF /* Springboard */,
+				EBC6183C10D850BB00D1997B /* Progress */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -999,6 +1004,15 @@
 				BEF321B00F353B15000DE5D2 /* Network */,
 			);
 			name = Network;
+			sourceTree = "<group>";
+		};
+		EBC6183C10D850BB00D1997B /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				EBC6184110D850FC00D1997B /* TTRecursiveProgress.h */,
+				EBC6183E10D850E000D1997B /* TTRecursiveProgress.m */,
+			);
+			name = Progress;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1106,6 +1120,7 @@
 				EB4CDAFD10CADCB000A856E5 /* TTGlobalUINavigator.h in Headers */,
 				EB4CDBA410CAE0E300A856E5 /* TTGlobalStyle.h in Headers */,
 				EB4CE18A10CF19FE00A856E5 /* TTCorePreprocessorMacros.h in Headers */,
+				EBC6184210D850FC00D1997B /* TTRecursiveProgress.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1289,17 +1304,7 @@
 				EB4CDA5710CADA3200A856E5 /* TTGlobalCorePaths.m in Sources */,
 				EB4CDAFB10CADC9A00A856E5 /* TTGlobalUINavigator.m in Sources */,
 				EB4CDBA210CAE0C100A856E5 /* TTGlobalStyle.m in Sources */,
-				C6620F0C109CF93400EC35C6 /* P31StyleSheet.m in Sources */,
-				C6620F16109CF94200EC35C6 /* P31AlertView.m in Sources */,
-				C6620F18109CF94200EC35C6 /* P31LoadingView.m in Sources */,
-				C6620F1A109CF94200EC35C6 /* P31PopupButtonView.m in Sources */,
-				C6620F1C109CF94200EC35C6 /* P31Window.m in Sources */,
-				C6620F22109CF94E00EC35C6 /* P31PopupButtonCalloutShape.m in Sources */,
-				C6620F24109CF94E00EC35C6 /* P31RadialShine.m in Sources */,
-				C653453E10A3F23B00940A73 /* P31LauncherViewController.m in Sources */,
-				C618DB9410A53F6F00C78A93 /* P31RefreshTableHeaderView.m in Sources */,
-				C6F8A31810A753C00091E086 /* P31DragRefreshTableViewDelegate.m in Sources */,
-				C68E55B810AF5C2500621E32 /* P31GradientView.m in Sources */,
+				EBC6184010D850E000D1997B /* TTRecursiveProgress.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
