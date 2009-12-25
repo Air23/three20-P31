@@ -14,6 +14,7 @@ typedef enum {
 
 @interface P31RefreshTableHeaderView : UIView
 {
+  NSDate *_lastUpdatedDate;
 	UILabel *_lastUpdatedLabel;
 	UILabel *_statusLabel;
 	UIImageView *_arrowImage;

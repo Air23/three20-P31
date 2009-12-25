@@ -29,7 +29,7 @@
 		_lastUpdatedLabel.shadowOffset = CGSizeMake( 0.0f, 1.0f );
 		_lastUpdatedLabel.backgroundColor = [UIColor clearColor];
 		_lastUpdatedLabel.textAlignment = UITextAlignmentCenter;
-		[self addSubview:_lastUpdatedLabel]
+		[self addSubview:_lastUpdatedLabel];
 		[_lastUpdatedLabel release];
 
 		_statusLabel = [[UILabel alloc] initWithFrame:CGRectMake( 0.0f, frame.size.height - 48.0f, 320.0f, 20.0f )];
@@ -88,27 +88,27 @@
 }
 
 
-- (void)setUpdateDate:(NSDate*)date
+- (void)setUpdateDate:(NSDate*)newDate
 {
 	if (newDate)
 	{
-		if (lastUpdatedDate != newDate)
+		if (_lastUpdatedDate != newDate)
 		{
-			[lastUpdatedDate release];
+			[_lastUpdatedDate release];
 		}
 		
-		lastUpdatedDate = [newDate retain];
+		_lastUpdatedDate = [newDate retain];
 		
 		NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
 		[formatter setDateStyle:NSDateFormatterShortStyle];
 		[formatter setTimeStyle:NSDateFormatterShortStyle];
-		_lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Last Updated: %@", @""), [formatter stringFromDate:lastUpdatedDate]];
+		_lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Last Updated: %@", @""), [formatter stringFromDate:_lastUpdatedDate]];
 		[formatter release];
 	}
 	else
 	{
-		lastUpdatedDate = nil;
-		lastUpdatedLabel.text = NSLocalizedString(@"Last Updated: Never", @"");
+		_lastUpdatedDate = nil;
+		_lastUpdatedLabel.text = NSLocalizedString(@"Last Updated: Never", @"");
 	}
 }
 
