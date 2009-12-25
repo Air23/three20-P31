@@ -103,6 +103,7 @@
 	// If dragging ends and we are far enough to be fully showing the header view trigger a load as long as we arent loading already
 	if( scrollView.contentOffset.y <= -65.0f && !_controller.model.isLoading )
 	{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"P31DragRefreshTableReload" object:nil];
 		[_controller.model load:TTURLRequestCachePolicyNetwork more:NO];
 	}
 	
