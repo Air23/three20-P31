@@ -29,19 +29,7 @@
 		_lastUpdatedLabel.shadowOffset = CGSizeMake( 0.0f, 1.0f );
 		_lastUpdatedLabel.backgroundColor = [UIColor clearColor];
 		_lastUpdatedLabel.textAlignment = UITextAlignmentCenter;
-		[self addSubview:_lastUpdatedLabel];
-
-		/*
-		if( [[NSUserDefaults standardUserDefaults] objectForKey:@"EGORefreshTableView_LastRefresh"] )
-		{
-			_lastUpdatedLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"EGORefreshTableView_LastRefresh"];
-		}
-		else
-		{
-			[self setCurrentDate];
-		}
-		*/
-
+		[self addSubview:_lastUpdatedLabel]
 		[_lastUpdatedLabel release];
 
 		_statusLabel = [[UILabel alloc] initWithFrame:CGRectMake( 0.0f, frame.size.height - 48.0f, 320.0f, 20.0f )];
@@ -102,33 +90,32 @@
 
 - (void)setUpdateDate:(NSDate*)date
 {
-	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-	[formatter setAMSymbol:@"AM"];
-	[formatter setPMSymbol:@"PM"];
-	[formatter setDateFormat:@"MM/dd/yyyy hh:mm:a"];
-	
-	_lastUpdatedLabel.text = [NSString stringWithFormat:@"Last Updated: %@", [formatter stringFromDate:date]];
-	
-	//[[NSUserDefaults standardUserDefaults] setObject:_lastUpdatedLabel.text forKey:@"EGORefreshTableView_LastRefresh"];
-	//[[NSUserDefaults standardUserDefaults] synchronize];
-	
-	[formatter release];
+	if (newDate)
+	{
+		if (lastUpdatedDate != newDate)
+		{
+			[lastUpdatedDate release];
+		}
+		
+		lastUpdatedDate = [newDate retain];
+		
+		NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+		[formatter setDateStyle:NSDateFormatterShortStyle];
+		[formatter setTimeStyle:NSDateFormatterShortStyle];
+		_lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Last Updated: %@", @""), [formatter stringFromDate:lastUpdatedDate]];
+		[formatter release];
+	}
+	else
+	{
+		lastUpdatedDate = nil;
+		lastUpdatedLabel.text = NSLocalizedString(@"Last Updated: Never", @"");
+	}
 }
 
 
 - (void)setCurrentDate
 {
-	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-	[formatter setAMSymbol:@"AM"];
-	[formatter setPMSymbol:@"PM"];
-	[formatter setDateFormat:@"MM/dd/yyyy hh:mm:a"];
-	
-	_lastUpdatedLabel.text = [NSString stringWithFormat:@"Last Updated: %@", [formatter stringFromDate:[NSDate date]]];
-	
-	//[[NSUserDefaults standardUserDefaults] setObject:_lastUpdatedLabel.text forKey:@"EGORefreshTableView_LastRefresh"];
-	//[[NSUserDefaults standardUserDefaults] synchronize];
-	
-	[formatter release];
+  [self setUpdateDate:[NSDate date]];
 }
 
 
