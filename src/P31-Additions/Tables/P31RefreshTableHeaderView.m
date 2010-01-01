@@ -25,7 +25,7 @@
 		_lastUpdatedLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
 		_lastUpdatedLabel.font = [UIFont systemFontOfSize:12.0f];
 		_lastUpdatedLabel.textColor = TTSTYLEVAR( refreshTableHeaderTextColor );
-		_lastUpdatedLabel.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
+		_lastUpdatedLabel.shadowColor = TTSTYLEVAR( refreshTableHeaderTextShadowColor );
 		_lastUpdatedLabel.shadowOffset = CGSizeMake( 0.0f, 1.0f );
 		_lastUpdatedLabel.backgroundColor = [UIColor clearColor];
 		_lastUpdatedLabel.textAlignment = UITextAlignmentCenter;
@@ -36,7 +36,7 @@
 		_statusLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
 		_statusLabel.font = [UIFont boldSystemFontOfSize:13.0f];
 		_statusLabel.textColor = TTSTYLEVAR( refreshTableHeaderTextColor );
-		_statusLabel.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
+		_statusLabel.shadowColor = TTSTYLEVAR( refreshTableHeaderTextShadowColor );
 		_statusLabel.shadowOffset = CGSizeMake( 0.0f, 1.0f );
 		_statusLabel.backgroundColor = [UIColor clearColor];
 		_statusLabel.textAlignment = UITextAlignmentCenter;
