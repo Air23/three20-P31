@@ -225,7 +225,7 @@
 
 + (id)topic:(NSString*)topic strong:(id)strong weak:(id)weak;
 + (id)topic:(NSString*)topic;
-+ (id)weak:(id)weak;
++ (id)weakRef:(id)weakRef;
 
 - (id)initWithTopic:(NSString*)topic strong:(id)strong weak:(id)weak;
 
