@@ -19,13 +19,14 @@
 
 - (id)initWithController:(TTTableViewController*)controller
 {
+  
 	if( self = [super initWithController:controller] )
 	{
 		// Add our refresh header	
 		_refreshHeaderView = [[P31RefreshTableHeaderView alloc] initWithFrame:CGRectMake( 0.0f, 0.0f - _controller.tableView.bounds.size.height, 320.0f, _controller.tableView.bounds.size.height )];
 		_refreshHeaderView.backgroundColor = RGBCOLOR( 226, 231, 237 );
 		[_controller.tableView addSubview:_refreshHeaderView];
-		[_refreshHeaderView release];
+		//[_refreshHeaderView release];
 		
 		// Hook up to the model to listen for changes
 		[controller.model.delegates addObject:self];
@@ -46,7 +47,7 @@
 - (void)dealloc
 {
 	[_controller.model.delegates removeObject:self];
-	_refreshHeaderView = nil;
+  TT_RELEASE_SAFELY(_refreshHeaderView);
 	
 	[super dealloc];
 }
