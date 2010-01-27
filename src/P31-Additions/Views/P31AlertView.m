@@ -421,7 +421,7 @@ const static CGFloat kButtonHeight = 40.0;
 
 - (UITextField*)textFieldAtIndex:(int)index
 {
-	if( [_textFields count] > index + 1 )
+	if( [_textFields count] > index )
 		return [_textFields objectAtIndex:index];
 	
 	return nil;
