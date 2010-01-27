@@ -316,6 +316,14 @@ static const NSInteger kMaxBadgeNumber = 99;
   [self updateOverflow];
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Public
+
+- (void)scrollToSelectedTabAnimated:(BOOL)animated {
+	TTTab *tab = [_tabViews objectAtIndex:_selectedTabIndex];
+	[_scrollView scrollRectToVisible:tab.frame animated:animated];
+}
+
 @end
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,3 +1,14 @@
+Changes since December 25, 2009
+
+- [NEW] TTURLRequest didReceiveAuthenticationChallenge for authentication challenges.
+
+- [DEPRECATED] isWhitespace. Use isWhitespaceAndNewlines instead.
+
+- [XCODE] Refactoring problems solved. TTUserInfo weak/strong properties renamed
+          to weakRef/strongRef, respectively.
+
+- [MINOR] Use __PRETTY_FUNCTION__ for debug logs. (@steipete)
+
 Changes from December 18, 2009
 
 - [NEW] TTRecursiveProgress object for recursive progress (go figure!)
