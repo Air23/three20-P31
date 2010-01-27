@@ -310,7 +310,7 @@ static NSString* kStringBoundary = @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3q2f";
   return [[[TTUserInfo alloc] initWithTopic:topic strong:nil weak:nil] autorelease];
 }
 
-+ (id)weak:(id)weak {
++ (id)weakRef:(id)weak {
   return [[[TTUserInfo alloc] initWithTopic:nil strong:nil weak:weak] autorelease];
 }
 
