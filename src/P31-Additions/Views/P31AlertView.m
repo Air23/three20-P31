@@ -34,7 +34,7 @@ const static CGFloat kButtonHeight = 40.0;
 @synthesize delegate = _delegate, cancelButtonTitle = _cancelButtonTitle, buttonTitles = _buttonTitles, textFields = _textFields,
 			dimWindow = _dimWindow, title = _title, body = _body;
 
-////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark NSObject
 
 - (id)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id /*<P31AlertViewDelegate>*/)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...
@@ -95,13 +95,13 @@ const static CGFloat kButtonHeight = 40.0;
 }
 
 
-//////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Private
 
 - (void)setupInitialFrame
 {
 	// Top and bottom padding
-	CGFloat frameHeight = 35.0;
+	CGFloat frameHeight = ( UIInterfaceOrientationIsLandscape( TTInterfaceOrientation() ) ) ? 0.0 : 35.0;
 	
 	// Add our UITextFields in if we have any
 	if( _textFields != nil )
@@ -150,10 +150,15 @@ const static CGFloat kButtonHeight = 40.0;
 		frameHeight += ( buttonCount * kButtonSpacing ) + ( buttonCount * kButtonHeight );
 	}
 
-	CGFloat startYPos = ( _textFields == nil ) ? ( 480.0 - frameHeight ) / 2 : ( 480.0 - frameHeight ) / 2 - 100.0;
-	self.frame = CGRectMake( 20.0, startYPos, 280.0, frameHeight );
+	// Default to 20.0 which is the height of the status bar
+	CGFloat startYPos = 20.0;
+	CGFloat startXPos = ( _dimWindow.bounds.size.width - 280.0 ) / 2.0;
 	
-	TTLOGRECT( self.frame );
+	// Adjust our yPos only if we are not in landscape
+	if( !UIInterfaceOrientationIsLandscape( TTInterfaceOrientation() ) )
+		startYPos = ( _textFields == nil ) ? ( 480.0 - frameHeight ) / 2 : ( 480.0 - frameHeight ) / 2 - 100.0;
+	
+	self.frame = CGRectMake( startXPos, startYPos, 280.0, frameHeight );
 }
 
 
@@ -185,6 +190,18 @@ const static CGFloat kButtonHeight = 40.0;
 	[self.layer addAnimation:bounceAnimation forKey:@"transformScale"];
 	
 	self.transform = afterAnimationTransform;
+}
+
+
+- (void)orientationDidChangeNotification:(NSNotification*)note
+{
+	// Rotate ourself
+	self.transform = TTRotateTransformForOrientation( TTInterfaceOrientation() );
+
+	// Adjust our xPos
+	CGFloat startXPos = ( TTScreenBounds().size.width - 280.0 ) / 2.0;
+	
+	self.frame = CGRectMake( startXPos, self.frame.origin.y, 280.0, self.frame.size.height );
 }
 
 
@@ -334,6 +351,8 @@ const static CGFloat kButtonHeight = 40.0;
 
 - (void)hide
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	 
 	// Hide the keyboard if it's up
 	if( _keyboardIsShowing )
 	{
@@ -385,7 +404,7 @@ const static CGFloat kButtonHeight = 40.0;
 }
 
 
-///////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -416,7 +435,7 @@ const static CGFloat kButtonHeight = 40.0;
 	return YES;
 }
 
-//////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Public
 
 - (UITextField*)textFieldAtIndex:(int)index
@@ -458,14 +477,19 @@ const static CGFloat kButtonHeight = 40.0;
 
 - (void)show
 {
-	_dimWindow = [[UIWindow alloc] initWithFrame:TTScreenBounds()];
+	// Listen for rotation events
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChangeNotification:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
+	
+	_dimWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+	_dimWindow.bounds = TTScreenBounds();
+	_dimWindow.transform = TTRotateTransformForOrientation( TTInterfaceOrientation() );
 	_dimWindow.windowLevel = UIWindowLevelAlert;
 	
 	// Show the window
 	[_dimWindow makeKeyAndVisible];
 	
 	// Add the background
-	UIView *bgImage = [[[UIView alloc] initWithFrame:TTScreenBounds()] autorelease];
+	UIView *bgImage = [[[UIView alloc] initWithFrame:_dimWindow.bounds] autorelease];
 	bgImage.backgroundColor = RGBACOLOR( 0, 0, 0, 0.5 );
 	
 	bgImage.alpha = 0.0;
