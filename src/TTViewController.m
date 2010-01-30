@@ -302,6 +302,7 @@
     if (!_searchController) {
       UISearchBar* searchBar = [[[UISearchBar alloc] init] autorelease];
       [searchBar sizeToFit];
+	  searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 
       _searchController = [[TTSearchDisplayController alloc] initWithSearchBar:searchBar
                                                              contentsController:self];

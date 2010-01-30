@@ -7,7 +7,8 @@
 //
 
 #import "P31DragRefreshTableViewDelegate.h"
-#import "TTGlobalUI.h"
+#import <Three20/TTGlobalUI.h>
+#import <Three20/TTGlobalUINavigator.h>
 #import "TTTableViewController.h"
 #import "P31RefreshTableHeaderView.h"
 
@@ -19,14 +20,13 @@
 
 - (id)initWithController:(TTTableViewController*)controller
 {
-  
 	if( self = [super initWithController:controller] )
 	{
 		// Add our refresh header	
-		_refreshHeaderView = [[P31RefreshTableHeaderView alloc] initWithFrame:CGRectMake( 0.0f, 0.0f - _controller.tableView.bounds.size.height, 320.0f, _controller.tableView.bounds.size.height )];
+		_refreshHeaderView = [[P31RefreshTableHeaderView alloc] initWithFrame:CGRectMake( 0.0f, 0.0f - _controller.tableView.bounds.size.height, TTScreenBounds().size.width, _controller.tableView.bounds.size.height )];
+		_refreshHeaderView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		_refreshHeaderView.backgroundColor = RGBCOLOR( 226, 231, 237 );
 		[_controller.tableView addSubview:_refreshHeaderView];
-		//[_refreshHeaderView release];
 		
 		// Hook up to the model to listen for changes
 		[controller.model.delegates addObject:self];

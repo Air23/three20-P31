@@ -21,7 +21,7 @@
 	{
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		
-		_lastUpdatedLabel = [[UILabel alloc] initWithFrame:CGRectMake( 0.0f, frame.size.height - 30.0f, 320.0f, 20.0f )];
+		_lastUpdatedLabel = [[UILabel alloc] initWithFrame:CGRectMake( 0.0f, frame.size.height - 30.0f, frame.size.width, 20.0f )];
 		_lastUpdatedLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
 		_lastUpdatedLabel.font = [UIFont systemFontOfSize:12.0f];
 		_lastUpdatedLabel.textColor = TTSTYLEVAR( refreshTableHeaderTextColor );
@@ -32,7 +32,7 @@
 		[self addSubview:_lastUpdatedLabel];
 		[_lastUpdatedLabel release];
 
-		_statusLabel = [[UILabel alloc] initWithFrame:CGRectMake( 0.0f, frame.size.height - 48.0f, 320.0f, 20.0f )];
+		_statusLabel = [[UILabel alloc] initWithFrame:CGRectMake( 0.0f, frame.size.height - 48.0f, frame.size.width, 20.0f )];
 		_statusLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
 		_statusLabel.font = [UIFont boldSystemFontOfSize:13.0f];
 		_statusLabel.textColor = TTSTYLEVAR( refreshTableHeaderTextColor );
