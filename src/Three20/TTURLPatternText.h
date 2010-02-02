@@ -15,17 +15,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
-/**
- * A web view that displays a YouTube video.
- */
-@interface TTYouTubeView : UIWebView {
-  NSString* _URL;
-}
+@protocol TTURLPatternText <NSObject>
+@required
 
-@property(nonatomic,copy) NSString* URL;
+- (BOOL)match:(NSString*)text;
 
-- (id)initWithURL:(NSString*)URL;
+- (NSString*)convertPropertyOfObject:(id)object;
 
 @end

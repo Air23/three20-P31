@@ -57,12 +57,12 @@
 
 
   if (![navigator restoreViewControllers]) {
-    [navigator openURL:@"tt://catalog" animated:NO];
+    [navigator openURLAction:[TTURLAction actionWithURLPath:@"tt://catalog"]];
   }
 }
 
 - (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)URL {
-  [[TTNavigator navigator] openURL:URL.absoluteString animated:NO];
+  [[TTNavigator navigator] openURLAction:[TTURLAction actionWithURLPath:URL.absoluteString]];
   return YES;
 }
 

@@ -15,17 +15,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
-/**
- * A web view that displays a YouTube video.
- */
-@interface TTYouTubeView : UIWebView {
-  NSString* _URL;
-}
-
-@property(nonatomic,copy) NSString* URL;
-
-- (id)initWithURL:(NSString*)URL;
-
-@end
+typedef enum {
+  TTURLArgumentTypeNone,
+  TTURLArgumentTypePointer,
+  TTURLArgumentTypeBool,
+  TTURLArgumentTypeInteger,
+  TTURLArgumentTypeLongLong,
+  TTURLArgumentTypeFloat,
+  TTURLArgumentTypeDouble,
+} TTURLArgumentType;

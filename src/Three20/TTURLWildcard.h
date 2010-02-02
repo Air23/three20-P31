@@ -14,18 +14,22 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "Three20/TTURLPatternText.h"
+#import "Three20/TTURLArgumentType.h"
+#import "Three20/TTURLSelector.h"
 
-/**
- * A web view that displays a YouTube video.
- */
-@interface TTYouTubeView : UIWebView {
-  NSString* _URL;
+@interface TTURLWildcard : NSObject <TTURLPatternText> {
+  NSString*         _name;
+  NSInteger         _argIndex;
+  TTURLArgumentType _argType;
+  TTURLSelector*    _selector;
 }
 
-@property(nonatomic,copy) NSString* URL;
+@property(nonatomic,copy)   NSString*         name;
+@property(nonatomic)        NSInteger         argIndex;
+@property(nonatomic)        TTURLArgumentType argType;
+@property(nonatomic,retain) TTURLSelector*    selector;
 
-- (id)initWithURL:(NSString*)URL;
+- (void)deduceSelectorForClass:(Class)cls;
 
 @end

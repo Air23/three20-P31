@@ -101,7 +101,7 @@ const static CGFloat kButtonHeight = 40.0;
 - (void)setupInitialFrame
 {
 	// Top and bottom padding
-	CGFloat frameHeight = ( UIInterfaceOrientationIsLandscape( TTInterfaceOrientation() ) ) ? 0.0 : 35.0;
+	CGFloat frameHeight = 35.0;
 	
 	// Add our UITextFields in if we have any
 	if( _textFields != nil )
@@ -193,9 +193,12 @@ const static CGFloat kButtonHeight = 40.0;
 }
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSNotifications
+
 - (void)orientationDidChangeNotification:(NSNotification*)note
 {
-	// Rotate ourself
+	// Rotate ourself if we are going to portrait
 	self.transform = TTRotateTransformForOrientation( TTInterfaceOrientation() );
 
 	// Adjust our xPos

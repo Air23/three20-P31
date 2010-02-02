@@ -14,36 +14,45 @@
 // limitations under the License.
 //
 
-#import "Three20/TTGlobalCorePaths.h"
+#import "Three20/TTURLLiteral.h"
 
-#import "Three20/TTGlobalCore.h"
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-BOOL TTIsBundleURL(NSString* URL) {
-  return [URL hasPrefix:@"bundle://"];
-}
+#import "Three20/TTCorePreprocessorMacros.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-BOOL TTIsDocumentsURL(NSString* URL) {
-  return [URL hasPrefix:@"documents://"];
-}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTURLLiteral
+
+@synthesize name = _name;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-NSString* TTPathForBundleResource(NSString* relativePath) {
-  NSString* resourcePath = [[NSBundle mainBundle] resourcePath];
-  return [resourcePath stringByAppendingPathComponent:relativePath];
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-NSString* TTPathForDocumentsResource(NSString* relativePath) {
-  static NSString* documentsPath = nil;
-  if (!documentsPath) {
-    NSArray* dirs = NSSearchPathForDirectoriesInDomains(
-      NSDocumentDirectory, NSUserDomainMask, YES);
-    documentsPath = [[dirs objectAtIndex:0] retain];
+- (id)init {
+  if (self = [super init]) {
+    _name = nil;
   }
-  return [documentsPath stringByAppendingPathComponent:relativePath];
+  return self;
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_name);
+  [super dealloc];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (BOOL)match:(NSString*)text {
+  return [text isEqualToString:_name];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (NSString*)convertPropertyOfObject:(id)object {
+  return _name;
+}
+
+
+@end

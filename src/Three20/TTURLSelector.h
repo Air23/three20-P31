@@ -14,18 +14,19 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "Three20/TTURLArguments.h"
 
-/**
- * A web view that displays a YouTube video.
- */
-@interface TTYouTubeView : UIWebView {
-  NSString* _URL;
+@interface TTURLSelector : NSObject {
+  NSString* _name;
+  SEL _selector;
+  TTURLSelector* _next;
 }
 
-@property(nonatomic,copy) NSString* URL;
+@property(nonatomic,readonly) NSString* name;
+@property(nonatomic,retain) TTURLSelector* next;
 
-- (id)initWithURL:(NSString*)URL;
+- (id)initWithName:(NSString*)name;
+
+- (NSString*)perform:(id)object returnType:(TTURLArgumentType)returnType;
 
 @end

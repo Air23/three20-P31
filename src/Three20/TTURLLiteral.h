@@ -14,18 +14,12 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "Three20/TTURLPatternText.h"
 
-/**
- * A web view that displays a YouTube video.
- */
-@interface TTYouTubeView : UIWebView {
-  NSString* _URL;
+@interface TTURLLiteral : NSObject <TTURLPatternText> {
+  NSString* _name;
 }
 
-@property(nonatomic,copy) NSString* URL;
-
-- (id)initWithURL:(NSString*)URL;
+@property(nonatomic,copy) NSString* name;
 
 @end

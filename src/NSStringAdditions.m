@@ -16,18 +16,15 @@
 
 #import "Three20/NSStringAdditions.h"
 
+#import "Three20/TTDebug.h"
 #import "Three20/TTMarkupStripper.h"
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Additions.
- */
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation NSString (TTAdditions)
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// public
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)isWhitespaceAndNewlines {
   NSCharacterSet* whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   for (NSInteger i = 0; i < self.length; ++i) {
@@ -39,20 +36,28 @@
   return YES;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)isWhitespace {
   return [self isWhitespaceAndNewlines];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)isEmptyOrWhitespace {
   return !self.length || 
          ![self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)stringByRemovingHTMLTags {
   TTMarkupStripper* stripper = [[[TTMarkupStripper alloc] init] autorelease];
   return [stripper parse:self];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 // Copied and pasted from http://www.mail-archive.com/cocoa-dev@lists.apple.com/msg28175.html
 - (NSDictionary*)queryDictionaryUsingEncoding:(NSStringEncoding)encoding {
   NSCharacterSet* delimiterSet = [NSCharacterSet characterSetWithCharactersInString:@"&;"];
@@ -75,6 +80,8 @@
   return [NSDictionary dictionaryWithDictionary:pairs];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)stringByAddingQueryDictionary:(NSDictionary*)query {
   NSMutableArray* pairs = [NSMutableArray array];
   for (NSString* key in [query keyEnumerator]) {
@@ -93,6 +100,8 @@
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSComparisonResult)versionStringCompare:(NSString *)other {
   NSArray *oneComponents = [self componentsSeparatedByString:@"a"];
   NSArray *twoComponents = [other componentsSeparatedByString:@"a"];

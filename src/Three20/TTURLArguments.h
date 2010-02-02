@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
-#import "Three20/TTGlobalStyle.h"
+#import "Three20/TTURLArgumentType.h"
 
-
+TTURLArgumentType TTConvertArgumentType(char argType);
+TTURLArgumentType TTURLArgumentTypeForProperty(Class cls, NSString* propertyName);

@@ -10,6 +10,9 @@
 #import "TTModel.h"
 
 
+#define kP31DragRefreshTableHeaderViewTag 234323
+
+
 @class P31RefreshTableHeaderView;
 
 @interface P31DragRefreshTableViewDelegate : TTTableViewVarHeightDelegate <TTModelDelegate>

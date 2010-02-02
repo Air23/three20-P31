@@ -14,38 +14,26 @@
 // limitations under the License.
 //
 
-#import "Three20/TTGlobalNetwork.h"
+#import "Three20/TTImageLayer.h"
 
-#import "Three20/TTDebug.h"
-
-#import <pthread.h>
-
-static int              gNetworkTaskCount = 0;
-static pthread_mutex_t  gMutex = PTHREAD_MUTEX_INITIALIZER;
+#import "Three20/TTImageView.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-void TTNetworkRequestStarted() {
-  pthread_mutex_lock(&gMutex);
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTImageLayer
 
-  if (0 == gNetworkTaskCount) {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-  }
-  gNetworkTaskCount++;
+@synthesize override = _override;
 
-  pthread_mutex_unlock(&gMutex);
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-void TTNetworkRequestStopped() {
-  pthread_mutex_lock(&gMutex);
-
-  --gNetworkTaskCount;
-  TTDASSERT(gNetworkTaskCount >= 0);
-  gNetworkTaskCount = MAX(0, gNetworkTaskCount);
-
-  if (gNetworkTaskCount == 0) {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+- (void)display {
+  if (nil != _override) {
+    self.contents = (id)_override.image.CGImage;
+  } else {
+    return [super display];
   }
-
-  pthread_mutex_unlock(&gMutex);
 }
+
+
+@end

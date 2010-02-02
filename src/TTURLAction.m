@@ -14,102 +14,84 @@
 // limitations under the License.
 //
 
-#import "Three20/TTView.h"
+#import "Three20/TTURLAction.h"
 
-#import "Three20/TTGlobalCore.h"
-
-#import "Three20/TTLayout.h"
+#import "Three20/TTDebug.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation TTView
+@implementation TTURLAction
 
-@synthesize style   = _style;
-@synthesize layout  = _layout;
+@synthesize urlPath       = _urlPath;
+@synthesize parentURLPath = _parentURLPath;
+@synthesize query         = _query;
+@synthesize state         = _state;
+@synthesize animated      = _animated;
+@synthesize withDelay     = _withDelay;
+@synthesize transition    = _transition;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark -
-#pragma mark NSObject
++ (id)actionWithURLPath:(NSString*)urlPath {
+  return [[[self alloc] initWithURLPath:urlPath] autorelease];
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (id)initWithFrame:(CGRect)frame {
-  if (self = [super initWithFrame:frame]) {
-    self.contentMode = UIViewContentModeRedraw;
+- (id)initWithURLPath:(NSString*)urlPath {
+  if (self = [super init]) {
+    TTDASSERT(nil != urlPath);
+    self.urlPath = urlPath;
+    self.animated = NO;
+    self.withDelay = NO;
+    self.transition = UIViewAnimationTransitionNone;
   }
+
   return self;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_style);
-  TT_RELEASE_SAFELY(_layout);
-  [super dealloc];
+- (TTURLAction*)applyParentURLPath:(NSString*)parentURLPath {
+  self.parentURLPath = parentURLPath;
+  return self;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark -
-#pragma mark UIView
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)drawRect:(CGRect)rect {
-  TTStyle* style = self.style;
-  if (nil != style) {
-    TTStyleContext* context = [[[TTStyleContext alloc] init] autorelease];
-    context.delegate = self;
-    context.frame = self.bounds;
-    context.contentFrame = context.frame;
-
-    [style draw:context];
-    if (!context.didDrawContent) {
-      [self drawContent:self.bounds];
-    }
-
-  } else {
-    [self drawContent:self.bounds];
-  }
+- (TTURLAction*)applyQuery:(NSDictionary*)query {
+  self.query = query;
+  return self;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)layoutSubviews {
-  TTLayout* layout = self.layout;
-  if (nil != layout) {
-    [layout layoutSubviews:self.subviews forView:self];
-  }
+- (TTURLAction*)applyState:(NSDictionary*)state {
+  self.state = state;
+  return self;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGSize)sizeThatFits:(CGSize)size {
-  TTStyleContext* context = [[[TTStyleContext alloc] init] autorelease];
-  context.delegate = self;
-  context.font = nil;
-  return [_style addToSize:CGSizeZero context:context];
+- (TTURLAction*)applyAnimated:(BOOL)animated {
+  self.animated = animated;
+  return self;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setStyle:(TTStyle*)style {
-  if (style != _style) {
-    [_style release];
-    _style = [style retain];
-    
-    [self setNeedsDisplay];
-  }  
+- (TTURLAction*)applyWithDelay:(BOOL)withDelay {
+  self.withDelay = withDelay;
+  return self;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)drawContent:(CGRect)rect {
+- (TTURLAction*)applyTransition:(UIViewAnimationTransition)transition {
+  self.transition = transition;
+  return self;
 }
 
 

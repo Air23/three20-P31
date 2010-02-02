@@ -17,15 +17,14 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-/**
- * A web view that displays a YouTube video.
- */
-@interface TTYouTubeView : UIWebView {
-  NSString* _URL;
+#import <QuartzCore/QuartzCore.h>
+
+@class TTImageView;
+
+@interface TTImageLayer : CALayer {
+  TTImageView* _override;
 }
 
-@property(nonatomic,copy) NSString* URL;
-
-- (id)initWithURL:(NSString*)URL;
+@property(nonatomic,assign) TTImageView* override;
 
 @end

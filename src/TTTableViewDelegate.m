@@ -106,7 +106,9 @@ static const CGFloat kSectionHeaderHeight = 35;
 					userInfoDict = [NSDictionary dictionaryWithObject:item.userInfo forKey:@"__userInfo__"];
 				}
 
-				[[TTNavigator navigator] openURL:item.URL query:userInfoDict animated:YES];
+				[[TTNavigator navigator] openURLAction:[[[TTURLAction actionWithURLPath:item.URL]
+														 applyQuery:userInfoDict]
+														applyAnimated:YES]];
 			}
 			else
 			{

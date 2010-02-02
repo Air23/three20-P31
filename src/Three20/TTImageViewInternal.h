@@ -14,18 +14,16 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "Three20/TTImageView.h"
+
+@interface TTImageView (TTInternal)
 
 /**
- * A web view that displays a YouTube video.
+ * Useful when overriding the TTImageView class's setImage method.
+ * @see TTPhotoView
+ *
+ * @protected
  */
-@interface TTYouTubeView : UIWebView {
-  NSString* _URL;
-}
-
-@property(nonatomic,copy) NSString* URL;
-
-- (id)initWithURL:(NSString*)URL;
+- (void)setImage:(UIImage*)image;
 
 @end

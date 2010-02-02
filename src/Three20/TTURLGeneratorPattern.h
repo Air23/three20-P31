@@ -14,18 +14,17 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "Three20/TTURLPattern.h"
 
-/**
- * A web view that displays a YouTube video.
- */
-@interface TTYouTubeView : UIWebView {
-  NSString* _URL;
+@interface TTURLGeneratorPattern : TTURLPattern {
+  Class _targetClass;
 }
 
-@property(nonatomic,copy) NSString* URL;
+@property(nonatomic) Class targetClass;
 
-- (id)initWithURL:(NSString*)URL;
+- (id)initWithTargetClass:(Class)targetClass;
+
+- (void)compile;
+- (NSString*)generateURLFromObject:(id)object;
 
 @end
