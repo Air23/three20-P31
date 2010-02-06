@@ -24,6 +24,7 @@
 #import "Three20/TTURLRequestQueue.h"
 #import "Three20/TTSearchDisplayController.h"
 #import "Three20/TTStyleSheet.h"
+#import "Three20/TTDefaultStyleSheet.h"
 #import "Three20/TTNavigator.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,7 +105,7 @@
     _frozenState = nil;
     _navigationBarStyle = UIBarStyleDefault;
     _navigationBarTintColor = nil;
-    _statusBarStyle = UIStatusBarStyleDefault;
+    _statusBarStyle = TTSTYLEVAR(statusBarStyle);
     _hasViewAppeared = NO;
     _isViewAppearing = NO;
     _autoresizesForKeyboard = NO;
@@ -303,7 +304,7 @@
       UISearchBar* searchBar = [[[UISearchBar alloc] init] autorelease];
       [searchBar sizeToFit];
 	  searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-
+		searchBar.tintColor = TTSTYLEVAR(searchBarTintColor);
       _searchController = [[TTSearchDisplayController alloc] initWithSearchBar:searchBar
                                                              contentsController:self];
     }
