@@ -480,6 +480,7 @@ static const CGFloat kBannerViewHeight = 22;
     _tableView.autoresizingMask =  UIViewAutoresizingFlexibleWidth
                                    | UIViewAutoresizingFlexibleHeight;
 
+	_tableView.separatorColor = TTSTYLEVAR(searchTableSeparatorColor);
     UIColor* backgroundColor = _tableViewStyle == UITableViewStyleGrouped
       ? TTSTYLEVAR(tableGroupedBackgroundColor)
       : TTSTYLEVAR(tablePlainBackgroundColor);
