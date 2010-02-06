@@ -10,6 +10,7 @@
 #import <Three20/TTGlobalUI.h>
 #import <Three20/TTGlobalUINavigator.h>
 #import "TTTableViewController.h"
+#import "P31StyleSheet.h"
 #import "P31RefreshTableHeaderView.h"
 
 
@@ -25,7 +26,7 @@
 		// Add our refresh header	
 		_refreshHeaderView = [[P31RefreshTableHeaderView alloc] initWithFrame:CGRectMake( 0.0f, 0.0f - _controller.tableView.bounds.size.height, TTScreenBounds().size.width, _controller.tableView.bounds.size.height )];
 		_refreshHeaderView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-		_refreshHeaderView.backgroundColor = RGBCOLOR( 226, 231, 237 );
+		_refreshHeaderView.backgroundColor = TTSTYLEVAR(refreshTableHeaderBackgroundColor);
 		_refreshHeaderView.tag = kP31DragRefreshTableHeaderViewTag;
 		[_controller.tableView addSubview:_refreshHeaderView];
 		

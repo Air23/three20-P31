@@ -26,6 +26,7 @@
 // Refresh Table Header View
 @property (nonatomic, readonly) UIColor *refreshTableHeaderTextColor;
 @property (nonatomic, readonly) UIColor *refreshTableHeaderTextShadowColor;
+@property (nonatomic, readonly) UIColor *refreshTableHeaderBackgroundColor;
 
 
 // Fonts

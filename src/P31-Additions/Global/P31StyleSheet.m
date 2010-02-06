@@ -271,11 +271,17 @@
 	return RGBCOLOR( 87.0, 108.0, 137.0 );
 }
 
+
 - (UIColor*)refreshTableHeaderTextShadowColor
 {
 	return [UIColor colorWithWhite:0.9f alpha:1.0f];
 }
 
+
+- (UIColor*)refreshTableHeaderBackgroundColor
+{
+	return RGBCOLOR( 226, 231, 237 );
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark UIFonts
