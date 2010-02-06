@@ -824,5 +824,8 @@
     [TTSolidFillStyle styleWithColor:color next:nil]]];
 }
 
+- (UIStatusBarStyle)statusBarStyle {
+	return UIStatusBarStyleDefault;
+}
 
 @end

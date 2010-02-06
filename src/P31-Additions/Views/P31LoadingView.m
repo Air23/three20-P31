@@ -110,7 +110,7 @@ static UIImage *doneImage;
 
 - (void)dealloc
 {
-	NSLog( @"dealloc loadingView" );
+	TTDPRINT( @"dealloc loadingView" );
 	[_backgroundWindow release];
 	
 	[super dealloc];
