@@ -76,6 +76,7 @@
 @property(nonatomic,readonly) UIFont* activityBannerFont;
 
 @property(nonatomic,readonly) UITableViewCellSelectionStyle tableSelectionStyle;
+@property(nonatomic,readonly) UIStatusBarStyle statusBarStyle;
 
 - (TTStyle*)selectionFillStyle:(TTStyle*)next;
 
