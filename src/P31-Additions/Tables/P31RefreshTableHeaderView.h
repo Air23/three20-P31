@@ -12,12 +12,14 @@ typedef enum {
 } RefreshHeaderStatus;
 
 
+@class TTView;
+
 @interface P31RefreshTableHeaderView : UIView
 {
-  NSDate *_lastUpdatedDate;
+	NSDate *_lastUpdatedDate;
 	UILabel *_lastUpdatedLabel;
 	UILabel *_statusLabel;
-	UIImageView *_arrowImage;
+	TTView *_arrowImageView;
 	UIActivityIndicatorView *_activityView;
 
 	BOOL _isFlipped;

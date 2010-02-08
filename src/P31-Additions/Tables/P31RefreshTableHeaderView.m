@@ -44,12 +44,13 @@
 		[self addSubview:_statusLabel];
 		[_statusLabel release];
 
-		_arrowImage = [[UIImageView alloc] initWithFrame:CGRectMake( 25.0f, frame.size.height - 65.0f, 30.0f, 55.0f )];
-		_arrowImage.contentMode = UIViewContentModeScaleAspectFit;
-		_arrowImage.image = TTIMAGE( @"bundle://Prime31.bundle/images/blueArrow.png" );
-		[_arrowImage layer].transform = CATransform3DMakeRotation( M_PI, 0.0f, 0.0f, 1.0f );
-		[self addSubview:_arrowImage];
-		[_arrowImage release];
+		_arrowImageView = [[TTView alloc] initWithFrame:CGRectMake( 25.0f, frame.size.height - 65.0f, 23.0f, 60.0f )];
+		_arrowImageView.backgroundColor = [UIColor clearColor];
+		_arrowImageView.style = TTSTYLE(refreshTableHeaderArrow);
+		
+		[_arrowImageView layer].transform = CATransform3DMakeRotation( M_PI, 0.0f, 0.0f, 1.0f );
+		[self addSubview:_arrowImageView];
+		[_arrowImageView release];
 
 		_activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 		_activityView.frame = CGRectMake( 25.0f, frame.size.height - 38.0f, 20.0f, 20.0f );
@@ -68,7 +69,7 @@
 {
 	_activityView = nil;
 	_statusLabel = nil;
-	_arrowImage = nil;
+	_arrowImageView = nil;
 	_lastUpdatedLabel = nil;
 	[super dealloc];
 }
@@ -81,7 +82,7 @@
 {
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:animated ? .18 : 0.0];
-	[_arrowImage layer].transform = _isFlipped ? CATransform3DMakeRotation( M_PI, 0.0f, 0.0f, 1.0f ) : CATransform3DMakeRotation( M_PI * 2, 0.0f, 0.0f, 1.0f );
+	[_arrowImageView layer].transform = _isFlipped ? CATransform3DMakeRotation( M_PI, 0.0f, 0.0f, 1.0f ) : CATransform3DMakeRotation( M_PI * 2, 0.0f, 0.0f, 1.0f );
 	[UIView commitAnimations];
 
 	_isFlipped = !_isFlipped;
@@ -143,13 +144,13 @@
 	if( shouldShow )
 	{
 		[_activityView startAnimating];
-		_arrowImage.hidden = YES;
+		_arrowImageView.hidden = YES;
 		[self setStatus:RefreshHeaderLoadingStatus];
 	}
 	else
 	{
 		[_activityView stopAnimating];
-		_arrowImage.hidden = NO;
+		_arrowImageView.hidden = NO;
 	}
 
 }

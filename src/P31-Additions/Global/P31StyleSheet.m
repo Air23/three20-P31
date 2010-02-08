@@ -283,6 +283,17 @@
 	return RGBCOLOR( 226, 231, 237 );
 }
 
+
+- (TTStyle*)refreshTableHeaderArrow
+{
+	UIImage *image = TTIMAGE( @"bundle://Prime31.bundle/images/blueArrow.png" );
+	TTImageStyle *style = [TTImageStyle styleWithImage:image next:nil];
+	style.contentMode = UIViewContentModeScaleToFill;
+	
+	return style;
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark UIFonts
 
