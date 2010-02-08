@@ -132,7 +132,6 @@ static UIImage *doneImage;
 	{
 		[self removeFromSuperview];
 	}
-
 }
 
 
@@ -173,6 +172,12 @@ static UIImage *doneImage;
 	_backgroundWindow.alpha = 0.0;
 	
 	[UIView commitAnimations];
+}
+
+
+- (void)hideAfterDelay:(NSTimeInterval)delay
+{
+	[self performSelector:@selector(hide) withObject:nil afterDelay:delay];
 }
 
 

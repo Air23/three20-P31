@@ -18,6 +18,7 @@
 
 - (void)show;
 - (void)hide;
+- (void)hideAfterDelay:(NSTimeInterval)delay;
 - (void)hideWithDoneImage;
 - (void)hideWithDoneImageAndMessage:(NSString*)message;
 
