@@ -23,7 +23,6 @@
 	UIWindow *_dimWindow;
 	NSString *_title;
 	NSString *_body;
-	float _bodyTextHeight;
 	BOOL _keyboardIsShowing;
 	
 	CGSize _titleSize;
