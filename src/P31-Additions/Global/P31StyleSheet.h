@@ -38,6 +38,8 @@
 @property (nonatomic, readonly) UIColor *alertTextColor;
 @property (nonatomic, readonly) UIColor *alertTextTintColor;
 
+@property (nonatomic, readonly) UIColor *loadingViewBackgroundColor;
+@property (nonatomic, readonly) UIColor *loadingViewTextColor;
 
 
 @end

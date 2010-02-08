@@ -6,6 +6,7 @@
 #import "P31LoadingView.h"
 #import "TTURLCache.h"
 #import <QuartzCore/QuartzCore.h>
+#import "P31StyleSheet.h"
 
 
 #define kActivityIndicatorTag 2
@@ -69,7 +70,7 @@ static UIImage *doneImage;
 	if( self = [super initWithFrame:frame] )
 	{
 		// Setup our layer
-		self.layer.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.75].CGColor;
+		self.layer.backgroundColor = TTSTYLEVAR(loadingViewBackgroundColor).CGColor;
 		self.layer.cornerRadius = 12.0;
 		
 		// Setup our label
@@ -77,7 +78,7 @@ static UIImage *doneImage;
 		_label.tag = kLabelTag;
 		_label.hidden = YES;
 		_label.text = message;
-		_label.textColor = [UIColor whiteColor];
+		_label.textColor = TTSTYLEVAR(loadingViewTextColor);
 		_label.backgroundColor = [UIColor clearColor];
 		_label.textAlignment = UITextAlignmentCenter;
 		_label.lineBreakMode = UILineBreakModeWordWrap;
