@@ -182,6 +182,12 @@ static UIImage *doneImage;
 }
 
 
+- (void)hideWithDoneImageAfterDelay:(NSTimeInterval)delay
+{
+	[self performSelector:@selector(hideWithDoneImage) withObject:nil afterDelay:delay];
+}
+
+
 - (void)hideWithDoneImage
 {
 	[self hideWithDoneImageAndMessage:@"Done"];
@@ -189,6 +195,12 @@ static UIImage *doneImage;
 
 
 - (void)hideWithDoneImageAndMessage:(NSString*)message
+{
+	[self hideWithDoneImageAndMessage:message afterDelay:0.3];
+}
+
+
+- (void)hideWithDoneImageAndMessage:(NSString*)message afterDelay:(NSTimeInterval)delay
 {
 	// Grab the frame of the activityIndicator and shift it up a bit
 	CGRect frame = [self viewWithTag:kActivityIndicatorTag].frame;
@@ -204,7 +216,7 @@ static UIImage *doneImage;
 	iv.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
 	[self addSubview:iv];
 	
-	[self performSelector:@selector(hide) withObject:nil afterDelay:0.3];
+	[self performSelector:@selector(hide) withObject:nil afterDelay:delay];
 }
 
 
