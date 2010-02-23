@@ -321,7 +321,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = TTTwitter_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
-				HEADER_SEARCH_PATHS = ../../src;
+				HEADER_SEARCH_PATHS = "../../src/**";
 				INFOPLIST_FILE = "TTTwitter-Info.plist";
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -339,7 +339,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = TTTwitter_Prefix.pch;
-				HEADER_SEARCH_PATHS = ../../src;
+				HEADER_SEARCH_PATHS = "../../src/**";
 				INFOPLIST_FILE = "TTTwitter-Info.plist";
 				OTHER_LDFLAGS = (
 					"-all_load",

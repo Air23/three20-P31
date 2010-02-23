@@ -17,10 +17,6 @@
 // Launcher
 #import "P31LauncherViewController.h"
 
-// Tables
-#import "P31RefreshTableHeaderView.h"
-#import "P31DragRefreshTableViewDelegate.h"
-
 // Views
 #import "P31AlertView.h"
 #import "P31PopupButtonView.h"
