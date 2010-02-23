@@ -264,37 +264,6 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark P31RefreshTableHeaderView
-
-- (UIColor*)refreshTableHeaderTextColor
-{
-	return RGBCOLOR( 87.0, 108.0, 137.0 );
-}
-
-
-- (UIColor*)refreshTableHeaderTextShadowColor
-{
-	return [UIColor colorWithWhite:0.9f alpha:1.0f];
-}
-
-
-- (UIColor*)refreshTableHeaderBackgroundColor
-{
-	return RGBCOLOR( 226, 231, 237 );
-}
-
-
-- (TTStyle*)refreshTableHeaderArrow
-{
-	UIImage *image = TTIMAGE( @"bundle://Prime31.bundle/images/blueArrow.png" );
-	TTImageStyle *style = [TTImageStyle styleWithImage:image next:nil];
-	style.contentMode = UIViewContentModeScaleToFill;
-	
-	return style;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark P31LoadingView
 
 - (UIColor*)loadingViewBackgroundColor

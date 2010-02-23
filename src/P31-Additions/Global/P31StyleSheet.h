@@ -23,12 +23,6 @@
 @property (nonatomic, readonly) UIColor *launcherBackgroundColor;
 
 
-// Refresh Table Header View
-@property (nonatomic, readonly) UIColor *refreshTableHeaderTextColor;
-@property (nonatomic, readonly) UIColor *refreshTableHeaderTextShadowColor;
-@property (nonatomic, readonly) UIColor *refreshTableHeaderBackgroundColor;
-
-
 // Fonts
 @property (nonatomic, readonly) UIFont *alertTitleFont;
 @property (nonatomic, readonly) UIFont *alertBodyFont;

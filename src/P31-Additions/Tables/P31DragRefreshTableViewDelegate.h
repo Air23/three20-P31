@@ -6,7 +6,7 @@
 //  Copyright 2009 Prime31 Studios. All rights reserved.
 //
 
-#import "TTTableViewDelegate.h"
+#import "TTTableViewVarHeightDelegate.h"
 #import "TTModel.h"
 
 
