@@ -99,5 +99,11 @@
  */
 - (NSString*)stringByURLEncodingStringParameter;
 
+
+/**
+ * Decodes any HTML entities
+ */
+- (NSString*)stringByDecodingHTMLEntities;
+
 @end
 
