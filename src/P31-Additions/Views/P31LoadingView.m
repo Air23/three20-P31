@@ -131,6 +131,7 @@ static UIImage *doneImage;
 	else
 	{
 		[self removeFromSuperview];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"P31LoadingViewFinished" object:nil];
 	}
 }
 
