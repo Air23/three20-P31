@@ -20,6 +20,7 @@
 		BEBB0E421002B93F00744230 /* ContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEBB0E411002B93F00744230 /* ContentController.m */; };
 		BEDCFBB40F4FFF820060B7D1 /* Three20.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BEDCFBB30F4FFF820060B7D1 /* Three20.bundle */; };
 		BEE7FD150F3581C1002788A5 /* libThree20.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEE7FD130F358198002788A5 /* libThree20.a */; };
+		C6A976FF1144171D00CF42EC /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C6A976FE1144171D00CF42EC /* libxml2.2.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		BEBB0E411002B93F00744230 /* ContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentController.m; sourceTree = "<group>"; };
 		BEDCFBB30F4FFF820060B7D1 /* Three20.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Three20.bundle; path = ../../src/Three20.bundle; sourceTree = SOURCE_ROOT; };
 		BEE7FD0E0F358198002788A5 /* Three20.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20.xcodeproj; path = ../../src/Three20.xcodeproj; sourceTree = SOURCE_ROOT; };
+		C6A976FE1144171D00CF42EC /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = /usr/lib/libxml2.2.dylib; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
 				BE1D843A0F8D104B00EC8BB8 /* QuartzCore.framework in Frameworks */,
+				C6A976FF1144171D00CF42EC /* libxml2.2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +151,7 @@
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				C6A976FE1144171D00CF42EC /* libxml2.2.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -276,6 +280,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = TTNavigatorDemo_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				HEADER_SEARCH_PATHS = "../../src/**";
 				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -292,6 +297,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = TTNavigatorDemo_Prefix.pch;
+				HEADER_SEARCH_PATHS = "../../src/**";
 				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
 					"-all_load",

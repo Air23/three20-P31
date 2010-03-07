@@ -19,6 +19,7 @@
 		6E105AD2112CDBCC00549F42 /* TTTwitterTweet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E105AD1112CDBCC00549F42 /* TTTwitterTweet.m */; };
 		6E105B45112CDFF000549F42 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E105B44112CDFF000549F42 /* Icon.png */; };
 		6EECCB78112CE5B700A8908C /* README.mdown in Resources */ = {isa = PBXBuildFile; fileRef = 6EECCB77112CE5B700A8908C /* README.mdown */; };
+		C6A977251144176000CF42EC /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C6A977241144176000CF42EC /* libxml2.2.dylib */; };
 		EB383B6110BBF6200000B2D2 /* libThree20.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB383B5F10BBF6180000B2D2 /* libThree20.a */; };
 		EB383B6510BBF62B0000B2D2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB383B6410BBF62B0000B2D2 /* QuartzCore.framework */; };
 		EB383B6D10BBF6360000B2D2 /* Three20.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EB383B6C10BBF6360000B2D2 /* Three20.bundle */; };
@@ -70,6 +71,7 @@
 		6E105B44112CDFF000549F42 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = SOURCE_ROOT; };
 		6EECCB77112CE5B700A8908C /* README.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.mdown; sourceTree = SOURCE_ROOT; };
 		8D1107310486CEB800E47090 /* TTTwitter-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TTTwitter-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		C6A977241144176000CF42EC /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = /usr/lib/libxml2.2.dylib; sourceTree = "<absolute>"; };
 		EB383B5710BBF6180000B2D2 /* Three20.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20.xcodeproj; path = ../../src/Three20.xcodeproj; sourceTree = SOURCE_ROOT; };
 		EB383B6410BBF62B0000B2D2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EB383B6C10BBF6360000B2D2 /* Three20.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Three20.bundle; path = ../../src/Three20.bundle; sourceTree = SOURCE_ROOT; };
@@ -85,6 +87,7 @@
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				EB383B6110BBF6200000B2D2 /* libThree20.a in Frameworks */,
 				EB383B6510BBF62B0000B2D2 /* QuartzCore.framework in Frameworks */,
+				C6A977251144176000CF42EC /* libxml2.2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +154,7 @@
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
 				EB383B6410BBF62B0000B2D2 /* QuartzCore.framework */,
+				C6A977241144176000CF42EC /* libxml2.2.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
