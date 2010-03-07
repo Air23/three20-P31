@@ -32,9 +32,9 @@ Three20 is compiled as a static library, and the easiest way to add it to your p
    "Create Folder References" is selected,  "Copy items" is unchecked, and "Reference Type" is 
    "Relative to Project" before clicking "Add".
 
-6. Now you need to add the Core Animation framework to your project.  Right click on the
+6. Now you need to add the Core Animation and libxml2.2 frameworks to your project.  Right click on the
    "Frameworks" group in your project (or equivalent) and select Add > Existing Frameworks. 
-   Then locate QuartzCore.framework and add it to the project.
+   Then locate QuartzCore.framework and libxml2.2.dlib and add them to the project.
 
 7. Finally, we need to tell your project where to find the Three20 headers.  Open your
    "Project Settings" and go to the "Build" tab. Look for "Header Search Paths" and double-click
