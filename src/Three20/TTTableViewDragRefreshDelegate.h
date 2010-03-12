@@ -15,13 +15,15 @@
 //
 
 #import "Three20/TTTableViewVarHeightDelegate.h"
+#import "Three20/TTTableViewDelegate.h"
+
 
 @class TTTableHeaderDragRefreshView;
 
 /**
  * Pulled from the uprise78/three20-P31 fork with consent of uprise78.
  */
-@interface TTTableViewDragRefreshDelegate : TTTableViewVarHeightDelegate {
+@interface TTTableViewDragRefreshDelegate : TTTableViewDelegate  { //TTTableViewVarHeightDelegate
   TTTableHeaderDragRefreshView* _headerView;
   BOOL                          _isDragging;
 }
