@@ -126,6 +126,8 @@
 
 - (void)launcherView:(TTLauncherView*)launcher didSelectItem:(TTLauncherItem*)item;
 
+- (BOOL)launcherViewShouldBeginEditing:(TTLauncherView*)launcher;
+
 - (void)launcherViewDidBeginEditing:(TTLauncherView*)launcher;
 
 - (void)launcherViewDidEndEditing:(TTLauncherView*)launcher;

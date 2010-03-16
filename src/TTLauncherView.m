@@ -438,8 +438,15 @@ static const NSInteger kDefaultColumnCount = 3;
   }
 }
 
-- (void)editHoldTimer:(NSTimer*)timer {
+- (void)editHoldTimer:(NSTimer*)timer {	
   _editHoldTimer = nil;
+
+  if([_delegate respondsToSelector:@selector(launcherViewShouldBeginEditing:)])
+  {
+    if(![_delegate launcherViewShouldBeginEditing:self])
+      return;
+  }
+	
   [self beginEditing];
 
   TTUserInfo* info = timer.userInfo;
