@@ -105,5 +105,11 @@
  */
 - (NSString*)stringByDecodingHTMLEntities;
 
+
+/**
+ * Decodes any HTML entities manually
+ */
+- (NSString*)stringByDecodingHTMLEntitiesManually;
+
 @end
 

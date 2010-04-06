@@ -131,9 +131,10 @@ static UIImage *doneImage;
 	else
 	{
 		[self removeFromSuperview];
-    // restore main key window
-    [[TTNavigator navigator].window makeKeyAndVisible];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"P31LoadingViewFinished" object:nil];
+		
+		// restore main key window
+		[[TTNavigator navigator].window makeKeyAndVisible];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"P31LoadingViewFinished" object:nil];
 	}
 }
 
