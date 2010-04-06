@@ -44,7 +44,7 @@ static UIImage *doneImage;
 
 + (P31LoadingView*)loadingViewShowWithMessage:(NSString*)message
 {
-	P31LoadingView *loadingView = [[[P31LoadingView alloc] initWithFrame:CGRectMake( 160 - 75, 240 - 75, 150, 115 ) message:message] autorelease];
+	P31LoadingView *loadingView = [[[P31LoadingView alloc] initWithFrame:CGRectMake( 160 - 75, 240 - 75, 160, 115 ) message:message] autorelease];
 	
 	if( !loadingView )
 		return nil;
@@ -74,7 +74,7 @@ static UIImage *doneImage;
 		self.layer.cornerRadius = 12.0;
 		
 		// Setup our label
-		UILabel *_label = [[[UILabel alloc] initWithFrame:CGRectMake( 0, 12, 150.0, 40.0 )] autorelease];
+		UILabel *_label = [[[UILabel alloc] initWithFrame:CGRectMake( 0, 12, 160.0, 40.0 )] autorelease];
 		_label.tag = kLabelTag;
 		_label.hidden = YES;
 		_label.text = message;
