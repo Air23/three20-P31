@@ -16,15 +16,16 @@
 
 #import "Three20/TTPhotoViewController.h"
 
-#import "Three20/TTGlobalCore.h"
 #import "Three20/TTGlobalCoreLocale.h"
 #import "Three20/TTGlobalUI.h"
 #import "Three20/TTDefaultStyleSheet.h"
 
+#import "Three20/TTURLMap.h"
 #import "Three20/TTURLCache.h"
 #import "Three20/TTPhotoView.h"
 #import "Three20/TTActivityLabel.h"
 #import "Three20/TTNavigator.h"
+#import "Three20/TTScrollView.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // global
@@ -177,7 +178,7 @@ static const NSInteger kActivityLabelTag = 96;
     _photoStatusView.photo = nil;
     [_innerView addSubview:_photoStatusView];
   }
-  
+
   return _photoStatusView;
 }
 
@@ -231,7 +232,7 @@ static const NSInteger kActivityLabelTag = 96;
       _thumbsController.photoSource = _photoSource;
     }
   }
-    
+
   if (URL) {
     TTOpenURL(URL);
   } else {
@@ -253,7 +254,7 @@ static const NSInteger kActivityLabelTag = 96;
     UIBarButtonItem* pauseButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:
       UIBarButtonSystemItemPause target:self action:@selector(pauseAction)] autorelease];
     pauseButton.tag = 1;
-    
+
     [_toolbar replaceItemWithTag:1 withItem:pauseButton];
 
     _slideshowTimer = [NSTimer scheduledTimerWithTimeInterval:kSlideshowInterval
@@ -266,7 +267,7 @@ static const NSInteger kActivityLabelTag = 96;
     UIBarButtonItem* playButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:
       UIBarButtonSystemItemPlay target:self action:@selector(playAction)] autorelease];
     playButton.tag = 1;
-    
+
     [_toolbar replaceItemWithTag:1 withItem:playButton];
 
     [_slideshowTimer invalidate];
@@ -313,27 +314,15 @@ static const NSInteger kActivityLabelTag = 96;
   return self;
 }
 
-- (id)init {
-  if (self = [super init]) {
-    _photoSource = nil;
-    _centerPhoto = nil;
-    _centerPhotoIndex = 0;
-    _scrollView = nil;
-    _photoStatusView = nil;
-    _toolbar = nil;
-    _defaultImage = nil;
-    _captionStyle = nil;
-    _nextButton = nil;
-    _previousButton = nil;
-    _statusText = nil;
-    _thumbsController = nil;
-    _slideshowTimer = nil;
-    _loadTimer = nil;
-    _delayLoad = NO;
-    
-    self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:
-      TTLocalizedString(@"Photo", @"Title for back button that returns to photo browser")
-      style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
+- (id)initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle {
+  if (self = [super initWithNibName:nibName bundle:bundle]) {
+    self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc]
+                                              initWithTitle:
+                                              TTLocalizedString(@"Photo",
+                                                                @"Title for back button that returns to photo browser")
+                                                      style: UIBarButtonItemStylePlain
+                                                     target: nil
+                                                     action: nil] autorelease];
 
     self.statusBarStyle = UIStatusBarStyleBlackTranslucent;
     self.navigationBarStyle = UIBarStyleBlackTranslucent;
@@ -342,6 +331,13 @@ static const NSInteger kActivityLabelTag = 96;
     self.hidesBottomBarWhenPushed = YES;
 
     self.defaultImage = TTIMAGE(@"bundle://Three20.bundle/images/photoDefault.png");
+  }
+
+  return self;
+}
+
+- (id)init {
+  if (self = [self initWithNibName:nil bundle:nil]) {
   }
   return self;
 }
@@ -365,20 +361,20 @@ static const NSInteger kActivityLabelTag = 96;
 - (void)loadView {
   CGRect screenFrame = [UIScreen mainScreen].bounds;
   self.view = [[[UIView alloc] initWithFrame:screenFrame] autorelease];
-    
+
   CGRect innerFrame = CGRectMake(0, 0,
                                  screenFrame.size.width, screenFrame.size.height);
   _innerView = [[UIView alloc] initWithFrame:innerFrame];
   _innerView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
   [self.view addSubview:_innerView];
-  
+
   _scrollView = [[TTScrollView alloc] initWithFrame:screenFrame];
   _scrollView.delegate = self;
   _scrollView.dataSource = self;
   _scrollView.backgroundColor = [UIColor blackColor];
   _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
   [_innerView addSubview:_scrollView];
-  
+
   _nextButton = [[UIBarButtonItem alloc] initWithImage:
     TTIMAGE(@"bundle://Three20.bundle/images/nextIcon.png")
      style:UIBarButtonItemStylePlain target:self action:@selector(nextAction)];
@@ -404,7 +400,7 @@ static const NSInteger kActivityLabelTag = 96;
   _toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
   _toolbar.items = [NSArray arrayWithObjects:
                    space, _previousButton, space, _nextButton, space, nil];
-  [_innerView addSubview:_toolbar];    
+  [_innerView addSubview:_toolbar];
 }
 
 - (void)viewDidUnload {
@@ -457,7 +453,7 @@ static const NSInteger kActivityLabelTag = 96;
   CGFloat alpha = show ? 1 : 0;
   if (alpha == _toolbar.alpha)
     return;
-  
+
   if (animated) {
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:TT_TRANSITION_DURATION];
@@ -476,9 +472,9 @@ static const NSInteger kActivityLabelTag = 96;
   }
 
   [self showCaptions:show];
-  
+
   _toolbar.alpha = alpha;
-  
+
   if (animated) {
     [UIView commitAnimations];
   }
@@ -653,7 +649,7 @@ static const NSInteger kActivityLabelTag = 96;
 
   id<TTPhoto> photo = [_photoSource photoAtIndex:pageIndex];
   [self showPhoto:photo inView:photoView];
-  
+
   return photoView;
 }
 
@@ -683,7 +679,7 @@ static const NSInteger kActivityLabelTag = 96;
   if (_photoSource != photoSource) {
     [_photoSource release];
     _photoSource = [photoSource retain];
-    
+
     [self moveToPhotoAtIndex:0 withDelay:NO];
     self.model = _photoSource;
   }

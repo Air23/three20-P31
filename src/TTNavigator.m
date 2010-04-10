@@ -16,6 +16,8 @@
 
 #import "Three20/TTNavigator.h"
 
+#import "Three20/TTNavigatorWindow.h"
+
 #import "Three20/TTGlobalUI.h"
 #import "Three20/TTGlobalUINavigator.h"
 #import "Three20/TTDebugFlags.h"
@@ -43,30 +45,6 @@ UIViewController *TTOpenURLWithQuery( NSString *URL, NSDictionary *query, BOOL a
 											 applyQuery:query]
 											applyAnimated:animated]];
 }
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTNavigatorWindow : UIWindow
-@end
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation TTNavigatorWindow
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-  if (event.type == UIEventSubtypeMotionShake && [TTNavigator navigator].supportsShakeToReload) {
-    [[TTNavigator navigator] reload];
-  }
-}
-
-
-@end
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -563,7 +541,10 @@ UIViewController *TTOpenURLWithQuery( NSString *URL, NSDictionary *query, BOOL a
 - (UIViewController*)topViewController {
   UIViewController* controller = _rootViewController;
   while (controller) {
-    UIViewController* child = controller.modalViewController;
+    UIViewController* child = controller.popupViewController;
+    if (!child || ![child canBeTopViewController]) {
+      child = controller.modalViewController;
+    }
     if (!child) {
       child = controller.topSubcontroller;
     }

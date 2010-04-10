@@ -18,7 +18,6 @@
 
 #import "Three20/TTTableViewVarHeightDelegate.h"
 
-#import "Three20/TTGlobalCore.h"
 #import "Three20/TTGlobalCoreLocale.h"
 #import "Three20/TTGlobalUI.h"
 #import "Three20/TTGlobalUINavigator.h"
@@ -46,7 +45,7 @@ static const CGFloat kBannerViewHeight = 22;
             tableOverlayView = _tableOverlayView,
             loadingView = _loadingView, errorView= _errorView, emptyView = _emptyView,
             menuView = _menuView, dataSource = _dataSource, tableViewStyle = _tableViewStyle,
-            variableHeightRows = _variableHeightRows;
+            variableHeightRows = _variableHeightRows, showTableShadows = _showTableShadows;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // private
@@ -63,7 +62,7 @@ static const CGFloat kBannerViewHeight = 22;
   if (!_tableView.delegate) {
     [_tableDelegate release];
     _tableDelegate = [[self createDelegate] retain];
-    
+
     // You need to set it to nil before changing it or it won't have any effect
     _tableView.delegate = nil;
     _tableView.delegate = _tableDelegate;
@@ -133,23 +132,20 @@ static const CGFloat kBannerViewHeight = 22;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // NSObject
 
-- (id)initWithStyle:(UITableViewStyle)style {
-  if (self = [super init]) {
-    _tableView = nil;
-    _tableBannerView = nil;
-    _tableOverlayView = nil;
-    _loadingView = nil;
-    _errorView = nil;
-    _emptyView = nil;
-    _menuView = nil;
-    _menuCell = nil;
-    _dataSource = nil;
-    _tableDelegate = nil;
-    _bannerTimer = nil;
-    _variableHeightRows = NO;
-    _tableViewStyle = style;
+- (id)initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle {
+  if (self = [super initWithNibName:nibName bundle:bundle]) {
     _lastInterfaceOrientation = self.interfaceOrientation;
+    _tableViewStyle = UITableViewStylePlain;
   }
+
+  return self;
+}
+
+- (id)initWithStyle:(UITableViewStyle)style {
+  if (self = [self initWithNibName:nil bundle:nil]) {
+    _tableViewStyle = style;
+  }
+
   return self;
 }
 
@@ -174,9 +170,22 @@ static const CGFloat kBannerViewHeight = 22;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // UIViewController
 
-- (void)loadView {
-  [super loadView];
-  self.tableView;
+-(void)viewDidLoad {
+  [super viewDidLoad];
+  self.tableView; //create the tableView if it doesn't already exist
+
+  TTDASSERT(![self.view isKindOfClass:TTTableView.class]);
+  TTDASSERT([self.tableView isKindOfClass:TTTableView.class]);
+  TTDASSERT(self.tableView.superview == self.view);
+  _tableViewStyle = self.tableView.style;
+
+  UIColor* backgroundColor = _tableViewStyle == UITableViewStyleGrouped
+  ? TTSTYLEVAR(tableGroupedBackgroundColor)
+  : TTSTYLEVAR(tablePlainBackgroundColor);
+  if (backgroundColor) {
+    _tableView.backgroundColor = backgroundColor;
+    self.view.backgroundColor = backgroundColor;
+  }
 }
 
 - (void)viewDidUnload {
@@ -209,11 +218,12 @@ static const CGFloat kBannerViewHeight = 22;
     [_tableView reloadData];
   } else if ([_tableView isKindOfClass:[TTTableView class]]) {
     TTTableView* tableView = (TTTableView*)_tableView;
-    tableView.highlightedLabel = nil;    
+    tableView.highlightedLabel = nil;
+    tableView.showShadows = _showTableShadows;
   }
 
   [_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:NO];
-}  
+}
 
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
@@ -259,7 +269,22 @@ static const CGFloat kBannerViewHeight = 22;
 
 - (void)keyboardWillDisappear:(BOOL)animated withBounds:(CGRect)bounds {
   [super keyboardWillDisappear:animated withBounds:bounds];
-  self.tableView.frame = TTRectContract(self.tableView.frame, 0, -bounds.size.height);
+
+  // If we do this when there is currently no table view, we can get into a weird loop where the
+  // table view gets doubly-initialized. self.tableView will try to initialize it; this will call
+  // self.view, which will call -loadView, which often calls self.tableView, which initializes it.
+  if (_tableView) {
+    CGRect previousFrame = self.tableView.frame;
+    self.tableView.frame = TTRectContract(self.tableView.frame, 0, -bounds.size.height);
+
+    // There's any number of edge cases wherein a table view controller will get this callback but
+    // it shouldn't resize itself -- e.g. when a controller has the keyboard up, and then drills
+    // down into this controller. This is a sanity check to avoid situations where the table
+    // extends way off the bottom of the screen and becomes unusable.
+    if (self.tableView.height > self.view.bounds.size.height) {
+      self.tableView.frame = previousFrame;
+    }
+  }
 }
 
 - (void)keyboardDidDisappear:(BOOL)animated withBounds:(CGRect)bounds {
@@ -431,7 +456,7 @@ static const CGFloat kBannerViewHeight = 22;
             TTDCONDITIONLOG(TTDFLAG_TABLEVIEWMODIFICATIONS, @"INSERTING ROW AT %@", newIndexPath);
             [_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
                         withRowAnimation:UITableViewRowAnimationTop];
-            
+
             [_tableView scrollToRowAtIndexPath:newIndexPath
                         atScrollPosition:UITableViewScrollPositionNone animated:NO];
           }
@@ -478,7 +503,9 @@ static const CGFloat kBannerViewHeight = 22;
 // public
 
 - (UITableView*)tableView {
+
   if (!_tableView) {
+
     _tableView = [[TTTableView alloc] initWithFrame:self.view.bounds style:_tableViewStyle];
     _tableView.autoresizingMask =  UIViewAutoresizingFlexibleWidth
                                    | UIViewAutoresizingFlexibleHeight;
@@ -521,10 +548,10 @@ static const CGFloat kBannerViewHeight = 22;
         [_tableBannerView removeFromSuperview];
       }
     }
-    
+
     [_tableBannerView release];
     _tableBannerView = [tableBannerView retain];
-    
+
     if (_tableBannerView) {
       _tableBannerView.frame = [self rectForBannerView];
       _tableBannerView.userInteractionEnabled = NO;
@@ -578,7 +605,7 @@ static const CGFloat kBannerViewHeight = 22;
 - (void)setVariableHeightRows:(BOOL)variableHeightRows {
   if (variableHeightRows != _variableHeightRows) {
     _variableHeightRows = variableHeightRows;
-    
+
     // Force the delegate to be re-created so that it supports the right kind of row measurement
     _tableView.delegate = nil;
   }
@@ -606,7 +633,7 @@ static const CGFloat kBannerViewHeight = 22;
       TT_RELEASE_SAFELY(_errorView);
     }
     _errorView = [view retain];
-    
+
     if (_errorView) {
       [self addToOverlayView:_errorView];
     } else {
@@ -643,7 +670,7 @@ static const CGFloat kBannerViewHeight = 22;
 
   _menuView = [view retain];
   _menuCell = [cell retain];
-  
+
   // Insert the cell below all content subviews
   [_menuCell.contentView insertSubview:_menuView atIndex:0];
 
@@ -659,7 +686,7 @@ static const CGFloat kBannerViewHeight = 22;
       view.left -= _menuCell.contentView.width;
     }
   }
-  
+
   if (animated) {
     [UIView commitAnimations];
   }

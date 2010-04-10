@@ -16,7 +16,7 @@
 
 #import "Three20/TTPickerViewCell.h"
 
-#import "Three20/TTGlobalCore.h"
+#import "Three20/TTCorePreprocessorMacros.h"
 #import "Three20/TTDefaultStyleSheet.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,10 +32,10 @@ static CGFloat kMaxWidth = 250;
 @synthesize object = _object, selected = _selected;
 
 - (id)initWithFrame:(CGRect)frame {
-	if (self = [super initWithFrame:frame]) {
+  if (self = [super initWithFrame:frame]) {
     _object = nil;
     _selected = NO;
-    
+
     _labelView = [[UILabel alloc] init];
     _labelView.backgroundColor = [UIColor clearColor];
     _labelView.textColor = TTSTYLEVAR(textColor);
@@ -44,14 +44,14 @@ static CGFloat kMaxWidth = 250;
     [self addSubview:_labelView];
 
     self.backgroundColor = [UIColor clearColor];
-	}
-	return self;
+  }
+  return self;
 }
 
 - (void)dealloc {
   TT_RELEASE_SAFELY(_object);
   TT_RELEASE_SAFELY(_labelView);
-	[super dealloc];
+  [super dealloc];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,7 +96,7 @@ static CGFloat kMaxWidth = 250;
 
 - (void)setSelected:(BOOL)selected {
   _selected = selected;
-  
+
   _labelView.highlighted = selected;
   [self setNeedsDisplay];
 }

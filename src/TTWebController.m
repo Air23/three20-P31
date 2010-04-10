@@ -35,6 +35,7 @@
 
 @synthesize delegate    = _delegate;
 @synthesize headerView  = _headerView;
+@synthesize webView     = _webView;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,6 +86,16 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+- (id)initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle {
+  if (self = [super initWithNibName:nibName bundle:bundle]) {
+    self.hidesBottomBarWhenPushed = YES;
+  }
+
+  return self;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithNavigatorURL:(NSURL*)URL query:(NSDictionary*)query {
   if (self = [self init]) {
     NSURLRequest* request = [query objectForKey:@"request"];
@@ -100,8 +111,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)init {
-  if (self = [super init]) {
-    self.hidesBottomBarWhenPushed = YES;
+  if (self = [self initWithNibName:nil bundle:nil]) {
   }
   return self;
 }
@@ -111,6 +121,7 @@
 - (void)dealloc {
   TT_RELEASE_SAFELY(_loadingURL);
   TT_RELEASE_SAFELY(_headerView);
+
   [super dealloc];
 }
 
@@ -122,9 +133,9 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)loadView {  
+- (void)loadView {
   [super loadView];
-  
+
   _webView = [[UIWebView alloc] initWithFrame:TTToolbarNavigationFrame()];
   _webView.delegate = self;
   _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth
@@ -161,7 +172,8 @@
 
   _toolbar = [[UIToolbar alloc] initWithFrame:
     CGRectMake(0, self.view.height - TTToolbarHeight(), self.view.width, TTToolbarHeight())];
-  _toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+  _toolbar.autoresizingMask =
+    UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
   _toolbar.tintColor = TTSTYLEVAR(toolbarTintColor);
   _toolbar.items = [NSArray arrayWithObjects:
     _backButton, space, _forwardButton, space, _refreshButton, space, actionButton, nil];
@@ -172,7 +184,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)viewDidUnload {
   [super viewDidUnload];
+
   _webView.delegate = nil;
+
   TT_RELEASE_SAFELY(_webView);
   TT_RELEASE_SAFELY(_toolbar);
   TT_RELEASE_SAFELY(_backButton);
@@ -215,7 +229,7 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (UIView *)rotatingFooterView {
+- (UIView*)rotatingFooterView {
   return _toolbar;
 }
 
@@ -263,7 +277,7 @@
 	  
     return NO;
   }
-  
+
   [_loadingURL release];
   _loadingURL = [request.URL retain];
   _backButton.enabled = [_webView canGoBack];
@@ -287,7 +301,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
   TT_RELEASE_SAFELY(_loadingURL);
-  
+
   self.title = [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
   if (self.navigationItem.rightBarButtonItem == _activityItem) {
     [self.navigationItem setRightBarButtonItem:nil animated:YES];
@@ -295,7 +309,7 @@
   [_toolbar replaceItemWithTag:3 withItem:_refreshButton];
 
   _backButton.enabled = [_webView canGoBack];
-  _forwardButton.enabled = [_webView canGoForward];    
+  _forwardButton.enabled = [_webView canGoForward];
 }
 
 
@@ -344,10 +358,10 @@
 
     if (addingHeader) {
       docView.top += headerView.height;
-      docView.height -= headerView.height; 
+      docView.height -= headerView.height;
     } else if (removingHeader) {
       docView.top -= headerView.height;
-      docView.height += headerView.height; 
+      docView.height += headerView.height;
     }
   }
 }

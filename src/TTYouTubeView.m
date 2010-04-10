@@ -18,7 +18,6 @@
 
 #import "Three20/TTGlobalUI.h"
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
 static CGFloat kDefaultWidth = 140;
 static CGFloat kDefaultHeight = 105;
@@ -48,16 +47,6 @@ wmode=\"transparent\" width=\"%0.0f\" height=\"%0.0f\"></embed>\
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// Deprecated.
-// Remove by March 17, 2010.
-- (id)initWithURL:(NSString*)URL {
-  if (self = [self initWithURLPath:URL]) {
-  }
-  return self;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithURLPath:(NSString*)urlPath {
   if (self = [self initWithFrame:CGRectMake(0, 0, kDefaultWidth, kDefaultHeight)]) {
     self.urlPath = urlPath;
@@ -69,6 +58,7 @@ wmode=\"transparent\" width=\"%0.0f\" height=\"%0.0f\"></embed>\
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)dealloc {
   TT_RELEASE_SAFELY(_urlPath);
+
   [super dealloc];
 }
 
@@ -96,6 +86,7 @@ wmode=\"transparent\" width=\"%0.0f\" height=\"%0.0f\"></embed>\
     NSString* html = [NSString stringWithFormat:kEmbedHTML, self.width, self.width,
                                self.height, _urlPath, _urlPath, self.width, self.height];
     [self loadHTMLString:html baseURL:nil];
+
   } else {
     [self loadHTMLString:@"&nbsp;" baseURL:nil];
   }

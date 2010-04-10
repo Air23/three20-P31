@@ -19,6 +19,7 @@
 @protocol TTWebControllerDelegate;
 
 @interface TTWebController : TTModelViewController <UIWebViewDelegate, UIActionSheetDelegate> {
+@protected
   UIWebView*        _webView;
 
   UIToolbar*        _toolbar;
@@ -40,17 +41,22 @@
  * The current web view URL. If the web view is currently loading a URL, then the loading URL is
  * returned instead.
  */
-@property(nonatomic,readonly) NSURL*  URL;
+@property (nonatomic, readonly) NSURL*  URL;
 
 /**
  * A view that is inserted at the top of the web view, within the scroller.
  */
-@property(nonatomic,retain)   UIView* headerView;
+@property (nonatomic, retain)   UIView* headerView;
 
 /**
  * The web controller delegate, currently does nothing.
  */
-@property(nonatomic,assign)   id<TTWebControllerDelegate> delegate;
+@property (nonatomic, assign)   id<TTWebControllerDelegate> delegate;
+
+/**
+ * The internal webview.
+ */
+@property (nonatomic, readonly) UIWebView* webView;
 
 /**
  * Navigate to the given URL.

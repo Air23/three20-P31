@@ -15,11 +15,9 @@
 //
 
 #import "Three20/TTView.h"
-#import "Three20/TTURLRequest.h"
 #import "Three20/TTURLRequestDelegate.h"
 
-#import "Three20/TTCorePreprocessorMacros.h"
-
+@class TTURLRequest;
 @protocol TTImageViewDelegate;
 
 /**
@@ -38,28 +36,19 @@
 /**
  * The path of the image. This may be a web path (http://path/to/image.gif) or a local bundle
  * path (bundle://path/to/image.png).
- *
- * Deprecated on account of name ambiguity. URL implies NSURL, urlPath implies NSString.
- * @deprecated
  */
-@property(nonatomic,copy)     NSString* URL __TTDEPRECATED_METHOD;
-
-/**
- * The path of the image. This may be a web path (http://path/to/image.gif) or a local bundle
- * path (bundle://path/to/image.png).
- */
-@property(nonatomic,copy)     NSString* urlPath;
+@property (nonatomic, copy) NSString* urlPath;
 
 /**
  * The default image that is displayed until the image has been downloaded. If no urlPath is
  * specified, this image will be displayed indefinitely.
  */
-@property(nonatomic,retain)   UIImage*  defaultImage;
+@property (nonatomic, retain) UIImage* defaultImage;
 
 /**
  * The image that is currently being displayed.
  */
-@property(nonatomic,readonly) UIImage*  image;
+@property (nonatomic, readonly) UIImage* image;
 
 /**
  * Override the default sizing operation and resize the frame of this view with the size of
@@ -67,22 +56,22 @@
  *
  * @default NO
  */
-@property(nonatomic)          BOOL      autoresizesToImage;
+@property (nonatomic) BOOL autoresizesToImage;
 
 /**
  * Is an asynchronous request currently active?
  */
-@property(nonatomic,readonly) BOOL      isLoading;
+@property (nonatomic, readonly) BOOL isLoading;
 
 /**
  * Has the image been successfully loaded?
  */
-@property(nonatomic,readonly) BOOL      isLoaded;
+@property (nonatomic, readonly) BOOL isLoaded;
 
 /**
  * A delegate that notifies you when the image has started and finished loading.
  */
-@property(nonatomic,assign)   id<TTImageViewDelegate> delegate;
+@property (nonatomic, assign) id<TTImageViewDelegate> delegate;
 
 /**
  * Cancel any pending request, remove the image, and redraw the view.
@@ -99,7 +88,6 @@
  * Cancel this image views' active asynchronous requests.
  */
 - (void)stopLoading;
-
 
 /**
  * Called when the image begins loading asynchronously.
@@ -124,28 +112,5 @@
  * @protected
  */
 - (void)imageViewDidFailLoadWithError:(NSError*)error;
-
-@end
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@protocol TTImageViewDelegate <NSObject>
-@optional
-
-/**
- * Called when the image begins loading asynchronously.
- */
-- (void)imageViewDidStartLoad:(TTImageView*)imageView;
-
-/**
- * Called when the image finishes loading asynchronously.
- */
-- (void)imageView:(TTImageView*)imageView didLoadImage:(UIImage*)image;
-
-/**
- * Called when the image failed to load asynchronously.
- * If error is nil then the request was cancelled.
- */
-- (void)imageView:(TTImageView*)imageView didFailLoadWithError:(NSError*)error;
 
 @end

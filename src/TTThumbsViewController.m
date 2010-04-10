@@ -16,7 +16,6 @@
 
 #import "Three20/TTThumbsViewController.h"
 
-#import "Three20/TTGlobalCore.h"
 #import "Three20/TTGlobalCoreLocale.h"
 #import "Three20/TTGlobalUI.h"
 #import "Three20/TTGlobalUINavigator.h"
@@ -109,7 +108,7 @@ static CGFloat kThumbSpacing = 4;
                                            TTFormatInteger(_photoSource.maxPhotoIndex+1),
                                            TTFormatInteger(_photoSource.numberOfPhotos)];
     }
-    
+
     return [TTTableMoreButton itemWithText:text subtitle:caption];
   } else {
     NSInteger columnCount = self.columnCount;
@@ -199,6 +198,18 @@ static CGFloat kThumbSpacing = 4;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // NSObject
 
+- (id)initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle {
+  if (self = [super initWithNibName:nibName bundle:bundle]) {
+    self.statusBarStyle = UIStatusBarStyleBlackTranslucent;
+    self.navigationBarStyle = UIBarStyleBlackTranslucent;
+    self.navigationBarTintColor = nil;
+    self.wantsFullScreenLayout = YES;
+    self.hidesBottomBarWhenPushed = YES;
+  }
+
+  return self;
+}
+
 - (id)initWithDelegate:(id<TTThumbsViewControllerDelegate>)delegate {
   if (self = [self init]) {
     self.delegate = delegate;
@@ -216,17 +227,8 @@ static CGFloat kThumbSpacing = 4;
 }
 
 - (id)init {
-  if (self = [super init]) {
-    _delegate = nil;
-    _photoSource = nil;
-    
-    self.statusBarStyle = UIStatusBarStyleBlackTranslucent;
-    self.navigationBarStyle = UIBarStyleBlackTranslucent;
-    self.navigationBarTintColor = nil;
-    self.wantsFullScreenLayout = YES;
-    self.hidesBottomBarWhenPushed = YES;
+  if (self = [self initWithNibName:nil bundle:nil]) {
   }
-  
   return self;
 }
 
@@ -241,9 +243,9 @@ static CGFloat kThumbSpacing = 4;
 
 - (void)loadView {
   [super loadView];
-  
+
   self.tableView.rowHeight = kThumbnailRowHeight;
-	self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+  self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
   self.tableView.backgroundColor = TTSTYLEVAR(backgroundColor);
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
   [self updateTableLayout];
@@ -322,7 +324,7 @@ static CGFloat kThumbSpacing = 4;
 
 - (void)thumbsTableViewCell:(TTThumbsTableViewCell*)cell didSelectPhoto:(id<TTPhoto>)photo {
   [_delegate thumbsViewController:self didSelectPhoto:photo];
-    
+
   BOOL shouldNavigate = YES;
   if ([_delegate respondsToSelector:@selector(thumbsViewController:shouldNavigateToPhoto:)]) {
     shouldNavigate = [_delegate thumbsViewController:self shouldNavigateToPhoto:photo];
@@ -335,7 +337,7 @@ static CGFloat kThumbSpacing = 4;
     } else {
       TTPhotoViewController* controller = [self createPhotoViewController];
       controller.centerPhoto = photo;
-      [self.navigationController pushViewController:controller animated:YES];  
+      [self.navigationController pushViewController:controller animated:YES];
     }
   }
 }

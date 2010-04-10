@@ -16,22 +16,51 @@
 
 #import "Three20/TTPageControl.h"
 
-#import "Three20/TTGlobalCore.h"
 #import "Three20/TTGlobalUI.h"
 
 #import "Three20/TTStyleSheet.h"
 #import "Three20/TTStyle.h"
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTPageControl
 
-@synthesize numberOfPages = _numberOfPages, currentPage = _currentPage, dotStyle = _dotStyle,
-            hidesForSinglePage = _hidesForSinglePage;
+@synthesize numberOfPages       = _numberOfPages;
+@synthesize currentPage         = _currentPage;
+@synthesize dotStyle            = _dotStyle;
+@synthesize hidesForSinglePage  = _hidesForSinglePage;
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+- (id)initWithFrame:(CGRect)frame {
+  if (self = [super initWithFrame:frame]) {
+    self.backgroundColor = [UIColor clearColor];
+    self.dotStyle = @"pageDot:";
+  }
 
+  return self;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_dotStyle);
+  TT_RELEASE_SAFELY(_normalDotStyle);
+  TT_RELEASE_SAFELY(_currentDotStyle);
+
+  [super dealloc];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Properties
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (TTStyle*)normalDotStyle {
   if (!_normalDotStyle) {
     _normalDotStyle = [[[TTStyleSheet globalStyleSheet] styleWithSelector:_dotStyle
@@ -40,6 +69,8 @@
   return _normalDotStyle;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (TTStyle*)currentDotStyle {
   if (!_currentDotStyle) {
     _currentDotStyle = [[[TTStyleSheet globalStyleSheet] styleWithSelector:_dotStyle
@@ -48,53 +79,33 @@
   return _currentDotStyle;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
-
-- (id)initWithFrame:(CGRect)frame {
-  if (self = [super initWithFrame:frame]) {
-    _numberOfPages = 0;
-    _currentPage = 0;
-    _dotStyle = nil;
-    _normalDotStyle = nil;
-    _currentDotStyle = nil;
-    _hidesForSinglePage = NO;
-    
-    self.backgroundColor = [UIColor clearColor];
-    self.dotStyle = @"pageDot:";
-  }
-  return self;
-}
-
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_dotStyle);
-  TT_RELEASE_SAFELY(_normalDotStyle);
-  TT_RELEASE_SAFELY(_currentDotStyle);
-  [super dealloc];
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIView
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)drawRect:(CGRect)rect {
   if (_numberOfPages > 1 || _hidesForSinglePage) {
     TTStyleContext* context = [[[TTStyleContext alloc] init] autorelease];
     TTBoxStyle* boxStyle = [self.normalDotStyle firstStyleOfClass:[TTBoxStyle class]];
 
     CGSize dotSize = [self.normalDotStyle addToSize:CGSizeZero context:context];
-    
+
     CGFloat dotWidth = dotSize.width + boxStyle.margin.left + boxStyle.margin.right;
     CGFloat totalWidth = (dotWidth * _numberOfPages) - (boxStyle.margin.left + boxStyle.margin.right);
     CGRect contentRect = CGRectMake(round(self.width/2 - totalWidth/2),
                                     round(self.height/2 - dotSize.height/2),
                                     dotSize.width, dotSize.height);
-      
+
     for (NSInteger i = 0; i < _numberOfPages; ++i) {
       contentRect.origin.x += boxStyle.margin.left;
 
       context.frame = contentRect;
       context.contentFrame = contentRect;
-      
+
       if (i == _currentPage) {
         [self.currentDotStyle draw:context];
       } else {
@@ -105,6 +116,8 @@
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGSize)sizeThatFits:(CGSize)size {
   TTStyleContext* context = [[[TTStyleContext alloc] init] autorelease];
   CGSize dotSize = [self.normalDotStyle addToSize:CGSizeZero context:context];
@@ -114,14 +127,19 @@
   if (boxStyle) {
     margin = boxStyle.margin.right + boxStyle.margin.left;
   }
-  
+
   return CGSizeMake((dotSize.width * _numberOfPages) + (margin * (_numberOfPages-1)),
                     dotSize.height);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIControl
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIControl
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
   if (self.touchInside) {
     CGPoint point = [touch locationInView:self];
@@ -130,9 +148,14 @@
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// public
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Public
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setNumberOfPages:(NSInteger)numberOfPages {
   if (numberOfPages != _numberOfPages) {
     _numberOfPages = numberOfPages;
@@ -140,6 +163,8 @@
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setCurrentPage:(NSInteger)currentPage {
   if (currentPage != _currentPage) {
     _currentPage = currentPage;
@@ -147,6 +172,8 @@
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setDotStyle:(NSString*)dotStyle {
   if (![dotStyle isEqualToString:_dotStyle]) {
     [_dotStyle release];
@@ -155,5 +182,6 @@
     TT_RELEASE_SAFELY(_currentDotStyle);
   }
 }
+
 
 @end

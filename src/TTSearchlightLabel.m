@@ -16,19 +16,55 @@
 
 #import "Three20/TTSearchlightLabel.h"
 
-#import "Three20/TTGlobalCore.h"
+#import "Three20/TTCorePreprocessorMacros.h"
 #import "Three20/TTGlobalStyle.h"
 
 #import "Three20/TTDefaultStyleSheet.h"
 
 @implementation TTSearchlightLabel
 
-@synthesize text = _text, font = _font, textColor, spotlightColor = _spotlightColor,
-  textAlignment = _textAlignment;
+@synthesize text            = _text;
+@synthesize font            = _font;
+@synthesize textColor       = _textColor;
+@synthesize spotlightColor  = _spotlightColor;
+@synthesize textAlignment   = _textAlignment;
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// private
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (id)initWithFrame:(CGRect)frame {
+  if (self = [super initWithFrame:frame]) {
+    self.text = @"";
+    self.font = TTSTYLEVAR(font);
+    self.textColor = [UIColor colorWithWhite:0.25 alpha:1];
+    self.spotlightColor = [UIColor whiteColor];
+    self.textAlignment = UITextAlignmentLeft;
+    self.backgroundColor = [UIColor clearColor];
+    self.contentMode = UIViewContentModeCenter;
+  }
+
+  return self;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)dealloc {
+  [self stopAnimating];
+  TT_RELEASE_SAFELY(_text);
+  TT_RELEASE_SAFELY(_font);
+  TT_RELEASE_SAFELY(_textColor);
+  TT_RELEASE_SAFELY(_spotlightColor);
+
+  [super dealloc];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Private
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)newMask {
   CGRect rect = self.frame;
   CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
@@ -40,6 +76,8 @@
   CGColorSpaceRelease(space);
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)releaseMask {
   CGContextRelease(_maskContext);
   free(_maskData);
@@ -47,6 +85,8 @@
   _maskData = nil;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGImageRef)newSpotlightMask:(CGRect)rect origin:(CGPoint)origin radius:(CGFloat)radius {
   CGContextClearRect(_maskContext, rect);
 
@@ -61,6 +101,8 @@
   return CGBitmapContextCreateImage(_maskContext);
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)updateSpotlight {
   _spotlightPoint += 1.3/32;
   if (_spotlightPoint > 2) {
@@ -71,48 +113,26 @@
   }
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
 
-- (id)initWithFrame:(CGRect)frame {
-	if (self = [super initWithFrame:frame]) {
-    _timer = nil;
-    
-    self.text = @"";
-    self.font = TTSTYLEVAR(font);
-    self.textColor = [UIColor colorWithWhite:0.25 alpha:1];
-    self.spotlightColor = [UIColor whiteColor];
-    self.textAlignment = UITextAlignmentLeft;
-    self.backgroundColor = [UIColor clearColor];
-    self.contentMode = UIViewContentModeCenter;
-	}
-	return self;
-}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIView
 
-- (void)dealloc {
-  [self stopAnimating];
-  TT_RELEASE_SAFELY(_text);
-  TT_RELEASE_SAFELY(_font);
-  TT_RELEASE_SAFELY(textColor);
-  TT_RELEASE_SAFELY(_spotlightColor);
-	[super dealloc];
-}
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)drawRect:(CGRect)rect {
   CGContextRef context = UIGraphicsGetCurrentContext();
 
   CGSize textSize = [self sizeThatFits:CGSizeZero];
-  
+
   CGFloat x = 0;
   if (_textAlignment == UITextAlignmentRight) {
     x = self.frame.size.width - textSize.width;
   } else if (_textAlignment == UITextAlignmentCenter) {
     x = ceil(self.frame.size.width/2 - textSize.width/2);
   }
-  
+
   CGFloat y = 0;
   if (self.contentMode == UIViewContentModeCenter) {
     y = ceil(rect.size.height/2 + _font.capHeight/2);
@@ -121,12 +141,12 @@
   } else {
     y = _font.capHeight;
   }
-  
+
   CGContextSelectFont(context, [_font.fontName UTF8String], _font.pointSize, kCGEncodingMacRoman);
   CGContextSetTextDrawingMode(context, kCGTextFill);
   CGContextSetTextMatrix(context, CGAffineTransformScale(CGAffineTransformIdentity, 1, -1));
 
-  CGContextSetFillColorWithColor(context, textColor.CGColor);
+  CGContextSetFillColorWithColor(context, _textColor.CGColor);
   CGContextShowTextAtPoint(context, x, y, [self.text UTF8String], self.text.length);
 
   if (_timer) {
@@ -137,33 +157,50 @@
     CGImageRef mask = [self newSpotlightMask:rect origin:spotOrigin radius:spotRadius];
     CGContextClipToMask(context, rect, mask);
     CGImageRelease(mask);
-    
+
     [_spotlightColor setFill];
     CGContextShowTextAtPoint(context, x, y, [self.text UTF8String], self.text.length);
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGSize)sizeThatFits:(CGSize)size {
   return [self.text sizeWithFont:self.font constrainedToSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// UIAccessibility
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIAccessibility
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)isAccessibilityElement {
   return YES;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString *)accessibilityLabel {
   return _text;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (UIAccessibilityTraits)accessibilityTraits {
   return [super accessibilityTraits] | UIAccessibilityTraitStaticText;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// public
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Public
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)startAnimating {
   if (!_timer) {
     _timer = [NSTimer scheduledTimerWithTimeInterval:1.0/32 target:self
@@ -173,13 +210,16 @@
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)stopAnimating {
   if (_timer) {
     [_timer invalidate];
     _timer = nil;
     [self releaseMask];
   }
-  [self setNeedsDisplay];	
+  [self setNeedsDisplay];
 }
+
 
 @end

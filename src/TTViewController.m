@@ -28,98 +28,47 @@
 #import "Three20/TTDefaultStyleSheet.h"
 #import "Three20/TTNavigator.h"
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTViewController
 
-@synthesize navigationBarStyle = _navigationBarStyle,
-  navigationBarTintColor = _navigationBarTintColor, statusBarStyle = _statusBarStyle,
-  isViewAppearing = _isViewAppearing, hasViewAppeared = _hasViewAppeared,
-  autoresizesForKeyboard = _autoresizesForKeyboard;
+@synthesize navigationBarStyle      = _navigationBarStyle;
+@synthesize navigationBarTintColor  = _navigationBarTintColor;
+@synthesize statusBarStyle          = _statusBarStyle;
+@synthesize isViewAppearing         = _isViewAppearing;
+@synthesize hasViewAppeared         = _hasViewAppeared;
+@synthesize autoresizesForKeyboard  = _autoresizesForKeyboard;
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// private
-
-- (void)resizeForKeyboard:(NSNotification*)notification appearing:(BOOL)appearing {
-  NSValue* v1 = [notification.userInfo objectForKey:UIKeyboardBoundsUserInfoKey];
-  CGRect keyboardBounds;
-  [v1 getValue:&keyboardBounds];
-
-  NSValue* v2 = [notification.userInfo objectForKey:UIKeyboardCenterBeginUserInfoKey];
-  CGPoint keyboardStart;
-  [v2 getValue:&keyboardStart];
-
-  NSValue* v3 = [notification.userInfo objectForKey:UIKeyboardCenterEndUserInfoKey];
-  CGPoint keyboardEnd;
-  [v3 getValue:&keyboardEnd];
-
-  BOOL animated = keyboardStart.y != keyboardEnd.y;
-  if (animated) {
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:TT_TRANSITION_DURATION];
-  }
-  
-  if (appearing) {
-    [self keyboardWillAppear:animated withBounds:keyboardBounds];
-    
-    [self retain];
-    [NSTimer scheduledTimerWithTimeInterval:TT_TRANSITION_DURATION
-             target:self selector:@selector(keyboardDidAppearDelayed:)
-             userInfo:[NSValue valueWithCGRect:keyboardBounds] repeats:NO];
-  } else {
-    [self keyboardWillDisappear:animated withBounds:keyboardBounds];
-
-    [self retain];
-    [NSTimer scheduledTimerWithTimeInterval:TT_TRANSITION_DURATION
-             target:self selector:@selector(keyboardDidDisappearDelayed:)
-             userInfo:[NSValue valueWithCGRect:keyboardBounds] repeats:NO];
-  }
-  
-  if (animated) {
-    [UIView commitAnimations];
-  }
-}
-
-- (void)keyboardDidAppearDelayed:(NSTimer*)timer {
-  NSValue* value = timer.userInfo;
-  CGRect keyboardBounds;
-  [value getValue:&keyboardBounds];
-
-  [self keyboardDidAppear:YES withBounds:keyboardBounds];
-  [self autorelease];
-}
-
-- (void)keyboardDidDisappearDelayed:(NSTimer*)timer {
-  NSValue* value = timer.userInfo;
-  CGRect keyboardBounds;
-  [value getValue:&keyboardBounds];
-
-  [self keyboardDidDisappear:YES withBounds:keyboardBounds];
-  [self autorelease];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
-
 - (id)init {
-  if (self = [super init]) {
-    _frozenState = nil;
+  return [self initWithNibName:nil bundle:nil];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+ Since this is the designated initializer for UIViewController, this contains
+ initialization common to all init* methods
+ */
+- (id)initWithNibName:(NSString*)nibName bundle:(NSBundle *)bundle {
+  if (self = [super initWithNibName:nibName bundle:bundle]) {
+#ifdef DEBUG
+    m_initCalled = YES;
+#endif
     _navigationBarStyle = UIBarStyleDefault;
-    _navigationBarTintColor = nil;
     _statusBarStyle = TTSTYLEVAR(statusBarStyle);
-    _hasViewAppeared = NO;
-    _isViewAppearing = NO;
-    _autoresizesForKeyboard = NO;
-    
+
     self.navigationBarTintColor = TTSTYLEVAR(navigationBarTintColor);
   }
+
   return self;
 }
 
-- (void)awakeFromNib {
-  [self init];
-}
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)dealloc {
   TTDCONDITIONLOG(TTDFLAG_VIEWCONTROLLERS, @"DEALLOC %@", self);
 
@@ -127,39 +76,110 @@
 
   TT_RELEASE_SAFELY(_navigationBarTintColor);
   TT_RELEASE_SAFELY(_frozenState);
-  
-  // Removes keyboard notification observers for 
+
+  // Removes keyboard notification observers for
   self.autoresizesForKeyboard = NO;
 
   // You would think UIViewController would call this in dealloc, but it doesn't!
   // I would prefer not to have to redundantly put all view releases in dealloc and
   // viewDidUnload, so my solution is just to call viewDidUnload here.
   [self viewDidUnload];
-  
+
   [super dealloc];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIResponder
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Must not replace the awakeFromNib with init, because it will cause the view
+ * that is loaded from the NIB to be overwritten.
+ *
+ * If a viewcontroller is not using NIBs, then this is not called anyway, so it
+ * is not clear why this change was ever made.
+ */
+- (void)awakeFromNib {
+  [super awakeFromNib];
+  //[self init];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Private
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)resizeForKeyboard:(NSNotification*)notification appearing:(BOOL)appearing {
+  CGRect keyboardBounds;
+  [[notification.userInfo objectForKey:UIKeyboardBoundsUserInfoKey] getValue:&keyboardBounds];
+
+  CGPoint keyboardStart;
+  [[notification.userInfo objectForKey:UIKeyboardCenterBeginUserInfoKey] getValue:&keyboardStart];
+
+  CGPoint keyboardEnd;
+  [[notification.userInfo objectForKey:UIKeyboardCenterEndUserInfoKey] getValue:&keyboardEnd];
+
+  BOOL animated = keyboardStart.y != keyboardEnd.y;
+  if (animated) {
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:TT_TRANSITION_DURATION];
+  }
+
+  if (appearing) {
+    [self keyboardWillAppear:animated withBounds:keyboardBounds];
+  } else {
+    [self keyboardDidDisappear:animated withBounds:keyboardBounds];
+  }
+
+  if (animated) {
+    [UIView commitAnimations];
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIResponder
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
   if (event.type == UIEventSubtypeMotionShake && [TTNavigator navigator].supportsShakeToReload) {
     [[TTNavigator navigator] reload];
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIViewController
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIViewController
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * If we are loading from a nib, then assume it knows how to set itself up.
+ * Otherwise, we don't need to call super (per the Apple documentation) and we
+ * just setup the view manually.
+ */
 - (void)loadView {
-  [super loadView];
-  
-  CGRect frame = self.wantsFullScreenLayout ? TTScreenBounds() : TTNavigationFrame(); 
-  self.view = [[[UIView alloc] initWithFrame:frame] autorelease];
-	self.view.autoresizesSubviews = YES;
-	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth
-                              | UIViewAutoresizingFlexibleHeight;
-  self.view.backgroundColor = TTSTYLEVAR(backgroundColor);
+  if (nil != self.nibName) {
+    [super loadView];
+
+  } else {
+    CGRect frame = self.wantsFullScreenLayout ? TTScreenBounds() : TTNavigationFrame();
+    self.view = [[[UIView alloc] initWithFrame:frame] autorelease];
+    self.view.autoresizesSubviews = YES;
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.view.backgroundColor = TTSTYLEVAR(backgroundColor);
+  }
+}
+
+- (void)viewDidLoad {
+  TTDASSERT(m_initCalled); //make sure that we got properly initialized
+  [super viewDidLoad];
 }
 
 - (void)viewDidUnload {
@@ -167,8 +187,11 @@
   TT_RELEASE_SAFELY(_searchController);
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+
   _isViewAppearing = YES;
   _hasViewAppeared = YES;
 
@@ -189,16 +212,24 @@
 //  }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
+
   [TTURLRequestQueue mainQueue].suspended = NO;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
+
   _isViewAppearing = NO;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)didReceiveMemoryWarning {
   TTDCONDITIONLOG(TTDFLAG_VIEWCONTROLLERS, @"MEMORY WARNING FOR %@", self);
 
@@ -207,101 +238,162 @@
     [self persistView:state];
     self.frozenState = state;
     TT_RELEASE_SAFELY(state);
-  
+
     // This will come around to calling viewDidUnload
     [super didReceiveMemoryWarning];
 
     _hasViewAppeared = NO;
+
   } else {
     [super didReceiveMemoryWarning];
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   UIViewController* popup = [self popupViewController];
   if (popup) {
     return [popup shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+
   } else {
     return [super shouldAutorotateToInterfaceOrientation:interfaceOrientation];
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
         duration:(NSTimeInterval)duration {
   UIViewController* popup = [self popupViewController];
+
   if (popup) {
-    return [popup willAnimateRotationToInterfaceOrientation:fromInterfaceOrientation
-                  duration:duration];
+    return [popup willAnimateRotationToInterfaceOrientation: fromInterfaceOrientation
+                                                   duration: duration];
+
   } else {
-    return [super willAnimateRotationToInterfaceOrientation:fromInterfaceOrientation
-                  duration:duration];
+    return [super willAnimateRotationToInterfaceOrientation: fromInterfaceOrientation
+                                                   duration: duration];
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
   UIViewController* popup = [self popupViewController];
+
   if (popup) {
     return [popup didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+
   } else {
     return [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (UIView*)rotatingHeaderView {
   UIViewController* popup = [self popupViewController];
+
   if (popup) {
     return [popup rotatingHeaderView];
+
   } else {
     return [super rotatingHeaderView];
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (UIView*)rotatingFooterView {
   UIViewController* popup = [self popupViewController];
+
   if (popup) {
     return [popup rotatingFooterView];
+
   } else {
     return [super rotatingFooterView];
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIViewController (TTCategory)
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIViewController (TTCategory)
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSDictionary*)frozenState {
   return _frozenState;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setFrozenState:(NSDictionary*)frozenState {
   [_frozenState release];
   _frozenState = [frozenState retain];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIKeyboardNotifications
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIKeyboardNotifications
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)keyboardWillShow:(NSNotification*)notification {
   if (self.isViewAppearing) {
     [self resizeForKeyboard:notification appearing:YES];
   }
 }
 
-- (void)keyboardWillHide:(NSNotification*)notification {
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)keyboardDidShow:(NSNotification*)notification {
+  NSValue* value = [notification.userInfo objectForKey:UIKeyboardBoundsUserInfoKey];
+  CGRect keyboardBounds;
+  [value getValue:&keyboardBounds];
+
+  [self keyboardDidAppear:YES withBounds:keyboardBounds];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)keyboardDidHide:(NSNotification*)notification {
   if (self.isViewAppearing) {
     [self resizeForKeyboard:notification appearing:NO];
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// public
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)keyboardWillHide:(NSNotification*)notification {
+  NSValue* value = [notification.userInfo objectForKey:UIKeyboardBoundsUserInfoKey];
+  CGRect keyboardBounds;
+  [value getValue:&keyboardBounds];
+
+  [self keyboardWillDisappear:YES withBounds:keyboardBounds];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Public
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (TTTableViewController*)searchViewController {
   return _searchController.searchResultsViewController;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setSearchViewController:(TTTableViewController*)searchViewController {
   if (searchViewController) {
-    if (!_searchController) {
+    if (nil == _searchController) {
       UISearchBar* searchBar = [[[UISearchBar alloc] init] autorelease];
       [searchBar sizeToFit];
 	  searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -309,43 +401,80 @@
       _searchController = [[TTSearchDisplayController alloc] initWithSearchBar:searchBar
                                                              contentsController:self];
     }
-    
+
     searchViewController.superController = self;
     _searchController.searchResultsViewController = searchViewController;
+
   } else {
     _searchController.searchResultsViewController = nil;
     TT_RELEASE_SAFELY(_searchController);
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setAutoresizesForKeyboard:(BOOL)autoresizesForKeyboard {
   if (autoresizesForKeyboard != _autoresizesForKeyboard) {
     _autoresizesForKeyboard = autoresizesForKeyboard;
-    
+
     if (_autoresizesForKeyboard) {
-      [[NSNotificationCenter defaultCenter] addObserver:self
-        selector:@selector(keyboardWillShow:) name:@"UIKeyboardWillShowNotification" object:nil];
-      [[NSNotificationCenter defaultCenter] addObserver:self
-        selector:@selector(keyboardWillHide:) name:@"UIKeyboardWillHideNotification" object:nil];
+      [[NSNotificationCenter defaultCenter] addObserver: self
+                                               selector: @selector(keyboardWillShow:)
+                                                   name: UIKeyboardWillShowNotification
+                                                 object: nil];
+      [[NSNotificationCenter defaultCenter] addObserver: self
+                                               selector: @selector(keyboardWillHide:)
+                                                   name: UIKeyboardWillHideNotification
+                                                 object: nil];
+      [[NSNotificationCenter defaultCenter] addObserver: self
+                                               selector: @selector(keyboardDidShow:)
+                                                   name: UIKeyboardDidShowNotification
+                                                 object: nil];
+      [[NSNotificationCenter defaultCenter] addObserver: self
+                                               selector: @selector(keyboardDidHide:)
+                                                   name: UIKeyboardDidHideNotification
+                                                 object: nil];
+
     } else {
-      [[NSNotificationCenter defaultCenter] removeObserver:self
-        name:@"UIKeyboardWillShowNotification" object:nil];
-      [[NSNotificationCenter defaultCenter] removeObserver:self
-        name:@"UIKeyboardWillHideNotification" object:nil];
+      [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                      name: UIKeyboardWillShowNotification
+                                                    object: nil];
+      [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                      name: UIKeyboardWillHideNotification
+                                                    object: nil];
+      [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                      name: UIKeyboardDidShowNotification
+                                                    object: nil];
+      [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                      name: UIKeyboardDidHideNotification
+                                                    object: nil];
     }
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)keyboardWillAppear:(BOOL)animated withBounds:(CGRect)bounds {
+  // Empty default implementation.
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)keyboardWillDisappear:(BOOL)animated withBounds:(CGRect)bounds {
+  // Empty default implementation.
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)keyboardDidAppear:(BOOL)animated withBounds:(CGRect)bounds {
+  // Empty default implementation.
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)keyboardDidDisappear:(BOOL)animated withBounds:(CGRect)bounds {
+  // Empty default implementation.
 }
+
 
 @end

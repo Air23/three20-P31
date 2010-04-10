@@ -16,6 +16,8 @@
 
 #import "Three20/TTURLSelector.h"
 
+#import "Three20/TTURLArguments.h"
+
 #import "Three20/TTCorePreprocessorMacros.h"
 
 
@@ -58,7 +60,7 @@
     [invocation setTarget:object];
     [invocation setSelector:_selector];
     [invocation invoke];
-    
+
     if (!returnType) {
       returnType = TTURLArgumentTypeForProperty([object class], _name);
     }

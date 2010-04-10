@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+// Network
 #import "Three20/TTURLResponse.h"
 
 /**
@@ -27,6 +28,6 @@
   UIImage* _image;
 }
 
-@property(nonatomic,readonly) UIImage* image;
+@property (nonatomic, readonly) UIImage* image;
 
 @end

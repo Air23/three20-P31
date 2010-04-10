@@ -16,11 +16,13 @@
 
 #import "Three20/TTURLImageResponse.h"
 
-#import "Three20/TTCorePreprocessorMacros.h"
-#import "Three20/TTDebug.h"
-
+// Network
 #import "Three20/TTURLRequest.h"
 #import "Three20/TTURLCache.h"
+
+// Core
+#import "Three20/TTCorePreprocessorMacros.h"
+#import "Three20/TTDebug.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +61,7 @@
     // TODO(jverkoey Feb 10, 2010): This logic doesn't entirely make sense. Why don't we just store
     // the data in the cache if there was a cache miss, and then just retain the image data we
     // downloaded? This needs to be tested in production.
-    UIImage* image = [[TTURLCache sharedCache] imageForURL:request.URL fromDisk:NO];
+    UIImage* image = [[TTURLCache sharedCache] imageForURL:request.urlPath fromDisk:NO];
 
     if (nil == image) {
       image = [UIImage imageWithData:data];
@@ -67,14 +69,14 @@
 
     if (nil != image) {
       if (!request.respondedFromCache) {
-// XXXjoe Working on option to scale down really large images to a smaller size to save memory      
+// XXXjoe Working on option to scale down really large images to a smaller size to save memory
 //        if (image.size.width * image.size.height > (300*300)) {
 //          image = [image transformWidth:300 height:(image.size.height/image.size.width)*300.0
 //                         rotate:NO];
 //          NSData* data = UIImagePNGRepresentation(image);
 //          [[TTURLCache sharedCache] storeData:data forURL:request.URL];
 //        }
-        [[TTURLCache sharedCache] storeImage:image forURL:request.URL];
+        [[TTURLCache sharedCache] storeImage:image forURL:request.urlPath];
       }
 
       _image = [image retain];

@@ -20,32 +20,32 @@
 @class TTURLRequest;
 
 @interface TTURLCache : NSObject {
-  NSString* _name;
-  NSString* _cachePath;
-  NSMutableDictionary* _imageCache;
-  NSMutableArray* _imageSortedList;
-  NSUInteger _totalPixelCount;
-  NSUInteger _maxPixelCount;
-  NSInteger _totalLoading;
-  NSTimeInterval _invalidationAge;
-  BOOL _disableDiskCache;
-  BOOL _disableImageCache;
+  NSString*             _name;
+  NSString*             _cachePath;
+  NSMutableDictionary*  _imageCache;
+  NSMutableArray*       _imageSortedList;
+  NSUInteger            _totalPixelCount;
+  NSUInteger            _maxPixelCount;
+  NSInteger             _totalLoading;
+  NSTimeInterval        _invalidationAge;
+  BOOL                  _disableDiskCache;
+  BOOL                  _disableImageCache;
 }
 
 /**
  * Disables the disk cache.
  */
-@property(nonatomic) BOOL disableDiskCache;
+@property (nonatomic) BOOL disableDiskCache;
 
 /**
  * Disables the in-memory cache for images.
  */
-@property(nonatomic) BOOL disableImageCache;
+@property (nonatomic) BOOL disableImageCache;
 
 /**
  * Gets the path to the directory of the disk cache.
  */
-@property(nonatomic,copy) NSString* cachePath;
+@property (nonatomic, copy) NSString* cachePath;
 
 /**
  * The maximum number of pixels to keep in memory for cached images.
@@ -53,12 +53,13 @@
  * Setting this to zero will allow an unlimited number of images to be cached.  The default
  * is zero.
  */
-@property(nonatomic) NSUInteger maxPixelCount;
+@property (nonatomic) NSUInteger maxPixelCount;
 
 /**
  * The amount of time to set back the modification timestamp on files when invalidating them.
  */
-@property(nonatomic) NSTimeInterval invalidationAge;
+@property (nonatomic) NSTimeInterval invalidationAge;
+
 
 /**
  * Gets a shared cache identified with a unique name.
@@ -75,9 +76,6 @@
  */
 + (void)setSharedCache:(TTURLCache*)cache;
 
-/**
- * 
- */
 - (id)initWithName:(NSString*)name;
 
 /**
@@ -103,7 +101,7 @@
 /**
  * Gets the data for a URL from the cache if it exists.
  *
- * @return nil if the URL is not cached. 
+ * @return nil if the URL is not cached.
  */
 - (NSData*)dataForURL:(NSString*)URL;
 
@@ -159,20 +157,14 @@
 
 /**
  * Moves the data currently stored under one URL to another URL.
- * 
+ *
  * This is handy when you are caching data at a temporary URL while the permanent URL is being
  * retrieved from a server.  Once you know the permanent URL you can use this to move the data.
- */ 
+ */
 - (void)moveDataForURL:(NSString*)oldURL toURL:(NSString*)newURL;
 
-/**
- *
- */
 - (void)moveDataFromPath:(NSString*)path toURL:(NSString*)newURL;
 
-/**
- *
- */
 - (NSString*)moveDataFromPathToTemporaryURL:(NSString*)path;
 
 /**
@@ -180,17 +172,14 @@
  */
 - (void)removeURL:(NSString*)URL fromDisk:(BOOL)fromDisk;
 
-/**
- * 
- */
 - (void)removeKey:(NSString*)key;
 
-/** 
+/**
  * Erases the memory cache and optionally the disk cache.
  */
 - (void)removeAll:(BOOL)fromDisk;
 
-/** 
+/**
  * Invalidates the file in the disk cache so that its modified timestamp is the current
  * time minus the default cache expiration age.
  *
@@ -199,9 +188,6 @@
  */
 - (void)invalidateURL:(NSString*)URL;
 
-/**
- *
- */
 - (void)invalidateKey:(NSString*)key;
 
 /**

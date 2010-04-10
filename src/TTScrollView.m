@@ -16,7 +16,9 @@
 
 #import "Three20/TTScrollView.h"
 
-#import "Three20/TTGlobalCore.h"
+#import "Three20/TTScrollViewDelegate.h"
+#import "Three20/TTScrollViewDataSource.h"
+
 #import "Three20/TTGlobalUI.h"
 
 static const NSInteger kOffscreenPages = 1;
@@ -73,6 +75,7 @@ static const NSTimeInterval kOvershoot = 2;
       selector:@selector(deviceOrientationDidChange:)
       name:@"UIDeviceOrientationDidChangeNotification" object:nil];
   }
+
   return self;
 }
 
@@ -88,32 +91,30 @@ static const NSTimeInterval kOvershoot = 2;
   TT_RELEASE_SAFELY(_animationStartTime);
   TT_RELEASE_SAFELY(_pages);
   TT_RELEASE_SAFELY(_pageQueue);
+
   [super dealloc];
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Private
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)isFirstPage {
   return _centerPageIndex == 0;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (BOOL)isLastPage {
   return _centerPageIndex + 1 >= [_dataSource numberOfPagesInScrollView:self];
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (BOOL)draggingFromEdge {
   return (_pageEdges.left < 0 && [self isLastPage])
       || (_pageEdges.left > 0 && [self isFirstPage]);
@@ -121,9 +122,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (BOOL)flipped {
   return _orientation == UIInterfaceOrientationLandscapeLeft
       || _orientation == UIInterfaceOrientationPortraitUpsideDown;
@@ -131,18 +129,12 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (BOOL)pinched {
   return -_pageEdges.left + _pageEdges.right < 0;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (BOOL)pulled {
   return _pageEdges.left > 0 || _pageEdges.top > 0
       || _pageEdges.right < 0 || _pageEdges.bottom < 0;
@@ -150,9 +142,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (BOOL)flicked {
   if (!self.flipped) {
     if (_pageEdges.left > kFlickThreshold && ![self isFirstPage]) {
@@ -175,9 +164,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (CGFloat)pageWidth {
   if (UIInterfaceOrientationIsLandscape(_orientation)) {
     return self.height;
@@ -188,9 +174,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (CGFloat)pageHeight {
   if (UIInterfaceOrientationIsLandscape(_orientation)) {
     return self.width;
@@ -201,18 +184,12 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (CGFloat)overshoot {
   return _pageEdges.left < 0 ? -_overshoot : _overshoot;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (CGFloat)zoomFactor {
   CGFloat stretchedWidth = -_pageEdges.left + self.pageWidth + _pageEdges.right;
   return stretchedWidth / self.pageWidth;
@@ -220,9 +197,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (CGRect)frameOfPageAtIndex:(NSInteger)pageIndex {
   CGSize size;
   if ([_dataSource respondsToSelector:@selector(scrollView:sizeOfPageAtIndex:)]) {
@@ -260,9 +234,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (CGFloat)overflowForFrame:(CGRect)frame {
   if (UIInterfaceOrientationIsLandscape(_orientation)) {
     return frame.origin.y < 0 ? fabs(frame.origin.y) : 0;
@@ -273,9 +244,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (CGPoint)offsetForOrientation:(CGFloat)x y:(CGFloat)y {
   if (UIInterfaceOrientationIsLandscape(_orientation)) {
     return CGPointMake(y, x);
@@ -286,9 +254,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (BOOL)supportsOrientation:(UIInterfaceOrientation)orientation {
   return orientation == UIInterfaceOrientationLandscapeLeft
           || orientation == UIInterfaceOrientationLandscapeRight
@@ -335,9 +300,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (NSInteger)arrayIndexForPageIndex:(NSInteger)pageIndex relativeToIndex:(NSInteger)baseIndex {
   NSInteger numberOfPages = self.numberOfPages;
   if (0 == numberOfPages || pageIndex >= numberOfPages || pageIndex < 0) {
@@ -364,9 +326,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (NSInteger)realPageIndex {
   if (self.pinched) {
     return _centerPageIndex;
@@ -393,9 +352,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (UIView*)pageAtIndex:(NSInteger)pageIndex create:(BOOL)create {
   NSInteger arrayIndex = [self arrayIndexForPageIndex:pageIndex relativeToIndex:_centerPageIndex];
   if (arrayIndex == kInvalidIndex) {
@@ -420,9 +376,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (UIView*)enqueuePageAtIndex:(NSInteger)pageIndex {
   NSInteger arrayIndex = [self arrayIndexForPageIndex:pageIndex relativeToIndex:_centerPageIndex];
   if (arrayIndex == kInvalidIndex) {
@@ -445,9 +398,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)enqueueAllPages {
   for (NSInteger i = 0; i < _pages.count; ++i) {
     UIView* page = [_pages objectAtIndex:i];
@@ -462,9 +412,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)adjustPageEdgesForPageAtIndex:(NSInteger)pageIndex {
   CGRect centerFrame = [self frameOfPageAtIndex:_centerPageIndex];
   CGFloat centerPageOverflow = [self overflowForFrame:centerFrame] * self.zoomFactor;
@@ -489,9 +436,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)moveToPageAtIndex:(NSInteger)pageIndex resetEdges:(BOOL)resetEdges {
   if (resetEdges) {
     _pageEdges = _pageStartEdges = UIEdgeInsetsZero;
@@ -530,9 +474,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)layoutPage {
   UIView* page = [self pageAtIndex:_centerPageIndex create:YES];
   if (nil != page) {
@@ -558,9 +499,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)layoutAdjacentPages {
   BOOL flipped = self.flipped;
   BOOL pinched = self.pinched;
@@ -616,9 +554,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (UIEdgeInsets)stretchTouchEdges:(UIEdgeInsets)edges toPoint:(CGPoint)point {
   UIEdgeInsets newEdges = edges;
   if (!edges.left || point.x < edges.left) {
@@ -639,9 +574,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (UIEdgeInsets)squareTouchEdges:(UIEdgeInsets)edges {
   if (_touchCount == 1) {
     return edges;
@@ -658,18 +590,12 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (UIEdgeInsets)touchEdgesForPoint:(CGPoint)point {
   return [self stretchTouchEdges:UIEdgeInsetsZero toPoint:point];
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (UIEdgeInsets)zoomPageEdgesTo:(CGPoint)point {
   UIEdgeInsets edges = _pageEdges;
 
@@ -705,9 +631,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (UIEdgeInsets)reversePageEdges {
   UIEdgeInsets edges = _pageEdges;
 
@@ -721,9 +644,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (UIEdgeInsets)constrainEdges:(UIEdgeInsets)edges toWidth:(CGFloat)constrainedWidth {
   CGFloat constrainedHeight = constrainedWidth * (self.pageHeight/self.pageWidth);
 
@@ -739,9 +659,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (CGFloat)resist:(CGFloat)x1 to:(CGFloat)x2 max:(CGFloat)max {
   // The closer we get to the maximum, the less we are allowed to increment
   CGFloat rl = (1 - (fabs(x2) / max)) * kResistance;
@@ -752,9 +669,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (UIEdgeInsets)resistPageEdges:(UIEdgeInsets)edges {
   CGFloat left = edges.left, right = edges.right, top = edges.top, bottom = edges.bottom;
   CGFloat width = self.pageWidth, height = self.pageHeight;
@@ -834,9 +748,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (UIEdgeInsets)pageEdgesForAnimation {
   CGFloat left = 0, right = 0, top = 0, bottom = 0;
 
@@ -887,9 +798,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)acquireTouch:(UITouch*)touch {
   if (nil == _touch1) {
     _touch1 = touch;
@@ -902,9 +810,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (UITouch*)removeTouch:(UITouch*)touch {
   if (touch == _touch1) {
     _touch1 = nil;
@@ -923,9 +828,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (BOOL)canZoom {
   return _zoomEnabled && !_holding
         && (_zooming || ![_delegate respondsToSelector:@selector(scrollViewShouldZoom:)]
@@ -934,18 +836,12 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (BOOL)edgesAreZoomed:(UIEdgeInsets)edges {
   return edges.left != edges.right || edges.top != edges.bottom;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)updateZooming:(UIEdgeInsets)edges {
   if (!_zooming && (self.zoomed || [self edgesAreZoomed:edges])) {
     _zooming = YES;
@@ -967,9 +863,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)stopDragging:(BOOL)willDecelerate {
   if (_dragging) {
     _dragging = NO;
@@ -982,9 +875,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)rotationDidStop {
   if ([_delegate respondsToSelector:@selector(scrollViewDidRotate:)]) {
     [_delegate scrollViewDidRotate:self];
@@ -993,9 +883,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)startTapTimer:(UITouch*)touch {
   _tapTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(tapTimer:)
     userInfo:touch repeats:NO];
@@ -1003,9 +890,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)tapTimer:(NSTimer*)timer {
   _tapTimer = nil;
 
@@ -1020,8 +904,6 @@ static const NSTimeInterval kOvershoot = 2;
 /**
  * Begin the "holding" action on the view.
  * This occurs after the number of seconds defined by _holdsAfterTouchingForInterval.
- *
- * @private
  */
 - (void)beginHolding {
   _holdingTimer = nil;
@@ -1034,9 +916,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)endHolding {
   _holding = NO;
 
@@ -1047,9 +926,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)holdingTimer:(NSTimer*)timer {
   _holdingTimer = nil;
   [self beginHolding];
@@ -1057,9 +933,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)startAnimationTo:(UIEdgeInsets)edges duration:(NSTimeInterval)duration {
   if (!_animationTimer) {
     _pageStartEdges = _pageEdges;
@@ -1076,9 +949,6 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)stopAnimation:(BOOL)resetEdges {
   if (_animationTimer) {
     [_animationTimer invalidate];
@@ -1096,18 +966,12 @@ static const NSTimeInterval kOvershoot = 2;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (CGFloat)tween:(NSTimeInterval)t b:(NSTimeInterval)b c:(NSTimeInterval)c d:(NSTimeInterval)d {
-	return c*((t=t/d-1)*t*t + 1) + b;
+  return c*((t=t/d-1)*t*t + 1) + b;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @private
- */
 - (void)animator {
   NSTimeInterval kt = -[_animationStartTime timeIntervalSinceNow];
   CGFloat pct = kt ? [self tween:kt b:0 c:kt d:_animationDuration]/kt : 0;
@@ -1146,8 +1010,6 @@ static const NSTimeInterval kOvershoot = 2;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * This method isn't being used anywhere.
- *
- * @private
  */
 - (void)animator2 {
   NSTimeInterval kt = -[_animationStartTime timeIntervalSinceNow];

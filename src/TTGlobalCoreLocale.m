@@ -16,7 +16,7 @@
 
 #import "Three20/TTGlobalCoreLocale.h"
 
-#import "Three20/TTGlobalCore.h"
+#import "Three20/TTDebug.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ NSString* TTLocalizedString(NSString* key, NSString* comment) {
           stringByAppendingPathComponent:@"Three20.bundle"];
     bundle = [[NSBundle bundleWithPath:path] retain];
   }
-  
+
   return [bundle localizedStringForKey:key value:key table:nil];
 }
 

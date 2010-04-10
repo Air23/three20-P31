@@ -16,7 +16,7 @@
 
 #import "Three20/TTTableItem.h"
 
-#import "Three20/TTGlobalCore.h"
+#import "Three20/TTCorePreprocessorMacros.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -449,16 +449,18 @@
 
 @implementation TTTableMoreButton
 
-@synthesize isLoading = _isLoading;
+@synthesize isLoading = _isLoading, model = _model;
 
 - (id)init {
   if (self = [super init]) {
     _isLoading = NO;
+    _model = nil;
   }
   return self;
 }
 
 - (void)dealloc {
+  self.model = nil;
   [super dealloc];
 }
 

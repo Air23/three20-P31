@@ -16,7 +16,7 @@
 
 #import "Three20/TTListDataSource.h"
 
-#import "Three20/TTGlobalCore.h"
+#import "Three20/TTCorePreprocessorMacros.h"
 
 #import "Three20/TTTableItem.h"
 
@@ -37,7 +37,7 @@
     [items addObject:object];
     object = va_arg(ap, id);
   }
-  va_end(ap); 
+  va_end(ap);
 
   return [[[self alloc] initWithItems:items] autorelease];
 }
@@ -197,7 +197,7 @@
 // UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return _sections ? _sections.count : 1;
+  return _sections ? _sections.count : 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

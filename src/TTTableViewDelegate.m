@@ -127,22 +127,23 @@
 			}
 		}
 
+    if ([object isKindOfClass:[TTTableButton class]]) {
+      [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    } else if ([object isKindOfClass:[TTTableMoreButton class]]) {
+      TTTableMoreButton* moreLink = (TTTableMoreButton*)object;
+      moreLink.isLoading = YES;
+      TTTableMoreButtonCell* cell
+        = (TTTableMoreButtonCell*)[tableView cellForRowAtIndexPath:indexPath];
+      cell.animating = YES;
+      [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-		if ([object isKindOfClass:[TTTableButton class]])
-		{
-			[tableView deselectRowAtIndexPath:indexPath animated:YES];
-		}
-		else if ([object isKindOfClass:[TTTableMoreButton class]])
-		{
-			TTTableMoreButton* moreLink = (TTTableMoreButton*)object;
-			moreLink.isLoading = YES;
-			TTTableMoreButtonCell* cell	= (TTTableMoreButtonCell*)[tableView cellForRowAtIndexPath:indexPath];
-			cell.animating = YES;
-			[tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-			[_controller.model load:TTURLRequestCachePolicyDefault more:YES];
-		}
-	}
+      if (moreLink.model) {
+        [moreLink.model load:TTURLRequestCachePolicyDefault more:YES];
+      } else {
+        [_controller.model load:TTURLRequestCachePolicyDefault more:YES];
+      }
+    }
+  }
 
   [_controller didSelectObject:object atIndexPath:indexPath];
 }
@@ -198,7 +199,7 @@
   [TTURLRequestQueue mainQueue].suspended = YES;
 
   [_controller didBeginDragging];
-  
+
   if ([scrollView isKindOfClass:[TTTableView class]]) {
     TTTableView* tableView = (TTTableView*)scrollView;
     tableView.highlightedLabel.highlightedNode = nil;

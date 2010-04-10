@@ -34,36 +34,37 @@
  * Gets the flag that determines if new load requests are allowed to reach the network.
  *
  * Because network requests tend to slow down performance, this property can be used to
- * temporarily delay them.  All requests made while suspended are queued, and when 
+ * temporarily delay them.  All requests made while suspended are queued, and when
  * suspended becomes false again they are executed.
  */
-@property(nonatomic) BOOL suspended;
+@property (nonatomic) BOOL suspended;
 
 /**
  * The maximum size of a download that is allowed.
  *
  * If a response reports a content length greater than the max, the download will be
- * cancelled. This is helpful for preventing excessive memory usage. Setting this to 
+ * cancelled. This is helpful for preventing excessive memory usage. Setting this to
  * zero will allow all downloads regardless of size.
  *
  * @default 150000 bytes
  */
-@property(nonatomic) NSUInteger maxContentLength;
+@property (nonatomic) NSUInteger maxContentLength;
 
 /**
  * The user-agent string that is sent with all HTTP requests.
+ * If set to 'nil', User-Agent set by NSURLRequest will be used,
+ * which looks like: 'APP_NAME/N.N CFNetwork/NNN Darwin/NN.N.NNN'.
  *
- * @default Mozilla/5.0 (iPhone; U; CPU iPhone OS 2_2 like Mac OS X;\
- *          en-us) AppleWebKit/525.181 (KHTML, like Gecko) Version/3.1.1 Mobile/5H11 Safari/525.20
+ * @default nil
  */
-@property(nonatomic,copy) NSString* userAgent;
+@property (nonatomic, copy) NSString* userAgent;
 
 /**
  * The compression quality used for encoding images sent with HTTP posts.
  *
  * @default 0.75
  */
-@property(nonatomic) CGFloat imageCompressionQuality;
+@property (nonatomic) CGFloat imageCompressionQuality;
 
 /**
  * Get the shared cache singleton used across the application.

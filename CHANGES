@@ -1,3 +1,37 @@
+Changes since March 30, 2010
+
+- [NEW] New showTableShadows option for table gutter shadows.
+
+- [NEW] Nib support for TTViewControllers.
+
+- [NEW] TTNibDemo app demoing new Nib support.
+
+- [NEW] TTNetwork library.
+
+- [NEW] TTNetworkDemo example project.
+
+- [MINOR] Don't hard code the HTTP User-Agent.
+
+- [MINOR] Convert TTLink to use TTURLAction instead of just a URL.
+
+- [MINOR] Cleaning up and standardizing the coding style, about 70% complete.
+
+Changes since February 26, 2010
+
+- [NEW] arrayForKey in the TTXMLAdditions.
+
+- [NEW] Support for successful HTTP status codes from [200, 300).
+
+- [NEW] Three20Core library.
+
+- [NEW] TTCoreDemo example project.
+
+- [FIXED] UIImage's transformWidth:height:rotate: implementation.
+
+- [FIXED] Keyboard display notifications.
+
+- [DOX] Doug Barth contributed complete documentation of TTMessageController.
+
 Changes since February 1, 2010
 
 - [NEW] TTTwitter sample app. See the README.mdown file for in-depth details.

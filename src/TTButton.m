@@ -16,153 +16,59 @@
 
 #import "Three20/TTButton.h"
 
-#import "Three20/TTGlobalCore.h"
+#import "Three20/TTButtonContent.h"
+
 #import "Three20/TTGlobalUI.h"
 
 #import "Three20/TTDefaultStyleSheet.h"
 
-#import "Three20/TTURLRequest.h"
-#import "Three20/TTURLRequestDelegate.h"
-#import "Three20/TTURLImageResponse.h"
-
-#import "Three20/TTURLCache.h"
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// global
-
 static const CGFloat kHPadding = 8;
 static const CGFloat kVPadding = 7;
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTButton
 
-@interface TTButtonContent : NSObject <TTURLRequestDelegate> {
-  TTButton* _button;
-  NSString* _title;
-  NSString* _imageURL;
-  UIImage* _image;
-  TTStyle* _style;
-  TTURLRequest* _request;
-}
+@synthesize font        = _font;
+@synthesize isVertical  = _isVertical;
 
-@property(nonatomic,copy) NSString* title;
-@property(nonatomic,copy) NSString* imageURL;
-@property(nonatomic,retain) UIImage* image;
-@property(nonatomic,retain) TTStyle* style;
 
-- (id)initWithButton:(TTButton*)button;
-
-- (void)reload;
-- (void)stopLoading;
-
-@end
-
-@implementation TTButtonContent
-
-@synthesize title = _title, imageURL = _imageURL, image = _image, style = _style;
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
-
-- (id)initWithButton:(TTButton*)button {
-  if (self = [super init]) {
-    _button = button;
-    _title = nil;
-    _imageURL = nil;
-    _image = nil;
-    _request = nil;
-    _style = nil;
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (id)initWithFrame:(CGRect)frame {
+  if (self = [super initWithFrame:frame]) {
+    self.backgroundColor = [UIColor clearColor];
+    self.contentMode = UIViewContentModeRedraw;
   }
   return self;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)dealloc {
-  [_request cancel];
-  TT_RELEASE_SAFELY(_request);
-  TT_RELEASE_SAFELY(_title);
-  TT_RELEASE_SAFELY(_imageURL);
-  TT_RELEASE_SAFELY(_image);
-  TT_RELEASE_SAFELY(_style);
+  TT_RELEASE_SAFELY(_content);
+  TT_RELEASE_SAFELY(_font);
+
   [super dealloc];
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// TTURLRequestDelegate
-
-- (void)requestDidStartLoad:(TTURLRequest*)request {
-  [_request release];
-  _request = [request retain];
-}
-
-- (void)requestDidFinishLoad:(TTURLRequest*)request {
-  TTURLImageResponse* response = request.response;
-  self.image = response.image;
-  [_button setNeedsDisplay];
-  
-  TT_RELEASE_SAFELY(_request);
-}
-
-- (void)request:(TTURLRequest*)request didFailLoadWithError:(NSError*)error {
-  TT_RELEASE_SAFELY(_request);
-}
-
-- (void)requestDidCancelLoad:(TTURLRequest*)request {
-  TT_RELEASE_SAFELY(_request);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// public
-
-- (void)setImageURL:(NSString*)URL {
-  if (self.image && _imageURL && [URL isEqualToString:_imageURL])
-    return;
-  
-  [self stopLoading];
-  [_imageURL release];
-  _imageURL = [URL retain];
-  
-  if (_imageURL.length) {
-    [self reload];
-  } else {
-    self.image = nil;
-    [_button setNeedsDisplay];
-  }
-}
-
-- (void)reload {
-  if (!_request && _imageURL) {
-    UIImage* image = [[TTURLCache sharedCache] imageForURL:_imageURL];
-    if (image) {
-      self.image = image;
-      [_button setNeedsDisplay];
-    } else {
-      TTURLRequest* request = [TTURLRequest requestWithURL:_imageURL delegate:self];
-      request.response = [[[TTURLImageResponse alloc] init] autorelease];
-      [request send];
-    }
-  }
-}
-
-- (void)stopLoading {
-  [_request cancel];
-}
-
-@end
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Public
 
-@implementation TTButton
-
-@synthesize font = _font, isVertical = _isVertical;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// class public
-
 + (TTButton*)buttonWithStyle:(NSString*)selector {
   TTButton* button = [[[TTButton alloc] init] autorelease];
   [button setStylesWithSelector:selector];
   return button;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 + (TTButton*)buttonWithStyle:(NSString*)selector title:(NSString*)title {
   TTButton* button = [[[TTButton alloc] init] autorelease];
   [button setTitle:title forState:UIControlStateNormal];
@@ -170,9 +76,14 @@ static const CGFloat kVPadding = 7;
   return button;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// private
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Private
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)keyForState:(UIControlState)state {
   static NSString* normal = @"normal";
   static NSString* highlighted = @"highlighted";
@@ -189,21 +100,25 @@ static const CGFloat kVPadding = 7;
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (TTButtonContent*)contentForState:(UIControlState)state {
   if (!_content) {
     _content = [[NSMutableDictionary alloc] init];
   }
-  
+
   id key = [self keyForState:state];
   TTButtonContent* content = [_content objectForKey:key];
   if (!content) {
     content = [[[TTButtonContent alloc] initWithButton:self] autorelease];
     [_content setObject:content forKey:key];
   }
-  
+
   return content;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (TTButtonContent*)contentForCurrentState {
   TTButtonContent* content = nil;
   if (self.selected) {
@@ -217,21 +132,29 @@ static const CGFloat kVPadding = 7;
   return content ? content : [self contentForState:UIControlStateNormal];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)titleForCurrentState {
   TTButtonContent* content = [self contentForCurrentState];
   return content.title ? content.title : [self contentForState:UIControlStateNormal].title;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (UIImage*)imageForCurrentState {
   TTButtonContent* content = [self contentForCurrentState];
   return content.image ? content.image : [self contentForState:UIControlStateNormal].image;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (TTStyle*)styleForCurrentState {
   TTButtonContent* content = [self contentForCurrentState];
   return content.style ? content.style : [self contentForState:UIControlStateNormal].style;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (UIFont*)fontForCurrentState {
   if (_font) {
     return _font;
@@ -246,30 +169,14 @@ static const CGFloat kVPadding = 7;
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
-
-- (id)initWithFrame:(CGRect)frame {
-  if (self = [super initWithFrame:frame]) {
-    _content = nil;
-    _font = nil;
-    _isVertical = NO;
-    
-    self.backgroundColor = [UIColor clearColor];
-    self.contentMode = UIViewContentModeRedraw;
-  }
-  return self;
-}
-
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_content);
-  TT_RELEASE_SAFELY(_font);
-  [super dealloc];
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIView
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)drawRect:(CGRect)rect {
   TTStyle* style = [self styleForCurrentState];
   if (style) {
@@ -277,7 +184,7 @@ static const CGFloat kVPadding = 7;
 
     TTStyleContext* context = [[[TTStyleContext alloc] init] autorelease];
     context.delegate = self;
-    
+
     TTPartStyle* imageStyle = [style styleForPart:@"image"];
     TTBoxStyle* imageBoxStyle = nil;
     CGSize imageSize = CGSizeZero;
@@ -293,12 +200,12 @@ static const CGFloat kVPadding = 7;
         textFrame.size.width -= imageSize.width + imageBoxStyle.margin.right;
       }
     }
-    
+
     context.delegate = self;
     context.frame = self.bounds;
     context.contentFrame = textFrame;
     context.font = [self fontForCurrentState];
-    
+
     [style draw:context];
 
     if (imageStyle) {
@@ -316,12 +223,14 @@ static const CGFloat kVPadding = 7;
       context.frame = frame;
       context.contentFrame = context.frame;
       context.shape = nil;
-      
+
       [imageStyle drawPart:context];
     }
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGSize)sizeThatFits:(CGSize)size {
   TTStyleContext* context = [[[TTStyleContext alloc] init] autorelease];
   context.delegate = self;
@@ -335,53 +244,83 @@ static const CGFloat kVPadding = 7;
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIControl
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIControl
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setHighlighted:(BOOL)highlighted {
   [super setHighlighted:highlighted];
   [self setNeedsDisplay];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setSelected:(BOOL)selected {
   [super setSelected:selected];
   [self setNeedsDisplay];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setEnabled:(BOOL)enabled {
   [super setEnabled:enabled];
   [self setNeedsDisplay];
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// UIAccessibility
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIAccessibility
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)isAccessibilityElement {
   return YES;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString *)accessibilityLabel {
   return [self titleForCurrentState];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (UIAccessibilityTraits)accessibilityTraits {
   return [super accessibilityTraits] | UIAccessibilityTraitButton;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTStyleDelegate
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark TTStyleDelegate
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)textForLayerWithStyle:(TTStyle*)style {
   return [self titleForCurrentState];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (UIImage*)imageForLayerWithStyle:(TTStyle*)style {
   return [self imageForCurrentState];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// public
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Public
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (UIFont*)font {
   if (!_font) {
     _font = [TTSTYLEVAR(buttonFont) retain];
@@ -389,6 +328,8 @@ static const CGFloat kVPadding = 7;
   return _font;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setFont:(UIFont*)font {
   if (font != _font) {
     [_font release];
@@ -397,39 +338,53 @@ static const CGFloat kVPadding = 7;
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)titleForState:(UIControlState)state {
   return [self contentForState:state].title;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setTitle:(NSString*)title forState:(UIControlState)state {
   TTButtonContent* content = [self contentForState:state];
   content.title = title;
   [self setNeedsDisplay];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)imageForState:(UIControlState)state {
   return [self contentForState:state].imageURL;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setImage:(NSString*)imageURL forState:(UIControlState)state {
   TTButtonContent* content = [self contentForState:state];
   content.imageURL = imageURL;
   [self setNeedsDisplay];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (TTStyle*)styleForState:(UIControlState)state {
   return [self contentForState:state].style;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setStyle:(TTStyle*)style forState:(UIControlState)state {
   TTButtonContent* content = [self contentForState:state];
   content.style = style;
   [self setNeedsDisplay];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setStylesWithSelector:(NSString*)selector {
   TTStyleSheet* ss = [TTStyleSheet globalStyleSheet];
-  
+
   TTStyle* normalStyle = [ss styleWithSelector:selector forState:UIControlStateNormal];
   [self setStyle:normalStyle forState:UIControlStateNormal];
 
@@ -443,6 +398,8 @@ static const CGFloat kVPadding = 7;
   [self setStyle:disabledStyle forState:UIControlStateDisabled];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)suspendLoadingImages:(BOOL)suspended {
   TTButtonContent* content = [self contentForCurrentState];
   if (suspended) {
@@ -452,12 +409,14 @@ static const CGFloat kVPadding = 7;
   }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGRect)rectForImage {
   TTStyle* style = [self styleForCurrentState];
   if (style) {
     TTStyleContext* context = [[[TTStyleContext alloc] init] autorelease];
     context.delegate = self;
-    
+
     TTPartStyle* imagePartStyle = [style styleForPart:@"image"];
     if (imagePartStyle) {
       TTImageStyle* imageStyle = [imagePartStyle.style firstStyleOfClass:[TTImageStyle class]];
@@ -482,5 +441,6 @@ static const CGFloat kVPadding = 7;
 
   return CGRectZero;
 }
+
 
 @end
