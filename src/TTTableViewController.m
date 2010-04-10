@@ -176,7 +176,7 @@ static const CGFloat kBannerViewHeight = 22;
 
   TTDASSERT(![self.view isKindOfClass:TTTableView.class]);
   TTDASSERT([self.tableView isKindOfClass:TTTableView.class]);
-  TTDASSERT(self.tableView.superview == self.view);
+  //TTDASSERT(self.tableView.superview == self.view);
   _tableViewStyle = self.tableView.style;
 
   UIColor* backgroundColor = _tableViewStyle == UITableViewStyleGrouped
