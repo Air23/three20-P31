@@ -46,9 +46,6 @@
 		BEF199230F818E720010D36E /* StyledTextTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF199210F818E720010D36E /* StyledTextTestController.m */; };
 		BEF6EC370F280CB300CF4096 /* ScrollViewTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF6EC360F280CB300CF4096 /* ScrollViewTestController.m */; };
 		C649A46D113A2C8100030485 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C649A46C113A2C8100030485 /* libxml2.2.dylib */; };
-		C6620F33109CFA5300EC35C6 /* PopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6620F32109CFA5300EC35C6 /* PopUpViewController.m */; };
-		C6620F42109CFB1800EC35C6 /* Popup.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6620F41109CFB1800EC35C6 /* Popup.xib */; };
-		C6A0111C10AE6C8000B9EE3D /* Prime31.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C6A0111B10AE6C8000B9EE3D /* Prime31.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,7 +140,6 @@
 		C649A46C113A2C8100030485 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		C6620F31109CFA5300EC35C6 /* PopUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopUpViewController.h; sourceTree = "<group>"; };
 		C6620F32109CFA5300EC35C6 /* PopUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopUpViewController.m; sourceTree = "<group>"; };
-		C6620F41109CFB1800EC35C6 /* Popup.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Popup.xib; sourceTree = "<group>"; };
 		C6A0111B10AE6C8000B9EE3D /* Prime31.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Prime31.bundle; path = "../../src/P31-Additions/Prime31.bundle"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
